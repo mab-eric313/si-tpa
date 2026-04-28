@@ -1,0 +1,5 @@
+[project]
+name = "SI-TPA"
+description = "Website Sistem Informasi untuk Taman Pendidikan Al-Quran"
+readme = "README.md"
+requires-python = ">=3.13"
