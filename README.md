@@ -1,4 +1,5 @@
 # SI-TPA — Sistem Informasi Taman Pendidikan Al Quran
+Information System Website with FastAPI
 
 ## How to Setup
 1. Clone this repository
