@@ -11,13 +11,23 @@ async function loadStaticPage(staticPage) {
 	}
 }
 
-const navItems = document.querySelectorAll(".nav-item")
-navItems.forEach(item => {
-	item.addEventListener("click", async (e) => {
-		e.preventDefault()
-		const page = e.target.dataset.page
-		await loadStaticPage(page)
-	})
+function firstLoad(staticPage) {
+	loadStaticPage(staticPage)
+	const activeNavItem = document.getElementById(staticPage.replace(".html", ""))
+	activeNavItem.classList.add("active")
+}
+
+const navSidebarItems = document.querySelectorAll(".nav-sidebar-item")
+navSidebarItems.forEach(item => {
+    item.addEventListener("click", async (e) => {
+        e.preventDefault()
+        const anchor = item.querySelector("a.nav-item")
+        const page = anchor.dataset.page
+        await loadStaticPage(page)
+
+        navSidebarItems.forEach(i => i.querySelector("a").classList.remove("active"))
+        anchor.classList.add("active")
+    })
 })
 
-loadStaticPage("dashboard.html")
+firstLoad("dashboard.html")
