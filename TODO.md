@@ -1,0 +1,2 @@
+- [] Remove `*/static/*` url.
+- [] `nav-item` can't clicked outside `<a>`
