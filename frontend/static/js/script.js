@@ -1,3 +1,5 @@
+import * as hello from "./hello.js"
+
 async function loadStaticPage(staticPage) {
 	try {
 		const response = await fetch(`/static/static/html/${staticPage}`)
@@ -31,3 +33,4 @@ navSidebarItems.forEach(item => {
 })
 
 firstLoad("dashboard.html")
+console.log(hello.range)
