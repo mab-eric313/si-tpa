@@ -1,9 +1,26 @@
-hello.js
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
 
-# Markdown
-WAWANCARA.md
+# OS
+.DS_Store
+Thumbs.db
 
-# node.js
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# node
 node_modules/
 package.json
 package-lock.json
@@ -184,4 +201,3 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
-
