@@ -1,5 +1,7 @@
 <script>
 	import favicon from '$lib/assets/favicon.svg';
+	import Header from './Header.svelte';
+	import './layout.css';
 
 	let { children } = $props();
 </script>
@@ -8,4 +10,10 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{@render children()}
+<div class="app">
+	<Header />
+	
+	<main>
+		{@render children()}
+	</main>
+</div>

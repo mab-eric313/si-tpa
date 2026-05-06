@@ -1,3 +1,3 @@
 <section>
-	<h1>Jadwal</h1>
+	<h1>Data Siswa</h1>
 </section>

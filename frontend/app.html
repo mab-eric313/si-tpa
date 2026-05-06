@@ -3,116 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--
 	<link rel="stylesheet" href="{{ url_for('static', path='/static/css/style.css') }}">
 	<script defer type="module" src="{{ url_for('static', path='/static/js/script.js') }}"></script>
-	<!--
 	<script defer type="text/javascript" src="{{ url_for('static', path='/static/js/hello.js') }}"></script>
-	<title>Sistem Informasi TPA</title>
 	-->
 	%sveltekit.head%
 </head>
-<body>
+<body data-sveltekit-preload-data="hover">
 	<div style="display: contents">%sveltekit.body%</div>
-	<header>
-		<ul class="nav-sidebar">
-			<div class="nav-sidebar-main">
-				<li class="logo">
-					<h1>SI-TPA</h1>
-				</li>
-				<li class="nav-sidebar-item">
-					<img src="{{ url_for('static', path='static/assets/home.svg') }}">
-					<a id="dashboard" class="nav-item" href="#" data-page="dashboard.html">Dashboard</a></li>
-				<li class="nav-sidebar-item">
-					<img src="{{ url_for('static', path='static/assets/persons.svg') }}">
-					<a class="nav-item" href="#" data-page="data-siswa.html">Data Siswa</a></li>
-				<li class="nav-sidebar-item">
-					<img src="{{ url_for('static', path='static/assets/check2-square.svg') }}">
-					<a class="nav-item" href="#" data-page="absensi.html">Absensi</a></li>
-				<li class="nav-sidebar-item">
-					<img src="{{ url_for('static', path='static/assets/currency-dollar.svg') }}">
-					<a class="nav-item" href="#" data-page="keuangan.html">Keuangan</a></li>
-				<li class="nav-sidebar-item">
-					<img src="{{ url_for('static', path='static/assets/file-text.svg') }}">
-					<a class="nav-item" href="#" data-page="laporan-akademik.html">Laporan Akademik</a></li>
-				<li class="nav-sidebar-item">
-					<img src="{{ url_for('static', path='static/assets/calendar4.svg') }}">
-					<a class="nav-item" href="#" data-page="jadwal.html">Jadwal</a></li>
-			</div>
-			<div class="nav-sidebar-profile-logout">
-				<li id="profile">
-					<img src="{{ url_for('static', path='/static/assets/account.svg') }}" alt="home icon">
-					<div class="user">
-						<p class="username">User</p>
-						<p class="role">Admin</p>
-					</div>
-				</li>
-				<li id="logout" class="nav-sidebar-item">
-					<img src="{{ url_for('static', path='static/assets/exit.svg') }}">
-					<a href="#logout">Keluar</a>
-				</li>
-			</div>
-		</ul>
-	</header>
-	<main id="content">
-		<!-- <script>
-			function User(forename, username, password) {
-				this.forename = forename
-				this.username = username 
-				this.password =	password 
-
-				User.prototype.showUser = function() {
-					document.write(
-						"Forename: " + this.forename + "<br>" +
-					    "Username: " + this.username + "<br>" +
-					    "Password: " + this.password + "<br>"
-					)
-				}
-			}
-
-			function fixNames() {
-				var s = new Array()
-
-				for (i = 0; i < fixNames.arguments.length; i++)
-					s[i] = fixNames.arguments[i].charAt(0).toUpperCase() +
-							fixNames.arguments[i].substr(1).toLowerCase()
-				
-				return s
-			}
-
-			words = fixNames("hello", "world", "i", "am", "eric")
-
-			for (i = 0; i < words.length; i++)
-				document.write(words[i] + " ")
-
-			document.write("<br>")
-
-			users = new User()
-
-			users.forename = "Eric"
-			users.username = "mab-eric313"
-			users.password = "helloWorld"
-
-			if (users.username == "mab-eric313")
-				users.showUser()
-				// document.write(users.forename)
-
-			a = [1, 2]
-			document.write("a: " + a)
-			document.write("<br>")
-
-			b = ["h", "e"]
-			document.write("b: " + b)
-			document.write("<br>")
-
-			document.write("a.concat(b): " + a.concat(b))
-
-			newA = a.concat(b)
-			newA.forEach((i) => {
-				document.write("<br>")
-				document.write(i)
-			})
-
-		</script>-->
-	</main>
 </body>
 </html>
