@@ -93,6 +93,11 @@
 </header>
 
 <style>
+	header {
+		margin: 0;
+		position: sticky;
+	}
+
 	.logo {
 		padding: 20px 20px;
 		color: white;

@@ -17,3 +17,15 @@
 		{@render children()}
 	</main>
 </div>
+
+<style>
+	.app {
+		display: flex;
+		flex-direction: row;
+	}
+
+	main {
+		flex: 1;
+		padding: 20px;
+	}
+</style>
