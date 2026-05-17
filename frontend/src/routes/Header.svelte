@@ -104,10 +104,6 @@
 		list-style: none;
 	}
 
-	hr {
-		width: 100%;
-	}
-
 	.nav-sidebar {
 		display: flex;
 		flex-direction: column;
