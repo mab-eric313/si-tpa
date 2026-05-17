@@ -15,7 +15,7 @@ const config = {
 			assets: 'frontend/static',
 			lib: 'frontend/src/lib',
 			routes: 'frontend/src/routes',
-			appTemplate: 'frontend/app.html',
+			appTemplate: 'frontend/src/app.html',
 			hooks: {
 				client: 'frontend/src/hooks.client',
 				server: 'frontend/src/hooks.server',
