@@ -1,3 +1,6 @@
+# Database
+*.db
+
 # Output
 .output
 .vercel
