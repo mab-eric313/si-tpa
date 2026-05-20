@@ -12,3 +12,5 @@ $ grep -Rn "TODO:" . \
 ./backend/app/web.py:28:# TODO: (MEDIUM) replace query currently is not available
 ./backend/config.py:4:# TODO: (LOW) set PYTHONPATH inside pyproject.toml instead
 ```
+
+- Use bootstrap for frontend
