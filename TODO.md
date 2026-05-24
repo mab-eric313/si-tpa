@@ -14,3 +14,26 @@ $ grep -Rn "TODO:" . \
 ```
 
 - Use bootstrap for frontend
+
+# Important: The code is broken and need to refactor
+# Priority: HIGH, Big refactoring
+`backend/app/models/`:
+- `init.py` -> should have engine and session factory
+- `tables.py` -> should have SQLAlchemy models and Pydantic schemas
+- `data.py` -> should have CRUD operations
+
+1. `backend/app/models/init.py`
+    - Remove `conn`, `curs`, and `mariadb` import
+    - Rename `get_db()` to `init_db()` or `setup_engine()`
+    - Move session factory here
+
+2. `backend/app/models/data.py`
+    - Remove all raw SQL.
+    - move session into `init.py`
+    - `get_one()` should have return `siswa`
+    - import `session` from `init.py`
+    - remove `session.close()` in end of file and use context manager or dependency 
+      injection FastAPI
+
+3. `backend/app/models/tables.py`
+    - Split `SiswaBaseResponse` into `SiswaCreate`, `SiswaUpdate`, `SiswaResponse`
