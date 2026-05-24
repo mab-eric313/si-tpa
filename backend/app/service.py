@@ -1,5 +1,5 @@
-from .datas.data import Siswa
-from .datas import data
+from .models.data import Siswa
+from .models import data
 
 
 def get_all() -> list[Siswa]:
