@@ -23,17 +23,19 @@ $ grep -Rn "TODO:" . \
 - `data.py` -> should have CRUD operations
 
 1. `backend/app/models/init.py`
-    - Remove `conn`, `curs`, and `mariadb` import
-    - Rename `get_db()` to `init_db()` or `setup_engine()`
+    [x] Remove `conn`, `curs`, and `mariadb` import
+    [ ] Rename `get_db()` to `init_db()` or `setup_engine()`
     - Move session factory here
 
 2. `backend/app/models/data.py`
-    - Remove all raw SQL.
-    - move session into `init.py`
-    - `get_one()` should have return `siswa`
-    - import `session` from `init.py`
-    - remove `session.close()` in end of file and use context manager or dependency 
+    [x] Remove all raw SQL.
+    [x] move session into `init.py`
+    [x] import `session` from `init.py`
+    [x] remove `session.close()` in end of file and use context manager or dependency 
       injection FastAPI
 
 3. `backend/app/models/tables.py`
-    - Split `SiswaBaseResponse` into `SiswaCreate`, `SiswaUpdate`, `SiswaResponse`
+    [x] Split `SiswaBaseResponse` into `SiswaCreate`, `SiswaUpdate`, `SiswaResponse`
+
+4. `backend/app/models/web.py`
+    [x] Problem `response_model` or the argument cannot define as `Siswa`
