@@ -1,46 +1,52 @@
-from fastapi import APIRouter
-from app.models.data import Siswa
-from app.models.tables import SiswaBaseResponse
-from . import service
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+from app.models.tables import Siswa, SiswaResponse, SiswaCreate, SiswaUpdate
+from app.models.init import get_session
 
 
 router = APIRouter(prefix="/siswa")
 
-@router.get("", response_model=SiswaBaseResponse)
-@router.get("/", response_model=SiswaBaseResponse)
-def get_all() -> list[SiswaBaseResponse]:
-    return service.get_all()
+@router.get("/", response_model=list[SiswaResponse])
+def get_all(session: Session = Depends(get_session)) -> list[Siswa]:
+    return list(session.scalars(select(Siswa)).all())
 
-@router.get("/{user_id}", response_model=SiswaBaseResponse)
-def get_one() -> SiswaBaseResponse:
-    siswa = Siswa(
-        id=1,
-        nama="budi",
-        jenis_kelamin="L",
-        tanggal_lahir="2026-05-24",
-        alamat="Indo",
-        wali_id=11,
-        kelas_id=111,
-    )
-    pydantic_siswa = SiswaBaseResponse.model_validate(siswa)
-    return pydantic_siswa
+@router.get("/{id}", response_model=SiswaResponse)
+def get_one(id: int, session: Session = Depends(get_session)):
+    siswa = session.get(Siswa, id)
+    if not siswa:
+        raise HTTPException(status_code=404, detail="Siswa tidak ditemukan")
+    return siswa
 
-@router.post("", response_model=SiswaBaseResponse)
-@router.post("/", response_model=SiswaBaseResponse)
-def create(siswa: Siswa) -> Siswa:
+@router.post("/", response_model=SiswaResponse)
+def create(payload: SiswaCreate, session: Session = Depends(get_session)):
     """Create siswa"""
-    return service.create(siswa)
+    siswa = Siswa(**payload.model_dump())
+    session.add(siswa)
+    session.commit()
+    session.refresh(siswa)
+    return siswa
 
-@router.patch("/", response_model=SiswaBaseResponse)
-def modify(user_id: int, siswa: Siswa) -> Siswa:
+@router.patch("/{id}", response_model=SiswaResponse)
+def modify(id: int, payload: SiswaUpdate, session: Session = Depends(get_session)):
     """Partially modify siswa"""
-    return service.modify(user_id, siswa)
+    siswa = session.get(Siswa, id)
+    if not siswa:
+        raise HTTPException(status_code=404, detail="Siswa tidak ditemukan")
 
-# TODO: (MEDIUM) replace query currently is not available
-# @router.put("/")
-# def replace(user_id: int, siswa: model.Siswa) -> model.Siswa:
-#     return service.replace(user_id, siswa)
+    for key, val in payload.model_dump(exclude_unset=True).items():
+        setattr(siswa, key, val)
 
-@router.delete("/{user_id}", response_model=SiswaBaseResponse)
-def delete(user_id: int) -> bool:
-    return service.delete(user_id)
+    session.commit()
+    session.refresh(siswa)
+    return siswa
+
+@router.delete("/{id}", response_model=SiswaResponse)
+def delete(id: int, session: Session = Depends(get_session)):
+    siswa = session.get(Siswa, id)
+    if not siswa:
+        raise HTTPException(status_code=404, detail="Siswa tidak ditemukan")
+
+    session.delete(siswa)
+    session.commit()
+    return siswa
