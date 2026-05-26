@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from app.models.tables import Siswa, SiswaResponse, SiswaCreate, SiswaUpdate
-from app.models.init import get_session
-
+from app.models import Siswa
+from app.schemas import SiswaResponse, SiswaCreate, SiswaUpdate
+from app.database import get_session
 
 router = APIRouter(prefix="/siswa")
 

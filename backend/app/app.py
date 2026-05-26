@@ -1,11 +1,11 @@
-from app.models.init import Base, engine
 from fastapi import FastAPI
-from . import web
+from app.database import Base, engine
+from app.routers import siswa
 
 Base.metadata.create_all(engine)
 
 app = FastAPI()
-app.include_router(web.router)
+app.include_router(siswa.router)
 
 @app.get("/")
 def hello():

@@ -1,3 +1,4 @@
+# NOTE: Currently this module is not used
 """Custom Exceptions"""
 
 class Duplicate(Exception):
