@@ -33,6 +33,15 @@ pip install -r requirements.txt
 npm install
 ```
 
+5. Setup .env
+Create `.env` file
+```sh
+DB_USER=your_pc_username
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=si-tpa
+```
+
 5. Run the project
 ```
 npm run dev:all
