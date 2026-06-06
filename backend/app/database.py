@@ -1,24 +1,30 @@
 """Initialize Mariadb database"""
 
-# TODO: (HIGH) Use asyncio
-from sqlalchemy import create_engine, Engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from typing import AsyncIterator
+from sqlalchemy.orm import declarative_base
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine, 
+    AsyncSession, 
+    async_sessionmaker, 
+    create_async_engine
+)
 from config import DB_NAME, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD
 
-DB_URL = f"mariadb+mariadbconnector://" \
+DB_URL = f"mariadb+asyncmy://" \
          f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-engine: Engine = create_engine(DB_URL)
+# NOTE: set echo=False when the project is ready for production
+engine: AsyncEngine = create_async_engine(DB_URL, echo=True)
 
 Base = declarative_base()
-Session = sessionmaker(bind=engine)
+Session = async_sessionmaker(
+    bind=engine, class_=AsyncSession, expire_on_commit=False
+)
 
-def get_session():
-    session = Session()
-    try:
-        yield session
-    except Exception:
-        session.rollback()
-        raise
-    finally:
-        session.close()
+async def get_session() -> AsyncIterator[AsyncSession]:
+    async with Session() as session:
+        try:
+            yield session
+        except Exception:
+            session.rollback()
+            raise

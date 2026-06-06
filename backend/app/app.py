@@ -1,12 +1,17 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.database import Base, engine
 from app.routers import siswa
 from app.routers import kelas
 from app.routers import wali
 
-Base.metadata.create_all(engine)
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 app.include_router(siswa.router)
 app.include_router(kelas.router)
 app.include_router(wali.router)
