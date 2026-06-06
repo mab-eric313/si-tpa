@@ -4,8 +4,8 @@ Information System Website with Svelte and FastAPI
 ## How to Setup
 1. Clone this repository
 ```sh
-git clone https://github.com/mab-eric313/si_tpa.git
-cd si_tpa
+git clone https://github.com/mab-eric313/si-tpa.git
+cd si-tpa
 ```  
 
 2. Make virtual environment  
