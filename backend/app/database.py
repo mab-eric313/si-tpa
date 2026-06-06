@@ -1,5 +1,6 @@
 """Initialize Mariadb database"""
 
+# TODO: (HIGH) Use asyncio
 from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from config import DB_NAME, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD
