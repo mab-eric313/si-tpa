@@ -24,5 +24,4 @@ DB_HOST     = os.getenv("DB_HOST")
 DB_PORT     = os.getenv("DB_PORT")
 DB_PASSWORD = password
 
-# TODO: (LOW) set PYTHONPATH inside pyproject.toml instead
 os.environ["PYTHONPATH"] = str(Path(__file__).resolve().parents[0])
