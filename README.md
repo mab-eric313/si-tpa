@@ -24,8 +24,14 @@ cd si-tpa
     ```
 
 3. Install FastAPI dependencies
-```cmd
-pip install -r requirements.txt
+Using pip
+```sh
+pip install .
+```
+or using poetry
+```sh
+# Make sure poetry is installed in your system
+poetry install --no-root
 ```
 
 4. Install Svelte dependencies
@@ -34,15 +40,15 @@ npm install
 ```
 
 5. Setup .env
-Create `.env` file
-```sh
+Use your text editor to create `.env` file
+```
 DB_USER=your_pc_username
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=si-tpa
 ```
 
-5. Run the project
+6. Run the project
 ```
 npm run dev:all
 ```
