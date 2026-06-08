@@ -1,11 +1,13 @@
 from sqlalchemy import Date, Enum, ForeignKey, Integer, String
-from app.database import Base
-from sqlalchemy.orm import Mapped, mapped_column
+# from app.database import Base
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
 # NOTE: Type data conventions
 # nama: String(150)
 # alamat: String(255)
 # no_hp: String(20)
+
+Base = declarative_base()
 
 class Siswa(Base):
     __tablename__ = "siswa"
