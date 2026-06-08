@@ -28,8 +28,6 @@ vite.config.ts.timestamp-*
 
 # node
 node_modules/
-package.json
-package-lock.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python

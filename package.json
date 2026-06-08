@@ -1,0 +1,22 @@
+{
+	"name": "si-tpa",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"dev:backend": "python3 backend/main.py",
+		"dev:all": "concurrently -n \"svelte,fastapi\" -c \"blue,green\" \"npm run dev\" \"npm run dev:backend\"",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/kit": "^2.57.0",
+		"@sveltejs/vite-plugin-svelte": "^7.0.0",
+		"concurrently": "^9.2.1",
+		"svelte": "^5.55.2",
+		"vite": "^8.0.7"
+	}
+}
