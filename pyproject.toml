@@ -17,7 +17,7 @@ dependencies = [
 	"sqlalchemy>=2.0.50",
 	"asyncmy>=0.2.11",
 	"pydantic>=2.13.4",
-	"pydantic-core>=2.47.0",
+	"pydantic-core>=2.46.4",
 ]
 
 [tool.setuptools]
