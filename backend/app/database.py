@@ -24,5 +24,5 @@ async def get_session() -> AsyncIterator[AsyncSession]:
         try:
             yield session
         except Exception:
-            session.rollback()
+            await session.rollback()
             raise
