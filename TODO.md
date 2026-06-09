@@ -7,5 +7,4 @@ $ grep -Rn "TODO:" . \
     --exclude="TODO.md"
 ```
 
-- (HIGH) use Alembic database migration
 - (HIGH) Use bootstrap for frontend
