@@ -1,17 +1,17 @@
 # SI-TPA — Sistem Informasi Taman Pendidikan Al Quran
 Information System Website with Svelte and FastAPI
 
-# Tech Stack
+## Tech Stack
 - Frontend: Svelte
 - Backend: FastAPI
 - Database: Mariadb, SQLAlchemy (ORM), Alembic (Migration)
 
-# Application Access
+## Application Access
 - FastAPI: `http://localhost:8000/`
 - FastAPI Docs: `http://localhost:8000/docs`
 - Svelte: `http://localhost:5173/`
 
-# Project Structure
+## Project Structure
 ```
 $ tree -a --gitignore -F --dirsfirst -I .git -I .vscode
 ./
