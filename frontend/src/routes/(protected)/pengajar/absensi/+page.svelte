@@ -1,4 +1,3 @@
 <section>
-	<h1>Jadwal</h1>
+	<h1>Absensi</h1>
 </section>
-

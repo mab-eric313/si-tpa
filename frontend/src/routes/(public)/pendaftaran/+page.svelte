@@ -1,5 +1,6 @@
 <script>
   // State untuk menyimpan data formulir pendaftaran
+  // TODO: use $state()
   let namaSantri = '';
   let umur = '';
   let alamat = '';
@@ -40,21 +41,6 @@
     files = null;
   }
 </script>
-
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="logo">
-    <div class="logo-box"></div>
-    TPA Ar-Rahmah
-  </div>
-
-  <div class="menu">
-    <a href="#beranda">Beranda</a>
-    <a href="#pendaftaran">Pendaftaran</a>
-    <a href="#kegiatan">Kegiatan</a>
-    <a href="#kontak">Kontak</a>
-  </div>
-</div>
 
 <!-- UTAMA / CONTAINER -->
 <div class="container">
@@ -176,7 +162,7 @@
     <br />
     <p>
       Untuk informasi lebih lanjut, hubungi:
-      <b>+62 812 3456 7890</b>
+      <b>+62 XXX XXXX XXXX</b>
     </p>
   </div>
 </div>
