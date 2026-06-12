@@ -3,6 +3,9 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [sveltekit()],
+	ssr: {
+		noExternal: ['lucide', 'bits-ui', 'svelte-sonner']
+	},
 	server: {
 		host: true,
 		proxy: {
