@@ -5,6 +5,12 @@ $ grep -Rn "TODO:" . \
     --exclude-dir=".git" \
     --exclude-dir="build" \
     --exclude="TODO.md"
+./frontend/src/routes/(public)/login/+page.svelte:10:   <!-- TODO: Login form is not same with the design -->
+./frontend/src/routes/(public)/pendaftaran/+page.svelte:3:  // TODO: use $state()
+./frontend/src/routes/(protected)/pengajar/Header.svelte:6:     // TODO: change icons to Lucide
+./frontend/src/routes/(protected)/bendahara/Header.svelte:5:    // TODO: Use Lucide Icons
 ```
 
-- (HIGH) Use bootstrap for frontend
+- (HIGH) Add RBAC
+- (LOW) Add all DB tables
+- (LOW) Use bootstrap for frontend
