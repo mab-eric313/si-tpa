@@ -1,4 +1,3 @@
-
 <svelte:head>
 	<title>Sistem Informasi TPA</title>
 </svelte:head>
