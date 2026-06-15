@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.models import Base
 from app.database import engine
+from app.routers import auth
 from app.routers import siswa
 from app.routers import kelas
 from app.routers import wali
@@ -16,6 +17,7 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.include_router(auth.router)
 app.include_router(siswa.router)
 app.include_router(kelas.router)
 app.include_router(wali.router)
