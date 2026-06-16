@@ -1,11 +1,43 @@
 from fastapi import APIRouter, Depends, HTTPException
+from pwdlib import PasswordHash
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.models import User
 from app.schemas import UserLogin, UserResponse, UserCreate, UserUpdate
 from app.database import get_session
 
 router = APIRouter(prefix="/auth")
+
+password_hash = PasswordHash.recommended()
+
+# Register and Login
+@router.post("/register/", response_model=UserResponse)
+async def register(payload: UserCreate, session: AsyncSession = Depends(get_session)):
+    query = select(User).where(User.username == payload.username)
+    existing_user = await session.scalar(query)
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Akun sudah terdaftar")
+
+    model_dump = payload.model_dump()
+    model_dump["password"] = password_hash.hash(model_dump["password"])
+
+    new_user = User(**model_dump)
+    session.add(new_user)
+    await session.commit()
+    await session.refresh(new_user)
+    return new_user
+
+@router.post("/login/", response_model=UserResponse)
+async def login(payload: UserLogin, session: AsyncSession = Depends(get_session)):
+    query = select(User).where(and_(User.username == payload.username))
+    user = await session.scalar(query)
+    if user and password_hash.verify(payload.password, user.password):
+        return user
+    else:
+        raise HTTPException(status_code=400, detail="Username atau Password salah")
+
+
 
 @router.get("/", response_model=list[UserResponse])
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[User]:
@@ -27,6 +59,8 @@ async def modify(id: int, payload: UserUpdate, session: AsyncSession = Depends(g
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
 
     for key, val in payload.model_dump(exclude_unset=True).items():
+        if key == "password" and val is not None:
+            val = password_hash.hash(val)
         setattr(user, key, val)
 
     await session.commit()
@@ -42,32 +76,3 @@ async def delete(id: int, session: AsyncSession = Depends(get_session)):
     await session.delete(user)
     await session.commit()
     return user
-
-# Register and Login
-@router.post("/register/", response_model=UserResponse)
-async def register(payload: UserCreate, session: AsyncSession = Depends(get_session)):
-    query = select(User).where(User.username == payload.username)
-    existing_user = await session.scalar(query)
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Akun sudah terdaftar")
-
-    new_user = User(**payload.model_dump())
-    session.add(new_user)
-    await session.commit()
-    await session.refresh(new_user)
-    return new_user
-
-@router.post("/login/", response_model=UserResponse)
-async def login(payload: UserLogin, session: AsyncSession = Depends(get_session)):
-    query = select(User).where(
-        and_(
-            User.username == payload.username,
-            User.password == payload.password
-        )
-    )
-
-    existing_user = await session.scalar(query)
-    if existing_user:
-        return existing_user
-    else:
-        raise HTTPException(status_code=400, detail="Username atau Password salah")
