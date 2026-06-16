@@ -1,29 +1,27 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from datetime import date
 
 # Table: User
 class UserBase(BaseModel):
-    updated_at: date | None = None
+    username: str
 
 class UserLogin(BaseModel):
     username: str
     password: str
 
 class UserCreate(UserBase):
-    username: str
-    password: str
+    password: str = Field(
+        ..., min_length=8, description="password must be at least 8 characters"
+    )
     role: str
 
-class UserUpdate(UserBase):
+class UserUpdate(BaseModel):
     username: str | None = None
     password: str | None = None
     role: str | None = None
-    updated_at: date
 
 class UserResponse(UserBase):
     id: int
-    username: str
-    password: str
     role: str
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 

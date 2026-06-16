@@ -19,15 +19,6 @@ async def get_one(id: int, session: AsyncSession = Depends(get_session)):
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
     return user
 
-@router.post("/", response_model=UserResponse)
-async def create(payload: UserCreate, session: AsyncSession = Depends(get_session)):
-    """Create user"""
-    user = User(**payload.model_dump())
-    session.add(user)
-    await session.commit()
-    await session.refresh(user)
-    return user
-
 @router.patch("/{id}", response_model=UserResponse)
 async def modify(id: int, payload: UserUpdate, session: AsyncSession = Depends(get_session)):
     """Partially modify user"""
@@ -66,7 +57,7 @@ async def register(payload: UserCreate, session: AsyncSession = Depends(get_sess
     await session.refresh(new_user)
     return new_user
 
-@router.post("/login/", response_model=UserLogin)
+@router.post("/login/", response_model=UserResponse)
 async def login(payload: UserLogin, session: AsyncSession = Depends(get_session)):
     query = select(User).where(
         and_(
