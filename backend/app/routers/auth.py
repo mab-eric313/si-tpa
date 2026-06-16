@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models import User
 from app.schemas import UserLogin, UserResponse, UserCreate, UserUpdate
@@ -58,7 +58,7 @@ async def register(payload: UserCreate, session: AsyncSession = Depends(get_sess
     query = select(User).where(User.username == payload.username)
     existing_user = await session.scalar(query)
     if existing_user:
-        raise HTTPException(status_code=400, detail="Account has already been registered")
+        raise HTTPException(status_code=400, detail="Akun sudah terdaftar")
 
     new_user = User(**payload.model_dump())
     session.add(new_user)
@@ -68,12 +68,15 @@ async def register(payload: UserCreate, session: AsyncSession = Depends(get_sess
 
 @router.post("/login/", response_model=UserLogin)
 async def login(payload: UserLogin, session: AsyncSession = Depends(get_session)):
-    query_get_username = select(User).where(User.username == payload.username)
-    query_get_password = select(User).where(User.password == payload.password)
+    query = select(User).where(
+        and_(
+            User.username == payload.username,
+            User.password == payload.password
+        )
+    )
 
-    existing_username = await session.scalar(query_get_username)
-    existing_password = await session.scalar(query_get_password)
-    if existing_username and existing_password:
-        return payload
+    existing_user = await session.scalar(query)
+    if existing_user:
+        return existing_user
     else:
-        return HTTPException(status_code=400, detail="Incorrect username or password")
+        raise HTTPException(status_code=400, detail="Username atau Password salah")
