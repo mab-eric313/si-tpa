@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from pwdlib import PasswordHash
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -29,16 +29,32 @@ async def register(payload: UserCreate, session: AsyncSession = Depends(get_sess
     return new_user
 
 @router.post("/login/", response_model=UserResponse)
-async def login(payload: UserLogin, session: AsyncSession = Depends(get_session)):
+async def login(
+    payload: UserLogin, 
+    response: Response, 
+    session: AsyncSession = Depends(get_session)
+):
     query = select(User).where(and_(User.username == payload.username))
     user = await session.scalar(query)
     if user and password_hash.verify(payload.password, user.password):
+        response.set_cookie(
+            key="user_session",
+            value=str(user.id),
+            httponly=True,
+            samesite="lax",
+            secure=False,
+            max_age=1800    # Expired in 30 minutes
+        )
         return user
-    else:
-        raise HTTPException(status_code=400, detail="Username atau Password salah")
 
+    raise HTTPException(status_code=400, detail="Username atau Password salah")
 
+@router.post("/logout")
+async def logout(response: Response):
+    response.delete_cookie(key="user_session")
+    return {"detail": "Logout successfully"}
 
+# CRUD
 @router.get("/", response_model=list[UserResponse])
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[User]:
     result = await session.scalars(select(User))

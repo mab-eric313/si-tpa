@@ -1,11 +1,10 @@
 <script>
     import { goto } from "$app/navigation";
-    import { onMount } from "svelte";
+	import { authState } from "$lib/authStore";
 
 	let username = $state("");
 	let password = $state("");
 	let loginSuccess = $state(true);
-	let userInform = $state([]);
 	let errorMessage = $state("");
 
 	async function handleSubmit(event) {
@@ -17,6 +16,7 @@
 				headers: {
 					"Content-Type": "application/json",
 				},
+				credentials: "include",
 				body: JSON.stringify({
 					"username": username,
 					"password": password
@@ -32,14 +32,22 @@
 			}
 
 			const data = await response.json();
+
+			authState.set({
+				isLoggedIn: true,
+				username: data.username,
+				role: data.role,
+			})
+
 			if (data.role === "pengajar") goto("/pengajar");
 			else if (data.role === "bendahara") goto("/bendahara");
 			else if (data.role === "admin") goto("/admin");
+			else goto("/")
 
 		} catch {
 			loginSuccess = false;
 			errorMessage = "Tidak dapat terhubung ke server";
-			console.error(err);
+			console.error(errorMessage);
 		}
 	}
 </script>
