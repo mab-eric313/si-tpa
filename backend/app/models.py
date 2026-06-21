@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import TIMESTAMP, Date, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
@@ -17,7 +18,7 @@ class User(Base):
     role: Mapped[str] = mapped_column(
         Enum("admin", "pengajar", "bendahara"), nullable=False
     )
-    updated_at: Mapped[str] = mapped_column(TIMESTAMP)
+    updated_at: Mapped[datetime] = mapped_column(TIMESTAMP)
 
 class Siswa(Base):
     __tablename__ = "siswa"
