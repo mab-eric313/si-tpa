@@ -1,25 +1,29 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.models import Wali
 from app.schemas import WaliResponse, WaliCreate, WaliUpdate
 from app.database import get_session
+from app.dependencies import allow_pengajar
 
 router = APIRouter(prefix="/wali")
 
-@router.get("/", response_model=list[WaliResponse])
+dependencies = [Depends(allow_pengajar)]
+
+@router.get("/", response_model=list[WaliResponse], dependencies=dependencies)
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[Wali]:
     result = await session.scalars(select(Wali))
     return list(result.all())
 
-@router.get("/{id}", response_model=WaliResponse)
+@router.get("/{id}", response_model=WaliResponse, dependencies=dependencies)
 async def get_one(id: int, session: AsyncSession = Depends(get_session)):
     wali = await session.get(Wali, id)
     if not wali:
         raise HTTPException(status_code=404, detail="Wali tidak ditemukan")
     return wali
 
-@router.post("/", response_model=WaliResponse)
+@router.post("/", response_model=WaliResponse, dependencies=dependencies)
 async def create(payload: WaliCreate, session: AsyncSession = Depends(get_session)):
     """Create wali"""
     wali = Wali(**payload.model_dump())
@@ -28,7 +32,7 @@ async def create(payload: WaliCreate, session: AsyncSession = Depends(get_sessio
     await session.refresh(wali)
     return wali
 
-@router.patch("/{id}", response_model=WaliResponse)
+@router.patch("/{id}", response_model=WaliResponse, dependencies=dependencies)
 async def modify(id: int, payload: WaliUpdate, session: AsyncSession = Depends(get_session)):
     """Partially modify wali"""
     wali = await session.get(Wali, id)
@@ -42,7 +46,7 @@ async def modify(id: int, payload: WaliUpdate, session: AsyncSession = Depends(g
     await session.refresh(wali)
     return wali
 
-@router.delete("/{id}", response_model=WaliResponse)
+@router.delete("/{id}", response_model=WaliResponse, dependencies=dependencies)
 async def delete(id: int, session: AsyncSession = Depends(get_session)):
     wali = await session.get(Wali, id)
     if not wali:

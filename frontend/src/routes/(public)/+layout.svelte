@@ -10,3 +10,26 @@
 		{@render children()}
 	</main>
 </div>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+  }
+
+  :root {
+    --warna-hijau-gelap: #1a4a20;
+    --warna-hijau-terang: #2b7a33;
+    --warna-teks-hijau: #268041;
+    --warna-abu-tua: #24292e;
+    --warna-menu-aktif: #9ea39e;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: #333333;
+    line-height: 1.6;
+  }
+</style>

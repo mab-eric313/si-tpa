@@ -1,5 +1,38 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from datetime import date
+
+# Token
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    user_id: int | None = None
+    role: str | None = None
+
+# Table: User
+class UserBase(BaseModel):
+    username: str
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+class UserCreate(UserBase):
+    password: str = Field(
+        ..., min_length=8, description="password must be at least 8 characters"
+    )
+    role: str
+
+class UserUpdate(BaseModel):
+    username: str | None = None
+    password: str | None = None
+    role: str | None = None
+
+class UserResponse(UserBase):
+    id: int
+    role: str
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
 # Table: Siswa
 class SiswaBase(BaseModel):

@@ -27,5 +27,13 @@ DB_PASSWORD = password
 DB_URL = f"mariadb+asyncmy://" \
          f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
+BASE_DB_URL =  f"mariadb+asyncmy://" \
+            f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}"
+
+SECRET_KEY = os.getenv("SECRET_KEY", "")
+
 os.environ["PYTHONPATH"] = str(Path(__file__).resolve().parents[0])
 os.environ["DB_URL"] = DB_URL
+
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRES_MINUTE = 30

@@ -64,7 +64,7 @@
     </div>
   </section>
 
-  <section class="bagian-berita wadah-tengah">
+  <section class="bagian-berita wadah-tengah mt-5">
     <h2 class="judul-tengah">Berita & Informasi Terbaru</h2>
     <div class="kumpulan-kartu-tiga">
       <div class="kotak-berita">
@@ -118,29 +118,6 @@
 </footer>
 
 <style>
-  /* Menggunakan :global() untuk elemen dasar web */
-  :global(*) {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
-  }
-
-  :global(:root) {
-    --warna-hijau-gelap: #1a4a20;
-    --warna-hijau-terang: #2b7a33;
-    --warna-teks-hijau: #268041;
-    --warna-abu-tua: #24292e;
-    --warna-menu-aktif: #9ea39e;
-  }
-
-  :global(body) {
-    background-color: #ffffff;
-    color: #333333;
-    line-height: 1.6;
-  }
-
-  /* Sisa class di bawah ini akan di-scope khusus untuk komponen ini */
   .latar-hijau-terang {
     background-color: var(--warna-hijau-terang);
     color: white;

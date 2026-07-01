@@ -1,25 +1,29 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.models import Kelas
 from app.schemas import KelasResponse, KelasCreate, KelasUpdate
 from app.database import get_session
+from app.dependencies import allow_pengajar
 
 router = APIRouter(prefix="/kelas")
 
-@router.get("/", response_model=list[KelasResponse])
+dependencies = [Depends(allow_pengajar)]
+
+@router.get("/", response_model=list[KelasResponse], dependencies=dependencies)
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[Kelas]:
     result = await session.scalars(select(Kelas))
     return list(result.all())
 
-@router.get("/{id}", response_model=KelasResponse)
+@router.get("/{id}", response_model=KelasResponse, dependencies=dependencies)
 async def get_one(id: int, session: AsyncSession = Depends(get_session)):
     kelas = await session.get(Kelas, id)
     if not kelas:
         raise HTTPException(status_code=404, detail="Kelas tidak ditemukan")
     return kelas
 
-@router.post("/", response_model=KelasResponse)
+@router.post("/", response_model=KelasResponse, dependencies=dependencies)
 async def create(payload: KelasCreate, session: AsyncSession = Depends(get_session)):
     """Create kelas"""
     kelas = Kelas(**payload.model_dump())
@@ -28,7 +32,7 @@ async def create(payload: KelasCreate, session: AsyncSession = Depends(get_sessi
     await session.refresh(kelas)
     return kelas
 
-@router.patch("/{id}", response_model=KelasResponse)
+@router.patch("/{id}", response_model=KelasResponse, dependencies=dependencies)
 async def modify(id: int, payload: KelasUpdate, session: AsyncSession = Depends(get_session)):
     """Partially modify kelas"""
     kelas = await session.get(Kelas, id)
@@ -42,7 +46,7 @@ async def modify(id: int, payload: KelasUpdate, session: AsyncSession = Depends(
     await session.refresh(kelas)
     return kelas
 
-@router.delete("/{id}", response_model=KelasResponse)
+@router.delete("/{id}", response_model=KelasResponse, dependencies=dependencies)
 async def delete(id: int, session: AsyncSession = Depends(get_session)):
     kelas = await session.get(Kelas, id)
     if not kelas:

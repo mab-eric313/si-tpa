@@ -1,5 +1,5 @@
-from sqlalchemy import Date, Enum, ForeignKey, Integer, String
-# from app.database import Base
+from datetime import datetime
+from sqlalchemy import TIMESTAMP, Date, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
 # NOTE: Type data conventions
@@ -8,6 +8,17 @@ from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 # no_hp: String(20)
 
 Base = declarative_base()
+
+class User(Base):
+    __tablename__ = "user"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    username: Mapped[str] = mapped_column(String(45), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(String(128), nullable=False)
+    role: Mapped[str] = mapped_column(
+        Enum("admin", "pengajar", "bendahara"), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(TIMESTAMP)
 
 class Siswa(Base):
     __tablename__ = "siswa"
