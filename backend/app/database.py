@@ -2,12 +2,22 @@
 
 import os
 from typing import AsyncIterator
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (
     AsyncEngine, 
     AsyncSession, 
     async_sessionmaker, 
     create_async_engine
 )
+
+async def create_db_if_not_exists(base_db_url: str, db_name: str | None):
+    # NOTE: set echo=False when the project is ready for production
+    temp_engine = create_async_engine(base_db_url, echo=True)
+    async with temp_engine.connect() as conn:
+        await conn.execute(text(f"CREATE DATABASE IF NOT EXISTS `{db_name}`"))
+        await conn.commit()
+
+    await temp_engine.dispose()
 
 DB_URL = os.environ["DB_URL"]
 

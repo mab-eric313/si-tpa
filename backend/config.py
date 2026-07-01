@@ -27,5 +27,8 @@ DB_PASSWORD = password
 DB_URL = f"mariadb+asyncmy://" \
          f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
+BASE_DB_URL =  f"mariadb+asyncmy://" \
+            f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}"
+
 os.environ["PYTHONPATH"] = str(Path(__file__).resolve().parents[0])
 os.environ["DB_URL"] = DB_URL

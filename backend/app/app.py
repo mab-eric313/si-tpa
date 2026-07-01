@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.models import Base
-from app.database import engine
+from app.database import engine, create_db_if_not_exists
 from app.routers import auth
 from app.routers import siswa
 from app.routers import kelas
@@ -11,6 +11,8 @@ from app.routers import wali
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    await create_db_if_not_exists(config.BASE_DB_URL, config.DB_NAME)
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
