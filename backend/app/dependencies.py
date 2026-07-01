@@ -1,50 +1,61 @@
+import jwt
 from fastapi import Depends, HTTPException, Request, status
+from jwt.exceptions import InvalidTokenError
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from config import SECRET_KEY
 from app.database import get_session
 from app.models import User
-
-class RoleChecker:
-    def __init__(self, allowed_rules: list[str]):
-        self.allowed_rules = allowed_rules
-
-    async def __call__(
-        self, user_id: int, session: AsyncSession = Depends(get_session)
-    ):
-        user = await session.get(User, user_id)
-
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
-                detail="User tidak terautentikasi"
-            )
-
-        if user.role not in self.allowed_rules:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
-                detail="Anda tidak memiliki hak akses untuk halaman ini"
-            )
-
-        return user
+from config import ALGORITHM
 
 async def get_current_user(
-        request: Request, session, AsyncSession = Depends(get_session)
-    ) -> User:
-    user_id = request.cookies.get("user_session")
+    request: Request, 
+    session: AsyncSession = Depends(get_session)
+) -> User:
 
-    if not user_id:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Tidak bisa mem-validasi kredensial / Sesi habis",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    token = request.cookies.get("access_token")
+
+    if not token:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Silahkan login terlebih dahulu"
         )
 
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+    except InvalidTokenError:
+        raise credentials_exception
+
     user = await session.get(User, int(user_id))
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
-            detail="Sesi tidak valid, user tidak ditemukan"
-        )
+        raise credentials_exception
+
     return user
 
-allow_admin = ["admin"]
-allow_pengajar = ["admin, pengajar"]
-allow_bendahara = ["admin, bendahara"]
+
+class RoleChecker:
+    def __init__(self, allowed_roles: list[str]):
+        self.allowed_roles = allowed_roles
+
+    def __call__(self, current_user: User = Depends(get_current_user)) -> User:
+        if current_user.role not in self.allowed_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Anda tidak memiliki hak akses untuk halaman ini"
+            )
+
+        return current_user
+
+
+allow_admin = RoleChecker(["admin"])
+allow_pengajar = RoleChecker(["admin", "pengajar"])
+allow_bendahara = RoleChecker(["admin", "bendahara"])

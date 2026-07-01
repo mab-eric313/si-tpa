@@ -1,6 +1,15 @@
 from pydantic import BaseModel, ConfigDict, Field
 from datetime import date
 
+# Token
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    user_id: int | None = None
+    role: str | None = None
+
 # Table: User
 class UserBase(BaseModel):
     username: str

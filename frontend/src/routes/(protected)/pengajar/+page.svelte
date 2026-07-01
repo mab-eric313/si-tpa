@@ -5,7 +5,12 @@
 
 	onMount(async () => {
 		try {
-			const response = await fetch("http://localhost:8000/siswa/");
+			const response = await fetch("http://localhost:8000/siswa/", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				credentials: "include",
+				body: JSON.stringify({ username, password })
+			});
 			if (!response.ok) throw new Error("Failed to take data");
 			daftarSiswa = await response.json();
 		} catch(error) {

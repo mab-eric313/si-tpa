@@ -11,102 +11,6 @@ Information System Website with Svelte and FastAPI
 - FastAPI Docs: `http://localhost:8000/docs`
 - Svelte: `http://localhost:5173/`
 
-## Project Structure
-```
-$ tree -a --gitignore -F --dirsfirst -I .git -I .vscode
-./
-├── backend/
-│   ├── app/
-│   │   ├── alembic/
-│   │   │   ├── versions/
-│   │   │   ├── env.py
-│   │   │   ├── README
-│   │   │   └── script.py.mako
-│   │   ├── routers/
-│   │   │   ├── kelas.py
-│   │   │   ├── siswa.py
-│   │   │   └── wali.py
-│   │   ├── tests/
-│   │   │   ├── data.py
-│   │   │   └── __init__.py
-│   │   ├── app.py
-│   │   ├── database.py
-│   │   ├── errors.py
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   └── schemas.py
-│   ├── config.py
-│   ├── __init__.py
-│   └── main.py
-├── frontend/
-│   ├── src/
-│   │   ├── routes/
-│   │   │   ├── (protected)/
-│   │   │   │   ├── admin/
-│   │   │   │   ├── bendahara/
-│   │   │   │   │   ├── laporan/
-│   │   │   │   │   │   └── +page.svelte
-│   │   │   │   │   ├── pemasukan/
-│   │   │   │   │   │   └── +page.svelte
-│   │   │   │   │   ├── pengeluaran/
-│   │   │   │   │   │   └── +page.svelte
-│   │   │   │   │   ├── Header.svelte
-│   │   │   │   │   ├── layout.css
-│   │   │   │   │   ├── +layout.svelte
-│   │   │   │   │   └── +page.svelte
-│   │   │   │   └── pengajar/
-│   │   │   │       ├── absensi/
-│   │   │   │       │   ├── +page.js
-│   │   │   │       │   └── +page.svelte
-│   │   │   │       ├── ajukan-pergantian/
-│   │   │   │       │   ├── +page.js
-│   │   │   │       │   └── +page.svelte
-│   │   │   │       ├── kelas/
-│   │   │   │       │   ├── +page.js
-│   │   │   │       │   └── +page.svelte
-│   │   │   │       ├── rekap-absensi/
-│   │   │   │       │   ├── +page.js
-│   │   │   │       │   └── +page.svelte
-│   │   │   │       ├── rekap-nilai/
-│   │   │   │       │   ├── +page.js
-│   │   │   │       │   └── +page.svelte
-│   │   │   │       ├── Header.svelte
-│   │   │   │       ├── layout.css
-│   │   │   │       ├── +layout.svelte
-│   │   │   │       └── +page.svelte
-│   │   │   └── (public)/
-│   │   │       ├── login/
-│   │   │       │   └── +page.svelte
-│   │   │       ├── pendaftaran/
-│   │   │       │   └── +page.svelte
-│   │   │       ├── Header.svelte
-│   │   │       ├── +layout.svelte
-│   │   │       └── +page.svelte
-│   │   └── app.html
-│   └── static/
-│       └── robots.txt
-├── references/                     # Stores ERD diagrams and website designs
-│   ├── images/
-│   │   └── ss-dashboard_design.png
-│   ├── erd_diagram.mwb
-│   ├── erd_diagram.pdf
-│   └── erd_diagram.png
-├── alembic.ini
-├── .env.example
-├── .gitignore
-├── jsconfig.json
-├── .npmrc
-├── package.json
-├── package-lock.json
-├── poetry.lock
-├── pyproject.toml
-├── README.md
-├── svelte.config.js
-├── TODO.md
-└── vite.config.js
-
-```
-
 ## How to Setup
 1. Clone this repository
     ```sh
@@ -150,17 +54,28 @@ $ tree -a --gitignore -F --dirsfirst -I .git -I .vscode
 
 5. Setup .env  
 
-    Use your text editor to create `.env` file
-    ```
-    DB_USER=your_pc_username
-    DB_HOST=localhost
-    DB_PORT=3306
-    DB_NAME=si-tpa
-    ```
+   Make sure openssl is installed in your system. If you have not installed it,  
+   for Windows visit the website: [Win32 OpenSSL](https://slproweb.com/products/Win32OpenSSL.html)  
 
-6. Run the project
+   Generate secret key:
+   ```
+   openssl rand -hex 32
+   ```
+
+   Use your text editor to create `.env` file
+   ```
+   DB_USER=your_pc_username
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_NAME=si_tpa
+
+   SECRET_KEY=openssl_generate_key
+   ```
+
+7. Run the project
 
     ```sh
     npm run dev:all
     ```
+
 
