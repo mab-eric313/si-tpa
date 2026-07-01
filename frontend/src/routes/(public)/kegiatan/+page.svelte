@@ -37,27 +37,6 @@
   />
 </svelte:head>
 
-<div class="latar-navigasi">
-  <header class="wadah-tengah">
-    <div class="logo-sekolah">
-      <div class="kotak-ikon">
-        <img
-          src="https://img.icons8.com/material-outlined/24/000000/book.png"
-          alt="Buku"
-          class="ikon-buku"
-        />
-      </div>
-      TPA Ar-Rahmah
-    </div>
-    <nav class="menu-tautan">
-      <a href="/">Beranda</a>
-      <a href="/pendaftaran">Pendaftaran</a>
-      <a href="/kegiatan" class="aktif">Kegiatan</a>
-      <a href="/kontak">Kontak</a>
-    </nav>
-  </header>
-</div>
-
 <div class="latar-utama">
   <section class="bagian-pembuka wadah-tengah">
     <h1>

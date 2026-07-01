@@ -194,21 +194,6 @@
 </footer>
 
 <style>
-/* Global reset & styling dipindahkan ke selector :global jika ingin memengaruhi body */
-  :global(body) {
-    background-color: #f3f1ee;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  :global(*), :global(*::before), :global(*::after) {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
   .navbar {
     background-color: #2f7d1f;
     display: flex;
