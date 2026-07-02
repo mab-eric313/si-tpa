@@ -72,6 +72,13 @@ Information System Website with Svelte and FastAPI
    SECRET_KEY=openssl_generate_key
    ```
 
+6. Seeding the data (For Development Only)  
+    
+    ```python
+    cd scripts
+    python data_seed.py create
+    ```
+
 7. Run the project
 
     ```sh
