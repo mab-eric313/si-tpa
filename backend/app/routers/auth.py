@@ -77,7 +77,13 @@ async def login(
 
 @router.post("/logout/")
 async def logout(response: Response):
-    response.delete_cookie(key="access_token")
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        httponly=True,
+        samesite="lax",
+        secure=False
+    )
     return {"detail": "Logout successfully"}
 
 # CRUD

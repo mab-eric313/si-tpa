@@ -1,6 +1,6 @@
 from fastapi import Depends, APIRouter
 
-from app.dependencies import RoleChecker, allow_admin, allow_bendahara, allow_pengajar
+from app.dependencies import allow_admin, allow_bendahara, allow_pengajar
 from app.models import User
 from app.schemas import UserResponse
 
@@ -9,7 +9,7 @@ router = APIRouter()
 # Admin
 @router.get("/admin", response_model=UserResponse)
 async def admin_dashboard(
-    current_user: User = Depends(RoleChecker(allow_admin))
+    current_user: User = Depends(allow_admin)
 ):
     return current_user
 
@@ -17,7 +17,7 @@ async def admin_dashboard(
 # Bendahara
 @router.get("/bendahara", response_model=UserResponse)
 async def bendahara_dashboard(
-    current_user: User = Depends(RoleChecker(allow_bendahara))
+    current_user: User = Depends(allow_bendahara)
 ):
     return current_user
 
@@ -25,6 +25,6 @@ async def bendahara_dashboard(
 # Bendahara
 @router.get("/pengajar", response_model=UserResponse)
 async def pengajar_dashboard(
-    current_user: User = Depends(RoleChecker(allow_pengajar))
+    current_user: User = Depends(allow_pengajar)
 ):
     return current_user

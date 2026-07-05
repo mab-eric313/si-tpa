@@ -1,13 +1,15 @@
 import config # noqa F401
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.models import Base
 from app.database import engine, create_db_if_not_exists
-from app.routers import auth
-from app.routers import siswa
-from app.routers import kelas
-from app.routers import wali
+from app.routers import (
+    auth, siswa, kelas, wali, biodata_user, gaji_pengajar, pengganti_pengajar,
+    penilaian_doa, penilaian_jilid, penilaian_surat, spp_siswa, trg_log_siswa, 
+    trg_transaksi
+)
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -23,6 +25,15 @@ app.include_router(auth.router)
 app.include_router(siswa.router)
 app.include_router(kelas.router)
 app.include_router(wali.router)
+app.include_router(biodata_user.router)
+app.include_router(gaji_pengajar.router)
+app.include_router(pengganti_pengajar.router)
+app.include_router(penilaian_doa.router)
+app.include_router(penilaian_jilid.router)
+app.include_router(penilaian_surat.router)
+app.include_router(spp_siswa.router)
+app.include_router(trg_log_siswa.router)
+app.include_router(trg_transaksi.router)
 
 origins = ["http://localhost:5173"]
 
@@ -33,6 +44,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.exception_handler(ValueError)
+async def value_error_handler(request: Request, exc: ValueError):
+    return JSONResponse(status_code=400, content={"detail": str(exc)})
 
 @app.get("")
 @app.get("/")

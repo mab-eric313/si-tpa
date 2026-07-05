@@ -56,6 +56,6 @@ class RoleChecker:
         return current_user
 
 
-allow_admin = RoleChecker(["admin"])
-allow_pengajar = RoleChecker(["admin", "pengajar"])
-allow_bendahara = RoleChecker(["admin", "bendahara"])
+allow_admin = RoleChecker(["Admin"])
+allow_pengajar = RoleChecker(["Admin", "Pengajar"])
+allow_bendahara = RoleChecker(["Admin", "Bendahara"])
