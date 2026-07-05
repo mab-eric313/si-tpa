@@ -32,6 +32,7 @@
 			}
 
 			const data = await response.json();
+			console.log(data);
 
 			authState.set({
 				isLoggedIn: true,
@@ -39,9 +40,12 @@
 				role: data.role,
 			})
 
-			if (data.role === "pengajar") goto("/pengajar");
-			else if (data.role === "bendahara") goto("/bendahara");
-			else if (data.role === "admin") goto("/admin");
+			if (data.role === "Pengajar") {
+				console.log("(data.role === 'Pengajar') TRUE");
+				goto("/pengajar");
+			}
+			else if (data.role === "Bendahara") goto("/bendahara");
+			else if (data.role === "Admin") goto("/admin");
 			else goto("/")
 
 		} catch {

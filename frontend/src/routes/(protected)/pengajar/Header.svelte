@@ -2,6 +2,7 @@
 <script>
 	import { resolve } from "$app/paths";
 	import { page } from '$app/state';
+	import { goto } from "$app/navigation";
 
 	// TODO: change icons to Lucide
 	// Icons
@@ -17,16 +18,33 @@
 
 	// Lucide Icons
 	import { NotebookPen, FileUser } from "@lucide/svelte";
+
+	async function handleLogout(event) {
+		event.preventDefault();
+
+		try {
+			const response = await fetch("http://localhost:8000/auth/logout/", {
+				method: "POST",
+				headers: {"Content-Type": "application/json"},
+				credentials: "include"
+			});
+			if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+			goto("/login");
+		} catch (error) {
+			console.error(error);
+		}
+	}
 </script>
 
 <svelte:head>
 	<title>Sistem Informasi TPA</title>
 </svelte:head>
 
-<header>
+<nav class="d-flex flex-column flex-shrink-0 min-vh-100 position-fixed">
 	<ul class="nav-sidebar">
 		<div class="nav-sidebar-main">
 			<li class="logo">
+				<!-- TODO: Add user icon -->
 				<h1>Pengajar</h1>
 			</li>
 			<li class="nav-sidebar-item">
@@ -73,18 +91,17 @@
 			</li>
 		</div>
 		<li id="logout" class="nav-sidebar-item">
-			<a href="/">
+			<a href="/login" onclick={handleLogout}>
 				<img src={exitIcon} alt="exit icon">
 				Logout
 			</a>
 		</li>
 	</ul>
-</header>
+</nav>
 
 <style>
-	header {
-		margin: 0;
-		position: sticky;
+	nav {
+		z-index: 1030;
 	}
 
 	.logo {
@@ -140,3 +157,4 @@
 		margin-right: 10px;
 	}
 </style>
+
