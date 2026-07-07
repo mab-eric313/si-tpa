@@ -44,8 +44,14 @@
 				console.log("(data.role === 'Pengajar') TRUE");
 				goto("/pengajar");
 			}
-			else if (data.role === "Bendahara") goto("/bendahara");
-			else if (data.role === "Admin") goto("/admin");
+			else if (data.role === "Bendahara") {
+				console.log("(data.role === 'Bendahara') TRUE");
+				goto("/bendahara");
+			}
+			else if (data.role === "Admin") {
+				console.log("(data.role === 'Admin') TRUE");
+				goto("/admin");
+			}
 			else goto("/")
 
 		} catch {

@@ -16,30 +16,6 @@ class TokenData(BaseModel):
     role: str | None = None
 
 
-# Table: User
-class UserBase(BaseModel):
-    username: str
-
-class UserLogin(BaseModel):
-    username: str
-    password: str
-
-class UserCreate(UserBase):
-    password: str = Field(
-        ..., min_length=8, description="password must be at least 8 characters"
-    )
-    role: str
-
-class UserUpdate(BaseModel):
-    username: str | None = None
-    password: str | None = None
-    role: str | None = None
-
-class UserResponse(BaseSchema, UserBase):
-    id: int
-    role: str
-
-
 # Table: Siswa
 class SiswaBase(BaseModel):
     alamat: str | None = None
@@ -176,6 +152,31 @@ class BiodataUserResponse(BaseSchema, BiodataUserBase):
     status: str
 
 
+# Table: User
+class UserBase(BaseModel):
+    username: str
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+class UserCreate(UserBase):
+    password: str = Field(
+        ..., min_length=8, description="password must be at least 8 characters"
+    )
+    role: str
+
+class UserUpdate(BaseModel):
+    username: str | None = None
+    password: str | None = None
+    role: str | None = None
+
+class UserResponse(BaseSchema, UserBase):
+    id: int
+    role: str
+    biodata: BiodataUserResponse | None = None
+
+
 # Table: GajiPengajar
 class GajiPengajarBase(BaseModel):
     gaji: int | None = None
@@ -192,7 +193,7 @@ class GajiPengajarUpdate(GajiPengajarBase):
 
 class GajiPengajarResponse(BaseSchema, GajiPengajarBase):
     id: int
-    biodata_user_id: int
+    biodata_user_id: int | None = None
     tanggal_gaji: date
     status: str
 

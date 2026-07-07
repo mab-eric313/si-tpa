@@ -172,7 +172,7 @@ class GajiPengajar(Base):
     __tablename__ = "gaji_pengajar"
     
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    biodata_user_id: Mapped[int] = mapped_column(ForeignKey("biodata_user.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    biodata_user_id: Mapped[int] = mapped_column(ForeignKey("biodata_user.id", ondelete="SET NULL", onupdate="CASCADE"), nullable=True)
     gaji: Mapped[Optional[int]] = mapped_column(Integer)
     tanggal_gaji: Mapped[date] = mapped_column(Date, nullable=False)
     status: Mapped[StatusGaji] = mapped_column(Enum(StatusGaji), nullable=False, default=StatusGaji.BELUM_DIGAJI)
@@ -240,6 +240,7 @@ class BasePenilaian:
     @declared_attr
     def siswa(cls) -> Mapped["Siswa"]:
         return relationship("Siswa")
+
 
 class PenilaianSurat(Base, BasePenilaian):
     __tablename__ = "penilaian_surat"

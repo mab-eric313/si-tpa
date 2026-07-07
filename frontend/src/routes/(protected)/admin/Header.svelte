@@ -37,30 +37,30 @@
 </script>
 
 <svelte:head>
-	<title>Sistem Informasi TPA — Pengajar</title>
+	<title>Sistem Informasi TPA — Admin</title>
 </svelte:head>
 
 <nav class="d-flex flex-column flex-shrink-0 min-vh-100 position-fixed">
 	<ul class="nav-sidebar">
 		<div class="nav-sidebar-main">
 			<li class="logo">
-				<!-- TODO: Add user icon -->
-				<h1>Pengajar</h1>
+				<h1>Admin</h1>
 			</li>
 			<li class="nav-sidebar-item">
-				<a href="/pengajar" 
-					class:active={page.url.pathname === "/pengajar"}>
+				<a href="/admin" 
+					class:active={page.url.pathname === "/admin"}>
 					<img src={homeIcon} alt="">
 					Beranda
 				</a>
 			</li>
 			<li class="nav-sidebar-item">
-				<a href="/pengajar/kelas" 
-					class:active={page.url.pathname === "/pengajar/kelas"}>
+				<a href="/admin/kelola-pengguna" 
+					class:active={page.url.pathname === "/admin/kelola-pengguna"}>
 					<img src={personsIcon} alt="">
-					Kelas
+					Kelola Pengguna
 				</a>
 			</li>
+			<!--
 			<li class="nav-sidebar-item">
 				<a href="/pengajar/absensi"
 				   class:active={page.url.pathname === "/pengajar/absensi"}>
@@ -90,6 +90,7 @@
 				</a>
 			</li>
 		</div>
+			-->
 		<li id="logout" class="nav-sidebar-item">
 			<a href="/login" onclick={handleLogout}>
 				<img src={exitIcon} alt="exit icon">
@@ -157,4 +158,3 @@
 		margin-right: 10px;
 	}
 </style>
-

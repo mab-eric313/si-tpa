@@ -11,6 +11,7 @@ from app.schemas import UserLogin, UserResponse, UserCreate, UserUpdate
 from app.database import get_session
 from app.dependencies import allow_admin
 from config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRES_MINUTE
+from sqlalchemy.orm import selectinload
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -32,8 +33,8 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 # Register and Login
 @router.post("/register/", response_model=UserResponse)
 async def register(payload: UserCreate, session: AsyncSession = Depends(get_session)):
-    query = select(User).where(User.username == payload.username)
-    existing_user = await session.scalar(query)
+    query_register = select(User).where(User.username == payload.username)
+    existing_user = await session.scalar(query_register)
     if existing_user:
         raise HTTPException(status_code=400, detail="Akun sudah terdaftar")
 
@@ -43,8 +44,12 @@ async def register(payload: UserCreate, session: AsyncSession = Depends(get_sess
     new_user = User(**model_dump)
     session.add(new_user)
     await session.commit()
-    await session.refresh(new_user)
-    return new_user
+
+    query = select(User) \
+        .options(selectinload(User.biodata)) \
+        .where(User.id == new_user.id)
+    result = await session.scalars(query)
+    return result.first()
 
 @router.post("/login/", response_model=UserResponse)
 async def login(
@@ -52,12 +57,16 @@ async def login(
     response: Response, 
     session: AsyncSession = Depends(get_session)
 ):
-    query = select(User).where(User.username == payload.username)
-    user = await session.scalar(query)
-    if user and password_hash.verify(payload.password, user.password):
+    query_login = (
+        select(User)
+        .options(selectinload(User.biodata))
+        .where(User.username == payload.username)
+    )
+    user_login = await session.scalar(query_login)
+    if user_login and password_hash.verify(payload.password, user_login.password):
         token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRES_MINUTE)
         token = create_access_token(
-            data={"sub": str(user.id), "role": user.role}, 
+            data={"sub": str(user_login.id), "role": user_login.role}, 
             expires_delta=token_expires
         )
         response.set_cookie(
@@ -68,7 +77,16 @@ async def login(
             secure=False,
             max_age=ACCESS_TOKEN_EXPIRES_MINUTE * 60
         )
-        return user
+
+        # query = select(User) \
+        #     .options(selectinload(User.biodata)) \
+        #     .where(User.id == id)
+        # result = await session.scalars(query)
+        # user = result.first()
+        # if not user:
+        #     raise HTTPException(status_code=404, detail="User tidak ditemukan")
+        # return user
+        return user_login
 
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST, 
@@ -89,12 +107,19 @@ async def logout(response: Response):
 # CRUD
 @router.get("/", response_model=list[UserResponse], dependencies=dependencies)
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[User]:
-    result = await session.scalars(select(User))
+    query = select(User) \
+        .options(selectinload(User.biodata))
+    result = await session.scalars(query)
+
     return list(result.all())
 
 @router.get("/{id}", response_model=UserResponse, dependencies=dependencies)
 async def get_one(id: int, session: AsyncSession = Depends(get_session)):
-    user = await session.get(User, id)
+    query = select(User) \
+        .options(selectinload(User.biodata)) \
+        .where(User.id == id)
+    result = await session.scalars(query)
+    user = result.first()
     if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
     return user
@@ -112,12 +137,20 @@ async def modify(id: int, payload: UserUpdate, session: AsyncSession = Depends(g
         setattr(user, key, val)
 
     await session.commit()
-    await session.refresh(user)
-    return user
+
+    query = select(User) \
+        .options(selectinload(User.biodata)) \
+        .where(User.id == id)
+    result = await session.scalars(query)
+    return result.first()
 
 @router.delete("/{id}", response_model=UserResponse, dependencies=dependencies)
 async def delete(id: int, session: AsyncSession = Depends(get_session)):
-    user = await session.get(User, id)
+    query = select(User) \
+        .options(selectinload(User.biodata)) \
+        .where(User.id == id)
+    result = await session.scalars(query)
+    user = result.first()
     if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
 
