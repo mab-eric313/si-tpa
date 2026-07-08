@@ -2,62 +2,59 @@
 <script>
 	import { page } from '$app/state';
 
+	import homeIcon from "$lib/assets/home.svg";
+	import exitIcon from "$lib/assets/exit.svg";
+
 	// TODO: Use Lucide Icons
 	// import { NotebookPen, FileUser } from "@lucide/svelte";
+	import { DollarSign } from "@lucide/svelte";
 </script>
 
 <svelte:head>
 	<title>Sistem Informasi TPA</title>
 </svelte:head>
 
-<header>
+<nav class="d-flex flex-column flex-shrink-0 min-vh-100 position-fixed">
 	<ul class="nav-sidebar">
 		<div class="nav-sidebar-main">
 			<li class="logo">
-				<h1>Bendahara</h1>
+				<h1 style="font-size: 33px;">Bendahara</h1>
 			</li>
+			<!--
 			<li class="nav-sidebar-item">
 				<a href="/bendahara" 
 					class:active={page.url.pathname === "/bendahara"}>
-					<!-- <div class="icon"><NotebookPen /></div> -->
+					<img src={homeIcon} alt="">
 					Beranda
 				</a>
 			</li>
 			<li class="nav-sidebar-item">
 				<a href="/bendahara/kelas" 
 					class:active={page.url.pathname === "/bendahara/laporan"}>
-					<!-- <img src={personsIcon} alt=""> -->
 					Laporan
 				</a>
 			</li>
+			-->
 			<li class="nav-sidebar-item">
-				<a href="/bendahara/absensi"
-				   class:active={page.url.pathname === "/bendahara/pemasukan"}>
-					<!-- <img src={checkSquareIcon} alt=""> -->
-					Pemasukan
-				</a>
-			</li>
-			<li class="nav-sidebar-item">
-				<a href="/bendahara/rekap-nilai"
-				   class:active={page.url.pathname === "/bendahara/pengeluaran"}>
-					<!-- <div class="icon"><NotebookPen /></div> -->
-					Pengeluaran
+				<a href="/bendahara/pencatatan"
+				   class:active={page.url.pathname === "/bendahara/pencatatan"}>
+					<div class="icon"><DollarSign /></div>
+					Pencatatan
 				</a>
 			</li>
 		</div>
 		<li id="logout" class="nav-sidebar-item">
-			<a href="/">
-				<!-- <img src={exitIcon} alt="exit icon"> -->
+			<a href="/login">
+				<img src={exitIcon} alt="exit icon">
 				Logout
 			</a>
 		</li>
 	</ul>
-</header>
+</nav>
 
 <style>
-	header {
-		margin: 0;
-		position: sticky;
+	nav {
+		z-index: 1030;
 	}
 
 	.logo {

@@ -36,4 +36,4 @@ os.environ["PYTHONPATH"] = str(Path(__file__).resolve().parents[0])
 os.environ["DB_URL"] = DB_URL
 
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRES_MINUTE = 30
+ACCESS_TOKEN_EXPIRES_MINUTE = 60

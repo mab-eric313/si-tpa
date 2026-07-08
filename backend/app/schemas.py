@@ -122,6 +122,7 @@ class SppSiswaUpdate(BaseModel):
 class SppSiswaResponse(BaseSchema, SppSiswaBase):
     id: int
     siswa_id: int
+    siswa: SiswaResponse | None = None
     status: str
 
 
@@ -194,6 +195,7 @@ class GajiPengajarUpdate(GajiPengajarBase):
 class GajiPengajarResponse(BaseSchema, GajiPengajarBase):
     id: int
     biodata_user_id: int | None = None
+    biodata_user: BiodataUserResponse | None = None
     tanggal_gaji: date
     status: str
 
@@ -246,6 +248,8 @@ class TrgTransaksiResponse(BaseSchema, TrgTransaksiBase):
     tanggal: date
     nama: str
     nominal: int
+    gaji_pengajar: GajiPengajarResponse | None = None
+    spp_siswa: SppSiswaResponse | None = None
 
 
 # Table: PenilaianSurat

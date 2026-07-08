@@ -5,25 +5,26 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models import BiodataUser
 from app.schemas import BiodataUserResponse, BiodataUserCreate, BiodataUserUpdate
 from app.database import get_session
-from app.dependencies import allow_admin
+from app.dependencies import allow_admin, allow_bendahara
 
 router = APIRouter(prefix="/biodata-user")
 
-dependencies = [Depends(allow_admin)]
+read_dependencies = [Depends(allow_bendahara)]
+write_dependencies = [Depends(allow_admin)]
 
-@router.get("/", response_model=list[BiodataUserResponse], dependencies=dependencies)
+@router.get("/", response_model=list[BiodataUserResponse], dependencies=read_dependencies)
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[BiodataUser]:
     result = await session.scalars(select(BiodataUser))
     return list(result.all())
 
-@router.get("/{id}", response_model=BiodataUserResponse, dependencies=dependencies)
+@router.get("/{id}", response_model=BiodataUserResponse, dependencies=read_dependencies)
 async def get_one(id: int, session: AsyncSession = Depends(get_session)):
     kelas = await session.get(BiodataUser, id)
     if not kelas:
         raise HTTPException(status_code=404, detail="BiodataUser tidak ditemukan")
     return kelas
 
-@router.post("/", response_model=BiodataUserResponse, dependencies=dependencies)
+@router.post("/", response_model=BiodataUserResponse, dependencies=write_dependencies)
 async def create(payload: BiodataUserCreate, session: AsyncSession = Depends(get_session)):
     """Create kelas"""
     kelas = BiodataUser(**payload.model_dump())
@@ -32,7 +33,7 @@ async def create(payload: BiodataUserCreate, session: AsyncSession = Depends(get
     await session.refresh(kelas)
     return kelas
 
-@router.patch("/{id}", response_model=BiodataUserResponse, dependencies=dependencies)
+@router.patch("/{id}", response_model=BiodataUserResponse, dependencies=write_dependencies)
 async def modify(id: int, payload: BiodataUserUpdate, session: AsyncSession = Depends(get_session)):
     """Partially modify kelas"""
     kelas = await session.get(BiodataUser, id)
@@ -46,7 +47,7 @@ async def modify(id: int, payload: BiodataUserUpdate, session: AsyncSession = De
     await session.refresh(kelas)
     return kelas
 
-@router.patch("/by-user/{user_id}", response_model=BiodataUserResponse, dependencies=dependencies)
+@router.patch("/by-user/{user_id}", response_model=BiodataUserResponse, dependencies=write_dependencies)
 async def modify_by_user_id(
     user_id: int, payload: BiodataUserUpdate, session: AsyncSession = Depends(get_session)
 ):
@@ -65,7 +66,7 @@ async def modify_by_user_id(
     await session.refresh(biodata)
     return biodata
 
-@router.delete("/by-user/{user_id}", response_model=BiodataUserResponse, dependencies=dependencies)
+@router.delete("/by-user/{user_id}", response_model=BiodataUserResponse, dependencies=write_dependencies)
 async def delete_by_user_id(
     user_id: int, session: AsyncSession = Depends(get_session)
 ):
@@ -80,7 +81,7 @@ async def delete_by_user_id(
     await session.commit()
     return biodata
 
-@router.delete("/{id}", response_model=BiodataUserResponse, dependencies=dependencies)
+@router.delete("/{id}", response_model=BiodataUserResponse, dependencies=write_dependencies)
 async def delete(id: int, session: AsyncSession = Depends(get_session)):
     kelas = await session.get(BiodataUser, id)
     if not kelas:

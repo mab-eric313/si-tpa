@@ -46,7 +46,7 @@
 			}
 			else if (data.role === "Bendahara") {
 				console.log("(data.role === 'Bendahara') TRUE");
-				goto("/bendahara");
+				goto("/bendahara/pencatatan");
 			}
 			else if (data.role === "Admin") {
 				console.log("(data.role === 'Admin') TRUE");
