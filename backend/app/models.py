@@ -65,6 +65,10 @@ class PendaftaranSiswaStatus(str, PyEnum):
     PENDING = "Pending"
     DITOLAK = "Ditolak"
 
+class StatusSiswa(str, PyEnum):
+    AKTIF = "Aktif"
+    TIDAK_AKTIF = "Tidak Aktif"
+
 
 # Tables
 class Wali(Base):
@@ -123,6 +127,7 @@ class Siswa(Base):
     wali_id: Mapped[int] = mapped_column(ForeignKey("wali.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     kelas_id: Mapped[int] = mapped_column(ForeignKey("kelas.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     pendaftaran_siswa_id: Mapped[int] = mapped_column(ForeignKey("pendaftaran_siswa.id"), unique=True, nullable=True)
+    status: Mapped[str] = mapped_column(Enum(StatusSiswa), nullable=False, default=StatusSiswa.AKTIF)
 
     # Relationships
     wali: Mapped["Wali"] = relationship(back_populates="siswas")
@@ -136,7 +141,7 @@ class TrgLogSiswa(Base):
     __tablename__ = "trg_log_siswa"
     
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    siswa_id: Mapped[int] = mapped_column(ForeignKey("siswa.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    siswa_id: Mapped[int] = mapped_column(ForeignKey("siswa.id", ondelete="RESTRICT", onupdate="CASCADE"), nullable=False)
     kategori_penilaian: Mapped[KategoriPenilaian] = mapped_column(Enum(KategoriPenilaian), nullable=False)
     lulus_ulang: Mapped[LulusUlang] = mapped_column(Enum(LulusUlang), nullable=False)
     tanggal: Mapped[date] = mapped_column(Date, nullable=False)
@@ -149,7 +154,7 @@ class SppSiswa(Base):
     __tablename__ = "spp_siswa"
     
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    siswa_id: Mapped[int] = mapped_column(ForeignKey("siswa.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    siswa_id: Mapped[int] = mapped_column(ForeignKey("siswa.id", ondelete="RESTRICT", onupdate="CASCADE"), nullable=False)
     tanggal: Mapped[Optional[date]] = mapped_column(Date)
     pembayaran: Mapped[Optional[int]] = mapped_column(Integer, default=0)
     sisa: Mapped[Optional[int]] = mapped_column(Integer, default=0)

@@ -98,6 +98,7 @@ class SiswaUpdate(SiswaBase):
     tanggal_lahir: date | None = None
     wali_id: int | None = None
     kelas_id: int | None = None
+    status: str | None = None
 
 class SiswaRelationship(BaseSchema, BaseModel):
     id: int
@@ -110,16 +111,7 @@ class SiswaResponse(BaseSchema, SiswaBase):
     tanggal_lahir: date
     wali_id: int
     kelas_id: int
-
-class SiswaRelatRes(BaseSchema, SiswaBase):
-    id: int
-    nama: str
-    jenis_kelamin: str
-    tanggal_lahir: date
-    wali_id: int
-    kelas_id: int
-    pendaftaran_siswa_id: int | None = None
-    pendaftaran_siswa: PendaftaranSiswaResponse | None = None
+    status: str
 
 
 # Table: Wali
@@ -181,7 +173,7 @@ class SppSiswaUpdate(BaseModel):
 
 class SppSiswaResponse(BaseSchema, SppSiswaBase):
     id: int
-    siswa_id: int
+    siswa_id: int | None
     siswa: SiswaResponse | None = None
     status: str
 
@@ -412,3 +404,19 @@ class PenilaianJilidResponse(BaseSchema, PenilaianJilidBase):
     nilai_akhir: int
     # waktu_penilaian: str
     updated_at: datetime
+
+
+# Relationship
+class SiswaRelatRes(BaseSchema, SiswaBase):
+    id: int
+    nama: str
+    jenis_kelamin: str
+    tanggal_lahir: date
+    wali_id: int
+    wali: WaliResponse | None = None
+    kelas_id: int
+    kelas: KelasResponse | None = None
+    pendaftaran_siswa_id: int | None = None
+    pendaftaran_siswa: PendaftaranSiswaResponse | None = None
+    status: str
+

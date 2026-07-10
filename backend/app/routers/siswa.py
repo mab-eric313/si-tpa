@@ -2,7 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import Siswa, PendaftaranSiswa, PendaftaranSiswaStatus, Wali
+from app.models import (
+    Siswa, PendaftaranSiswa, PendaftaranSiswaStatus, StatusSiswa, Wali
+)
 from app.schemas import (
     SiswaResponse, SiswaCreate, SiswaUpdate, SiswaRelatRes
 )
@@ -22,7 +24,26 @@ async def get_all(session: AsyncSession = Depends(get_session)) -> list[Siswa]:
         .options(
             selectinload(Siswa.pendaftaran_siswa)
             .selectinload(PendaftaranSiswa.kelas)
+        ).options(
+            selectinload(Siswa.wali)
+        ).options(
+            selectinload(Siswa.kelas)
         )
+    )
+    return list(result.all())
+
+@router.get("/", response_model=list[SiswaRelatRes], dependencies=read_dependencies)
+async def get_all_active(session: AsyncSession = Depends(get_session)) -> list[Siswa]:
+    result = await session.scalars(
+        select(Siswa)
+        .options(
+            selectinload(Siswa.pendaftaran_siswa)
+            .selectinload(PendaftaranSiswa.kelas)
+        ).options(
+            selectinload(Siswa.wali)
+        ).options(
+            selectinload(Siswa.kelas)
+        ).where(Siswa.status == StatusSiswa.AKTIF)
     )
     return list(result.all())
 
@@ -33,6 +54,10 @@ async def get_one(id: int, session: AsyncSession = Depends(get_session)):
         .options(
             selectinload(Siswa.pendaftaran_siswa)
             .selectinload(PendaftaranSiswa.kelas)
+        ).options(
+            selectinload(Siswa.wali)
+        ).options(
+            selectinload(Siswa.kelas)
         ).where(Siswa.id == id)
     )
     siswa = result.first()
@@ -83,6 +108,10 @@ async def create_from_pendaftaran_siswa(
         .options(
             selectinload(Siswa.pendaftaran_siswa)
             .selectinload(PendaftaranSiswa.kelas)
+        ).options(
+            selectinload(Siswa.wali)
+        ).options(
+            selectinload(Siswa.kelas)
         ).where(Siswa.id == siswa.id)
     )
     return result.one()
