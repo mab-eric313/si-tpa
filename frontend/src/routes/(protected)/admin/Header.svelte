@@ -42,7 +42,7 @@
 
 <nav class="d-flex flex-column flex-shrink-0 min-vh-100 position-fixed">
 	<ul class="nav-sidebar">
-		<div class="nav-sidebar-main">
+		<div class="nav-sidebar-main mb-5">
 			<li class="logo">
 				<h1>Admin</h1>
 			</li>
@@ -60,37 +60,37 @@
 					Kelola Pengguna
 				</a>
 			</li>
-			<!--
 			<li class="nav-sidebar-item">
-				<a href="/pengajar/absensi"
-				   class:active={page.url.pathname === "/pengajar/absensi"}>
-					<img src={checkSquareIcon} alt="">
-					Absensi
+				<a href="/admin/kelola-siswa" 
+					class:active={page.url.pathname === "/admin/kelola-siswa"}>
+					<img src={personsIcon} alt="">
+					Kelola Siswa
 				</a>
 			</li>
 			<li class="nav-sidebar-item">
-				<a href="/pengajar/rekap-nilai"
-				   class:active={page.url.pathname === "/pengajar/rekap-nilai"}>
-					<div class="icon"><NotebookPen /></div>
-					Rekap Nilai
-				</a>
-			</li>
-			<li class="nav-sidebar-item">
-				<a href="/pengajar/rekap-absensi"
-				   class:active={page.url.pathname === "/pengajar/rekap-absensi"}>
-					<img src={fileTextIcon} alt="">
-					Rekap Absensi
-				</a>
-			</li>
-			<li class="nav-sidebar-item">
-				<a href="/pengajar/ajukan-pergantian"
-				   class:active={page.url.pathname === "/pengajar/ajukan-pergantian"}>
-					<div class="icon"><FileUser /></div>
-					Ajukan Pergantian
+				<a href="/admin/kelola-calon-siswa" 
+					class:active={page.url.pathname === "/admin/kelola-calon-siswa"}>
+					<img src={personsIcon} alt="">
+					Kelola Calon Siswa
 				</a>
 			</li>
 		</div>
-			-->
+		<div class="nav-sidebar-goto-users mb-5">
+			<li class="nav-sidebar-item">
+				<a href="/pengajar" 
+					class:active={page.url.pathname === "/pengajar"}>
+					<i class="bi bi-arrow-right me-2" style="font-size: 20px;"></i>
+					Ke Hal Pengajar
+				</a>
+			</li>
+			<li class="nav-sidebar-item">
+				<a href="/bendahara/pencatatan"
+					class:active={page.url.pathname === "/bendahara/pencatatan"}>
+					<i class="bi bi-arrow-right me-2" style="font-size: 20px;"></i>
+					Ke Hal Bendahara
+				</a>
+			</li>
+		</div>
 		<li id="logout" class="nav-sidebar-item">
 			<a href="/login" onclick={handleLogout}>
 				<img src={exitIcon} alt="exit icon">
@@ -103,6 +103,10 @@
 <style>
 	nav {
 		z-index: 1030;
+	}
+
+	a {
+		font-size: 15px;
 	}
 
 	.logo {

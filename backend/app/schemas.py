@@ -16,11 +16,76 @@ class TokenData(BaseModel):
     role: str | None = None
 
 
+# Table: Kelas
+class KelasBase(BaseModel):
+    pass
+
+class KelasCreate(KelasBase):
+    nama: str
+
+class KelasUpdate(KelasBase):
+    nama: str | None = None
+
+class KelasResponse(BaseSchema, KelasBase):
+    id: int
+    nama: str
+
+
+# Table: PendaftaranSiswa
+class PendaftaranSiswaBase(BaseModel):
+    alamat_siswa: str | None = None
+    no_hp_wali: str | None = None
+    alamat_wali: str | None = None
+
+class PendaftaranSiswaCreate(PendaftaranSiswaBase):
+    nama_siswa: str
+    status: str
+    jenis_kelamin_siswa: str
+    tanggal_lahir_siswa: date
+    nama_wali: str
+    kelas_id: int
+
+class PendaftaranSiswaUpdate(PendaftaranSiswaBase):
+    nama_siswa: str | None = None
+    status: str | None
+    jenis_kelamin_siswa: str | None = None
+    tanggal_lahir_siswa: date | None = None
+    nama_wali: str | None = None
+    kelas_id: int | None = None
+
+class PendaftaranSiswaResponse(BaseSchema, PendaftaranSiswaBase):
+    id: int
+    nama_siswa: str
+    status: str
+    jenis_kelamin_siswa: str
+    tanggal_lahir_siswa: date
+    nama_wali: str
+    kelas_id: int
+
+class PendaftaranSiswaRelatRes(BaseSchema, PendaftaranSiswaBase):
+    id: int
+    nama_siswa: str
+    status: str
+    jenis_kelamin_siswa: str
+    tanggal_lahir_siswa: date
+    nama_wali: str
+    kelas_id: int
+    kelas: KelasResponse | None = None
+
+
 # Table: Siswa
 class SiswaBase(BaseModel):
     alamat: str | None = None
 
 class SiswaCreate(SiswaBase):
+    nama: str
+    jenis_kelamin: str
+    tanggal_lahir: date
+    wali_id: int
+    kelas_id: int
+
+class SiswaRelatCreate(SiswaBase):
+    pendaftaran_siswa_id: int
     nama: str
     jenis_kelamin: str
     tanggal_lahir: date
@@ -46,20 +111,15 @@ class SiswaResponse(BaseSchema, SiswaBase):
     wali_id: int
     kelas_id: int
 
-
-# Table: Kelas
-class KelasBase(BaseModel):
-    pass
-
-class KelasCreate(KelasBase):
-    nama: str
-
-class KelasUpdate(KelasBase):
-    nama: str | None = None
-
-class KelasResponse(BaseSchema, KelasBase):
+class SiswaRelatRes(BaseSchema, SiswaBase):
     id: int
     nama: str
+    jenis_kelamin: str
+    tanggal_lahir: date
+    wali_id: int
+    kelas_id: int
+    pendaftaran_siswa_id: int | None = None
+    pendaftaran_siswa: PendaftaranSiswaResponse | None = None
 
 
 # Table: Wali

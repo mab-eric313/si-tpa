@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import GajiPengajar
@@ -13,46 +14,69 @@ dependencies = [Depends(allow_admin)]
 
 @router.get("/", response_model=list[GajiPengajarResponse], dependencies=dependencies)
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[GajiPengajar]:
-    result = await session.scalars(select(GajiPengajar))
+    result = await session.scalars(
+        select(GajiPengajar)
+        .options(selectinload(GajiPengajar.biodata_user))
+    )
     return list(result.all())
 
 @router.get("/{id}", response_model=GajiPengajarResponse, dependencies=dependencies)
 async def get_one(id: int, session: AsyncSession = Depends(get_session)):
-    kelas = await session.get(GajiPengajar, id)
-    if not kelas:
+    result = await session.scalars(
+        select(GajiPengajar)
+        .options(selectinload(GajiPengajar.biodata_user))
+        .where(GajiPengajar.id == id)
+    )
+    gaji_pengajar = result.first()
+    if not gaji_pengajar:
         raise HTTPException(status_code=404, detail="GajiPengajar tidak ditemukan")
-    return kelas
+    return gaji_pengajar
 
 @router.post("/", response_model=GajiPengajarResponse, dependencies=dependencies)
 async def create(payload: GajiPengajarCreate, session: AsyncSession = Depends(get_session)):
     """Create kelas"""
-    kelas = GajiPengajar(**payload.model_dump())
-    session.add(kelas)
+    gaji_pengajar = GajiPengajar(**payload.model_dump())
+    session.add(gaji_pengajar)
     await session.commit()
-    await session.refresh(kelas)
-    return kelas
+
+    result = await session.scalars(
+        select(GajiPengajar)
+        .options(selectinload(GajiPengajar.biodata_user))
+        .where(GajiPengajar.id == gaji_pengajar.id)
+    )
+    return result.one()
 
 @router.patch("/{id}", response_model=GajiPengajarResponse, dependencies=dependencies)
 async def modify(id: int, payload: GajiPengajarUpdate, session: AsyncSession = Depends(get_session)):
     """Partially modify kelas"""
-    kelas = await session.get(GajiPengajar, id)
-    if not kelas:
+    gaji_pengajar = await session.get(GajiPengajar, id)
+    if not gaji_pengajar:
         raise HTTPException(status_code=404, detail="GajiPengajar tidak ditemukan")
 
     for key, val in payload.model_dump(exclude_unset=True).items():
-        setattr(kelas, key, val)
+        setattr(gaji_pengajar, key, val)
 
     await session.commit()
-    await session.refresh(kelas)
-    return kelas
+
+    result = await session.scalars(
+        select(GajiPengajar)
+        .options(selectinload(GajiPengajar.biodata_user))
+        .where(GajiPengajar.id == gaji_pengajar.id)
+    )
+    return result.one()
 
 @router.delete("/{id}", response_model=GajiPengajarResponse, dependencies=dependencies)
 async def delete(id: int, session: AsyncSession = Depends(get_session)):
-    kelas = await session.get(GajiPengajar, id)
-    if not kelas:
+    result = await session.scalars(
+        select(GajiPengajar)
+        .options(selectinload(GajiPengajar.biodata_user))
+        .where(GajiPengajar.id == id)
+    )
+    gaji_pengajar = result.first()
+    if not gaji_pengajar:
         raise HTTPException(status_code=404, detail="GajiPengajar tidak ditemukan")
 
-    await session.delete(kelas)
+    await session.delete(gaji_pengajar)
     await session.commit()
-    return kelas
+    return gaji_pengajar
 

@@ -60,6 +60,11 @@ class WaktuPenilaian(str, PyEnum):
     HARIAN = "Harian"
     BULANAN = "Bulanan"
 
+class PendaftaranSiswaStatus(str, PyEnum):
+    DITERIMA = "Diterima"
+    PENDING = "Pending"
+    DITOLAK = "Ditolak"
+
 
 # Tables
 class Wali(Base):
@@ -81,9 +86,30 @@ class Kelas(Base):
     nama: Mapped[NamaKelas] = mapped_column(Enum(NamaKelas), nullable=False)
 
     # Relationships
+    pendaftaran_siswa: Mapped[List["PendaftaranSiswa"]] = relationship(back_populates="kelas")
     siswas: Mapped[List["Siswa"]] = relationship(back_populates="kelas")
     biodata_users: Mapped[List["BiodataUser"]] = relationship(back_populates="kelas")
     pengganti_transaksi: Mapped[List["PenggantiPengajar"]] = relationship(back_populates="kelas")
+
+
+class PendaftaranSiswa(Base):
+    __tablename__ = "pendaftaran_siswa"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    nama_siswa: Mapped[str] = mapped_column(String(150), nullable=False)
+    status: Mapped[str] = mapped_column(Enum(PendaftaranSiswaStatus), nullable=False)
+    jenis_kelamin_siswa: Mapped[JenisKelamin] = mapped_column(Enum(JenisKelamin), nullable=False)
+    tanggal_lahir_siswa: Mapped[date] = mapped_column(Date, nullable=False)
+    alamat_siswa: Mapped[Optional[str]] = mapped_column(String(255))
+    nama_wali: Mapped[str] = mapped_column(String(150), nullable=False)
+    no_hp_wali: Mapped[Optional[str]] = mapped_column(String(20))
+    alamat_wali: Mapped[Optional[str]] = mapped_column(String(255))
+    kelas_id: Mapped[int] = mapped_column(ForeignKey("kelas.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    # siswa_id: Mapped[int] = mapped_column(ForeignKey("siswa.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
+
+    # Relationships
+    kelas: Mapped["Kelas"] = relationship(back_populates="pendaftaran_siswa")
+    siswa: Mapped["Siswa"] = relationship(back_populates="pendaftaran_siswa", uselist=False)
 
 
 class Siswa(Base):
@@ -96,12 +122,14 @@ class Siswa(Base):
     alamat: Mapped[Optional[str]] = mapped_column(String(255))
     wali_id: Mapped[int] = mapped_column(ForeignKey("wali.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     kelas_id: Mapped[int] = mapped_column(ForeignKey("kelas.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    pendaftaran_siswa_id: Mapped[int] = mapped_column(ForeignKey("pendaftaran_siswa.id"), unique=True, nullable=True)
 
     # Relationships
     wali: Mapped["Wali"] = relationship(back_populates="siswas")
     kelas: Mapped["Kelas"] = relationship(back_populates="siswas")
     logs: Mapped[List["TrgLogSiswa"]] = relationship(back_populates="siswa")
     spp_records: Mapped[List["SppSiswa"]] = relationship(back_populates="siswa")
+    pendaftaran_siswa: Mapped["PendaftaranSiswa"] = relationship(back_populates="siswa")
 
 
 class TrgLogSiswa(Base):

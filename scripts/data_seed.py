@@ -69,22 +69,28 @@ wali = [
     {"nama": "Eko Prasetyo", "no_hp": "081234567804", "alamat": "Jl. Veteran, Kec. Kebomas"},
 ]
 
+pendaftaran_siswa = [
+        {"nama_siswa": "Ahmad Budi", "status": "Pending", "jenis_kelamin_siswa": "L", "tanggal_lahir_siswa": "2013-05-01", "alamat_siswa": "Jl. Raden Santri, Desa Bedilan, Kec. Gresik", "nama_wali": "Ortu Budi", "no_hp_wali": "081234567890", "alamat_wali": "Jl. Raden Santri, Desa Bedilan, Kec. Gresik", "kelas_id": 2},
+    {"nama_siswa": "Burhanuddin", "status": "Pending", "jenis_kelamin_siswa": "L", "tanggal_lahir_siswa": "2014-03-09", "alamat_siswa": "Jl. Dr Sutomo, Kel. Tlogopatut, Kec. Gresik", "nama_wali": "Abdul", "no_hp_wali": "081122334455", "alamat_wali": "Jl. Dr Sutomo, Kel. Tlogopatut, Kec. Gresik", "kelas_id": 3},
+    {"nama_siswa": "Kamal Mohammad", "status": "Pending", "jenis_kelamin_siswa": "L", "tanggal_lahir_siswa": "2013-03-10", "alamat_siswa": "Jl. Raden Santri, Desa Bedilan, Kec. Gresik", "nama_wali": "Kamal", "no_hp_wali": "088866442211", "alamat_wali": "Jl. Dr Sutomo, Kel. Tlogopatut, Kec. Gresik", "kelas_id": 3},
+]
+
 siswa = [
-    {"nama": "Vina Wira", "jenis_kelamin": "P", "tanggal_lahir": "2013-06-02", "alamat": "Jl. Raden Santri, Desa Bedilan, Kec. Gresik", "wali_id": 1, "kelas_id": 2},
-    {"nama": "Junaidi Zulfikar", "jenis_kelamin": "L", "tanggal_lahir": "2010-08-12", "alamat": "", "wali_id": 2, "kelas_id": 3},
-    {"nama": "Ahmad Sutrisno", "jenis_kelamin": "L", "tanggal_lahir": "2013-01-02", "alamat": "Jl. Sunan Giri, Desa Giri, Kec. Kebomas", "wali_id": 3, "kelas_id": 2},
-    {"nama": "Sumiati Siti", "jenis_kelamin": "P", "tanggal_lahir": "2010-12-09", "alamat": "Jl. Dr. Sutomo, Kel. Tlogopatut, Kec. Gresik", "wali_id": 4, "kelas_id": 2},
-    {"nama": "Wira Rahman", "jenis_kelamin": "L", "tanggal_lahir": "2013-06-23", "alamat": "Jl. Panglima Sudirman, Desa Gapurosukolilo, Kec. Gresik", "wali_id": 5, "kelas_id": 2},
-    {"nama": "Reza Widya", "jenis_kelamin": "L", "tanggal_lahir": "2016-06-23", "alamat": "", "wali_id": 6, "kelas_id": 1},
-    {"nama": "Dwi Budi", "jenis_kelamin": "L", "tanggal_lahir": "2016-05-08", "alamat": "Jl. Jakarta, Perum GKB, Desa Randuagung, Kec. Kebomas", "wali_id": 7, "kelas_id": 1},
+    {"nama": "Vina Wira", "jenis_kelamin": "P", "tanggal_lahir": "2013-06-02", "alamat": "Jl. Raden Santri, Desa Bedilan, Kec. Gresik", "wali_id": 1, "kelas_id": 2, "pendaftaran_siswa_id": 0},
+    {"nama": "Junaidi Zulfikar", "jenis_kelamin": "L", "tanggal_lahir": "2010-08-12", "alamat": "", "wali_id": 2, "kelas_id": 3, "pendaftaran_siswa_id": 0},
+    {"nama": "Ahmad Sutrisno", "jenis_kelamin": "L", "tanggal_lahir": "2013-01-02", "alamat": "Jl. Sunan Giri, Desa Giri, Kec. Kebomas", "wali_id": 3, "kelas_id": 2, "pendaftaran_siswa_id": 0},
+    {"nama": "Sumiati Siti", "jenis_kelamin": "P", "tanggal_lahir": "2010-12-09", "alamat": "Jl. Dr. Sutomo, Kel. Tlogopatut, Kec. Gresik", "wali_id": 4, "kelas_id": 2, "pendaftaran_siswa_id": 0},
+    {"nama": "Wira Rahman", "jenis_kelamin": "L", "tanggal_lahir": "2013-06-23", "alamat": "Jl. Panglima Sudirman, Desa Gapurosukolilo, Kec. Gresik", "wali_id": 5, "kelas_id": 2, "pendaftaran_siswa_id": 0},
+    {"nama": "Reza Widya", "jenis_kelamin": "L", "tanggal_lahir": "2016-06-23", "alamat": "", "wali_id": 6, "kelas_id": 1, "pendaftaran_siswa_id": 0},
+    {"nama": "Dwi Budi", "jenis_kelamin": "L", "tanggal_lahir": "2016-05-08", "alamat": "Jl. Jakarta, Perum GKB, Desa Randuagung, Kec. Kebomas", "wali_id": 7, "kelas_id": 1, "pendaftaran_siswa_id": 0},
     {"nama": "Amir Fuad", "jenis_kelamin": "L", "tanggal_lahir": "2016-02-18", "alamat": "Jl. KH. Agus Salim, Kel. Karangpohon, Kec. Gresik", "wali_id": 8, "kelas_id": 1},
-    {"nama": "Purnama Yohannes", "jenis_kelamin": "L", "tanggal_lahir": "2009-09-04", "alamat": "Jl. Raya Manyar, Desa Kompleks Semen Gresik, Kec. Manyar", "wali_id": 9, "kelas_id": 3},
-    {"nama": "Daud Mawar", "jenis_kelamin": "P", "tanggal_lahir": "2010-09-24", "alamat": "Jl. Malik Ibrahim, Desa Pekauman, Kec. Gresik", "wali_id": 10, "kelas_id": 3},
-    {"nama": "Roni Hendro", "jenis_kelamin": "L", "tanggal_lahir": "2015-04-11", "alamat": "Jl. Jawa, Perum GKB, Kec. Manyar", "wali_id": 11, "kelas_id": 1},
-    {"nama": "Siti Aisyah", "jenis_kelamin": "P", "tanggal_lahir": "2014-11-22", "alamat": "Jl. Basuki Rahmat, Kec. Gresik", "wali_id": 12, "kelas_id": 2},
-    {"nama": "Fahri Anwar", "jenis_kelamin": "L", "tanggal_lahir": "2012-07-05", "alamat": "", "wali_id": 13, "kelas_id": 3},
-    {"nama": "Nadia Dewi", "jenis_kelamin": "P", "tanggal_lahir": "2016-01-30", "alamat": "Jl. Kalimantan, GKB, Kec. Manyar", "wali_id": 14, "kelas_id": 1},
-    {"nama": "Ilham Eko", "jenis_kelamin": "L", "tanggal_lahir": "2011-03-14", "alamat": "Jl. Veteran, Kec. Kebomas", "wali_id": 15, "kelas_id": 3},
+    {"nama": "Purnama Yohannes", "jenis_kelamin": "L", "tanggal_lahir": "2009-09-04", "alamat": "Jl. Raya Manyar, Desa Kompleks Semen Gresik, Kec. Manyar", "wali_id": 9, "kelas_id": 3, "pendaftaran_siswa_id": 0},
+    {"nama": "Daud Mawar", "jenis_kelamin": "P", "tanggal_lahir": "2010-09-24", "alamat": "Jl. Malik Ibrahim, Desa Pekauman, Kec. Gresik", "wali_id": 10, "kelas_id": 3, "pendaftaran_siswa_id": 0},
+    {"nama": "Roni Hendro", "jenis_kelamin": "L", "tanggal_lahir": "2015-04-11", "alamat": "Jl. Jawa, Perum GKB, Kec. Manyar", "wali_id": 11, "kelas_id": 1, "pendaftaran_siswa_id": 0},
+    {"nama": "Siti Aisyah", "jenis_kelamin": "P", "tanggal_lahir": "2014-11-22", "alamat": "Jl. Basuki Rahmat, Kec. Gresik", "wali_id": 12, "kelas_id": 2, "pendaftaran_siswa_id": 0},
+    {"nama": "Fahri Anwar", "jenis_kelamin": "L", "tanggal_lahir": "2012-07-05", "alamat": "", "wali_id": 13, "kelas_id": 3, "pendaftaran_siswa_id": 0},
+    {"nama": "Nadia Dewi", "jenis_kelamin": "P", "tanggal_lahir": "2016-01-30", "alamat": "Jl. Kalimantan, GKB, Kec. Manyar", "wali_id": 14, "kelas_id": 1, "pendaftaran_siswa_id": 0},
+    {"nama": "Ilham Eko", "jenis_kelamin": "L", "tanggal_lahir": "2011-03-14", "alamat": "Jl. Veteran, Kec. Kebomas", "wali_id": 15, "kelas_id": 3, "pendaftaran_siswa_id": 0},
 ]
 
 biodata_user = [
@@ -227,6 +233,12 @@ ENTITY_REGISTRY = [
         "name": "Wali Murid",
         "endpoint": f"{BASE_URL}/wali/",
         "data": wali,
+        "is_auth_route": False
+    },
+    {
+        "name": "Pendaftaran Siswa",
+        "endpoint": f"{BASE_URL}/pendaftaran-siswa/",
+        "data": pendaftaran_siswa,
         "is_auth_route": False
     },
     {

@@ -22,6 +22,7 @@ $ grep -Rn "TODO:" . \
 ./frontend/src/routes/(protected)/bendahara/Header.svelte:5:    // TODO: Use Lucide Icons
 
 ```
+- (HIGH) Add Kelola Kelas page, can manage CRUD (Siswa and Kelas) and image
 - (MED) Change all static data in pengajar beranda page
 - (MED) Add or change header for pengajar and admin page
 - (LOW) rename auth.py to user.py

@@ -95,7 +95,7 @@
 </script>
 
 <section class="sidebar-gap">
-	<a href="/bendahara/pemasukan/" class="btn btn-light bi bi-arrow-left mb-5">
+	<a href="/bendahara/pencatatan/" class="btn btn-light bi bi-arrow-left mb-5">
 		Kembali
 	</a>
 	<form action="">

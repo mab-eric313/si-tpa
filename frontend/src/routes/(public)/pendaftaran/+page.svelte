@@ -1,28 +1,79 @@
 <script>
+    import { onMount } from "svelte";
+
   // State untuk menyimpan data formulir pendaftaran
   // TODO: use $state()
-  let namaSantri = '';
-  let umur = '';
-  let alamat = '';
-  let namaWali = '';
-  let whatsapp = '';
-  let files = null;
+  let namaSantri = $state('');
+  let jenisKelamin = $state('');
+  let tanggalLahir = $state('');
+  let alamatSantri = $state('');
+  let namaWali = $state('');
+  let noHp = $state('');
+  let alamatWali = $state('');
+  let daftarKelas = $state({});
+  let selectedKelas = $state('');
+
+  // TODO: Add Uploading files
+  // let files = $state(null);
+
+	let errorMessage = $state('');
+	onMount(async () => {
+		try {
+			const res = await fetch("http://localhost:8000/kelas/", {
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			});
+			if (!res.ok) throw new Error(res.statusText);
+
+			daftarKelas = await res.json();
+		} catch (error) {
+			console.error(error);
+		}
+	});
+
+	let payload = $derived({
+		nama_siswa: namaSantri,
+		status: "Pending",
+		jenis_kelamin_siswa: jenisKelamin,
+		tanggal_lahir_siswa: tanggalLahir,
+		alamat_siswa: alamatSantri,
+		nama_wali: namaWali,
+		no_hp_wali: noHp,
+		alamat_wali: alamatWali,
+		kelas_id: selectedKelas,
+	});
 
   // Fungsi untuk menangani pengiriman form
-  function handleSubmit() {
+  async function handleSubmit() {
     // Validasi sederhana (karena semua field wajib diisi)
-    if (!namaSantri || !umur || !alamat || !namaWali || !whatsapp) {
+    if (!namaSantri || !jenisKelamin || !tanggalLahir || !namaWali || !kelas) {
       alert('Mohon lengkapi semua data yang wajib diisi (*).');
       return;
     }
 
+		try {
+			const res = await fetch("http://localhost:8000/pendaftaran-siswa/", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(payload)
+			});
+			if (!res.ok) throw new Error(res.statusText);
+
+			daftarKelas = await res.json();
+			$state.snapshot(daftarKelas);
+		} catch (error) {
+			console.error(error);
+		}
+
     const formData = {
       namaSantri,
-      umur,
-      alamat,
+			jenisKelamin,
+      tanggalLahir,
+      alamatSantri,
       namaWali,
-      whatsapp,
-      berkas: files ? files[0] : null
+      noHp,
+      alamatWali,
+      selectedKelas,
     };
 
     console.log('Data pendaftaran berhasil dikirim:', formData);
@@ -34,11 +85,13 @@
 
   function resetForm() {
     namaSantri = '';
-    umur = '';
-    alamat = '';
+    jenisKelamin = '';
+    tanggalLahir = '';
+    alamatSantri = '';
     namaWali = '';
-    whatsapp = '';
-    files = null;
+    noHp = '';
+    alamatWali = '';
+    selectedKelas = '';
   }
 </script>
 
@@ -67,7 +120,7 @@
   <div class="card">
     <h2>Form Pendaftaran</h2>
 
-    <form on:submit|preventDefault={handleSubmit}>
+    <form>
       <div class="form-group">
         <label for="nama-santri">Nama Lengkap Santri<span>*</span></label>
         <input 
@@ -80,23 +133,34 @@
       </div>
 
       <div class="form-group">
-        <label for="umur">Umur<span>*</span></label>
+        <label for="jenis-kelamin">Jenis Kelamin<span>*</span></label>
+		<select 
+			id="jenis-kelamin" 
+			class="form-select"
+			bind:value={jenisKelamin}>
+			<option value="L">Laki-laki</option>
+			<option value="P">Perempuan</option>
+		</select>
+      </div>
+
+      <div class="form-group">
+        <label for="tanggal-lahir">Tanggal Lahir<span>*</span></label>
         <input 
-          id="umur"
-          type="number" 
-          placeholder="Masukkan umur" 
-          bind:value={umur}
+          id="tanggal-lahir"
+          type="date" 
+          placeholder="Masukkan tanggal lahir" 
+          bind:value={tanggalLahir}
           min="5"
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="alamat">Alamat Lengkap<span>*</span></label>
+        <label for="alamat-santri">Alamat Santri</label>
         <textarea 
-          id="alamat"
-          placeholder="Masukkan alamat lengkap" 
-          bind:value={alamat}
+          id="alamat-santri"
+          placeholder="Masukkan alamat santri" 
+          bind:value={alamatSantri}
           required
         ></textarea>
       </div>
@@ -113,41 +177,38 @@
       </div>
 
       <div class="form-group">
-        <label for="whatsapp">Nomor Whatsapp<span>*</span></label>
+        <label for="no-hp">Nomor HP</label>
         <input 
-          id="whatsapp"
+          id="no-hp"
           type="text" 
           placeholder="contoh: 081234567890" 
-          bind:value={whatsapp}
+          bind:value={noHp}
           required
         />
       </div>
 
       <div class="form-group">
-        <label for="berkas">Upload Berkas (KK, Akta, Foto)<span>*</span></label>
-        <div class="upload-box">
-          <div class="upload-icon">⬆</div>
-          
-          <input 
-            id="berkas"
-            type="file" 
-            accept="image/*,application/pdf"
-            capture="environment"
-            bind:files={files}
-            required
-          />
-
-          <div class="upload-text">
-            {#if files && files[0]}
-              <span class="file-selected">Terpilih: {files[0].name}</span>
-            {:else}
-              format: JPG, PNG, PDF (Maks. 5MB per file)
-            {/if}
-          </div>
-        </div>
+        <label for="alamatWali">Alamat Wali</label>
+        <textarea 
+          id="alamatWali"
+          placeholder="Masukkan alamat wali" 
+          bind:value={alamatWali}
+          required
+        ></textarea>
       </div>
 
-      <button type="submit" class="btn">
+      <div class="form-group">
+        <label for="kelas">Kelas<span>*</span></label>
+		<select 
+			id="kelas" 
+			class="form-select"
+			bind:value={selectedKelas}>
+			{#each daftarKelas as kelas}
+				<option value={kelas.id}>{kelas.nama}</option>
+			{/each}
+		</select>
+	</div>
+			<button type="submit" class="btn" onclick={handleSubmit}>
         Kirim Pendaftaran
       </button>
     </form>
@@ -194,50 +255,6 @@
 </footer>
 
 <style>
-  .navbar {
-    background-color: #2f7d1f;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 40px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    font-weight: bold;
-    font-size: 22px;
-  }
-
-  .logo-box {
-    width: 28px;
-    height: 28px;
-    background-color: white;
-    border-radius: 5px;
-  }
-
-  .menu {
-    display: flex;
-    gap: 12px;
-  }
-
-  .menu a {
-    text-decoration: none;
-    color: black;
-    background-color: white;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: 0.3s;
-  }
-
-  .menu a:hover {
-    background-color: #d9ffd0;
-  }
-
   .container {
     max-width: 850px;
     margin: 50px auto;
@@ -316,6 +333,7 @@
     resize: vertical;
   }
 
+	/*
   .upload-box {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -342,6 +360,7 @@
     color: #2f7d1f;
     font-weight: bold;
   }
+	*/
 
   .btn {
     width: 100%;
@@ -401,6 +420,7 @@
   }
 
   @media (max-width: 768px) {
+		/*
     .navbar {
       flex-direction: column;
       gap: 15px;
@@ -410,6 +430,7 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+		*/
 
     .title h1 {
       font-size: 30px;

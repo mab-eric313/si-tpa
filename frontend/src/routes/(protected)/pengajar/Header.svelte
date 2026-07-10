@@ -61,6 +61,7 @@
 					Kelas
 				</a>
 			</li>
+			<!--
 			<li class="nav-sidebar-item">
 				<a href="/pengajar/absensi"
 				   class:active={page.url.pathname === "/pengajar/absensi"}>
@@ -90,6 +91,7 @@
 				</a>
 			</li>
 		</div>
+			-->
 		<li id="logout" class="nav-sidebar-item">
 			<a href="/login" onclick={handleLogout}>
 				<img src={exitIcon} alt="exit icon">

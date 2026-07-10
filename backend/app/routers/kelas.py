@@ -11,12 +11,12 @@ router = APIRouter(prefix="/kelas")
 
 dependencies = [Depends(allow_pengajar)]
 
-@router.get("/", response_model=list[KelasResponse], dependencies=dependencies)
+@router.get("/", response_model=list[KelasResponse])
 async def get_all(session: AsyncSession = Depends(get_session)) -> list[Kelas]:
     result = await session.scalars(select(Kelas))
     return list(result.all())
 
-@router.get("/{id}", response_model=KelasResponse, dependencies=dependencies)
+@router.get("/{id}", response_model=KelasResponse)
 async def get_one(id: int, session: AsyncSession = Depends(get_session)):
     kelas = await session.get(Kelas, id)
     if not kelas:

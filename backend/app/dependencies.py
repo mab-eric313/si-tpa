@@ -59,3 +59,5 @@ class RoleChecker:
 allow_admin = RoleChecker(["Admin"])
 allow_pengajar = RoleChecker(["Admin", "Pengajar"])
 allow_bendahara = RoleChecker(["Admin", "Bendahara"])
+
+allow_all = RoleChecker(["Admin", "Pengajar", "Bendahara"])
