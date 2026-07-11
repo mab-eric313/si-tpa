@@ -2,14 +2,15 @@
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let errorMessage = $state("");
 	let daftarTransaksi = $state([]);
 	let selectKategori = $state("semua");
 
 	onMount(async () => {
 		try {
-			// TODO: change hardcoded url. Make URL variable placed in $lib dir
-			const res = await fetch("http://localhost:8000/trg-transaksi/", {
+			const res = await fetch(`${PUBLIC_API_BASE_URL}/trg-transaksi/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -42,7 +43,7 @@
 
 		try {
 			const res = await fetch(
-				`http://localhost:8000/trg-transaksi/${id}`, {
+				`${PUBLIC_API_BASE_URL}/trg-transaksi/${id}`, {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",

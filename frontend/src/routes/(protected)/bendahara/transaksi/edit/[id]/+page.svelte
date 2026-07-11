@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let bendahara = $state({});
 	let inputBendahara = $state({});
 	let errorMessage = $state("");
@@ -14,14 +16,14 @@
 	let daftarKaryawan = $state([]);
 
 	let id = $derived(Number($page.params.id));
-	const endpoint = `http://localhost:8000/trg-transaksi/`;
+	const endpoint = `${PUBLIC_API_BASE_URL}/trg-transaksi/`;
 
 	onMount(async () => {
 		try {
 			const [resTransaksi, resSiswa, resKaryawan] = await Promise.all([
 				fetch(endpoint + id, { credentials: "include" }),
-				fetch("http://localhost:8000/siswa/", { credentials: "include" }),
-				fetch("http://localhost:8000/biodata-user/", { credentials: "include" }),
+				fetch(`${PUBLIC_API_BASE_URL}/siswa/`, { credentials: "include" }),
+				fetch(`${PUBLIC_API_BASE_URL}/biodata-user/`, { credentials: "include" }),
 			]);
 
 			if (!resTransaksi.ok) throw new Error(`Error transaksi: ${resTransaksi.statusText}`);
@@ -86,7 +88,7 @@
 
 			const resJSON = await response.json();
 			console.log(resJSON);
-			goto("http://localhost:5173/bendahara/pemasukan");
+			goto(`${PUBLIC_API_BASE_URL}/bendahara/pencatatan`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;
@@ -243,7 +245,7 @@
 				</div>
 			</div>
 		<div class="container d-flex justify-content-end">
-			<a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2">Batal</a>
+			<a href="/bendahara/pencatatan/" class="btn border rounded w-50 mx-2">Batal</a>
 			<!-- <a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2 bg-green text-white">Simpan</a> -->
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"

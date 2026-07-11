@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let errorMessage = $state("");
 	let editTab = $state("pengguna");
 	let user = $state({});
@@ -12,7 +14,7 @@
 	let inputBiodata = $state({});
 	onMount(async () => {
 		try {
-			const response = await fetch(`http://localhost:8000/auth/${id}`, {
+			const response = await fetch(`${PUBLIC_API_BASE_URL}/auth/${id}`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include"
@@ -60,7 +62,7 @@
 	$inspect(payload);
 	async function handleSubmit() {
 		try {
-			const resUser = await fetch(`http://localhost:8000/auth/${id}`, {
+			const resUser = await fetch(`${PUBLIC_API_BASE_URL}/auth/${id}`, {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -70,7 +72,7 @@
 			// edit = await resUser.json();
 
 			const resBiodata = await fetch(
-				`http://localhost:8000/biodata-user/by-user/${id}`, {
+				`${PUBLIC_API_BASE_URL}/biodata-user/by-user/${id}`, {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -78,7 +80,7 @@
 			});
 			if (!resBiodata.ok) throw new Error(`Error: ${resBiodata.statusText}`);
 
-			goto("http://localhost:5173/admin/kelola-pengguna/");
+			goto(`${PUBLIC_API_BASE_URL}admin/kelola-pengguna/`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;

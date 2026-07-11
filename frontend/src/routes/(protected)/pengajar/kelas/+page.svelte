@@ -2,11 +2,13 @@
 	import { onMount } from 'svelte';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let selectedTabelPenilaian = $state("jilid");
 	const endpointMap = {
-		jilid: "http://localhost:8000/penilaian-jilid/",
-		surat: "http://localhost:8000/penilaian-surat/",
-		doa: "http://localhost:8000/penilaian-doa/",
+		jilid: `${PUBLIC_API_BASE_URL}/penilaian-jilid/`,
+		surat: `${PUBLIC_API_BASE_URL}/penilaian-surat/`,
+		doa: `${PUBLIC_API_BASE_URL}/penilaian-doa/`,
 	}
 
 	let daftarPenilaian = $state([]);

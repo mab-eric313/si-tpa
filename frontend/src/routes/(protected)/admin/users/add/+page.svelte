@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let errorMessage = $state("");
 	let user = $state({});
 	// TODO: add kelas_id when user select role "Pengajar"
@@ -12,7 +14,7 @@
 	let inputBiodata = $state({});
 	onMount(async () => {
 		try {
-			const response = await fetch(`http://localhost:8000/auth/`, {
+			const response = await fetch(`${PUBLIC_API_BASE_URL}/auth/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include"
@@ -20,7 +22,7 @@
 			if (!response.ok) throw new Error(`Error: ${response.statusText}`);
 
 			/*
-			const resKelas = await fetch(`http://localhost:8000/kelas/`, {
+			const resKelas = await fetch(`${PUBLIC_API_BASE_URL}/kelas/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include"
@@ -71,7 +73,7 @@
 	$inspect(payloadUser);
 	async function handleSubmit() {
 		try {
-			const resUser = await fetch(`http://localhost:8000/auth/register/`, {
+			const resUser = await fetch(`${PUBLIC_API_BASE_URL}/auth/register/`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -86,7 +88,7 @@
 			);
 
 			const resBiodata = await fetch(
-				`http://localhost:8000/biodata-user/`, {
+				`${PUBLIC_API_BASE_URL}/biodata-user/`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -94,7 +96,7 @@
 			});
 			if (!resBiodata.ok) throw new Error(`Error: ${resBiodata.statusText}`);
 
-			goto("http://localhost:5173/admin/kelola-pengguna/");
+			goto(`${PUBLIC_API_BASE_URL}/admin/kelola-pengguna/`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;

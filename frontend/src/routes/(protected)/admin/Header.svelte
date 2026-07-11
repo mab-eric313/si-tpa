@@ -4,6 +4,8 @@
 	import { page } from '$app/state';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	// TODO: change icons to Lucide
 	// Icons
 	import accountIcon from "$lib/assets/account.svg";
@@ -23,7 +25,7 @@
 		event.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:8000/auth/logout/", {
+			const response = await fetch(`${PUBLIC_API_BASE_URL}/auth/logout/`, {
 				method: "POST",
 				headers: {"Content-Type": "application/json"},
 				credentials: "include"

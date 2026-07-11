@@ -2,6 +2,8 @@
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let errorMessage = $state("");
 	let daftarCalonSiswa = $state([]);
 	let daftarKelas = $state([]);
@@ -9,12 +11,11 @@
 
 	onMount(async () => {
 		try {
-			// TODO: change hardcoded url. Make URL variable placed in $lib dir
 			const [resCalonSiswa, resKelas] = await Promise.all([
-				fetch("http://localhost:8000/pendaftaran-siswa/", { 
+				fetch(`${PUBLIC_API_BASE_URL}/pendaftaran-siswa/`, { 
 					credentials: "include",
 				}),
-				fetch("http://localhost:8000/kelas/", { 
+				fetch(`${PUBLIC_API_BASE_URL}/kelas/`, { 
 					credentials: "include",
 				}),
 			]);
@@ -39,7 +40,7 @@
 
 		try {
 			const resSiswa = await fetch(
-				`http://localhost:8000/siswa/${id}`, {
+				`${PUBLIC_API_BASE_URL}/siswa/${id}`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include"
@@ -72,7 +73,7 @@
 
 		try {
 			const res = await fetch(
-				`http://localhost:8000/pendaftaran-siswa/${id}`, {
+				`${PUBLIC_API_BASE_URL}/pendaftaran-siswa/${id}`, {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",

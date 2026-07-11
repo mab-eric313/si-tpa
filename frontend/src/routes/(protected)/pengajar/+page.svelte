@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	function handleEdit(id) {
 		goto(`pengajar/edit/${id}`);
 	}
@@ -27,7 +29,7 @@
 
 	onMount(async () => {
 		try {
-			const responseSiswa = await fetch("http://localhost:8000/siswa/", {
+			const responseSiswa = await fetch(`${PUBLIC_API_BASE_URL}/siswa/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",

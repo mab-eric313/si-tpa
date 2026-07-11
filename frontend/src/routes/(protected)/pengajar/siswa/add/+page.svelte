@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let lulusUlang = $state("lulus");
 	let penilaian = $state($page.url.searchParams.get("penilaian") ?? "surat");
 
@@ -10,9 +12,9 @@
 	let errorMessage = $state("");
 
 	const endpointMap = {
-		jilid: `http://localhost:8000/penilaian-jilid/`,
-		surat: `http://localhost:8000/penilaian-surat/`,
-		doa: `http://localhost:8000/penilaian-doa/`,
+		jilid: `${PUBLIC_API_BASE_URL}/penilaian-jilid/`,
+		surat: `${PUBLIC_API_BASE_URL}/penilaian-surat/`,
+		doa: `${PUBLIC_API_BASE_URL}/penilaian-doa/`,
 	}
 
 	let input = $state({
@@ -69,7 +71,7 @@
 
 	onMount(async () => {
 		try {
-			const res = await fetch("http://localhost:8000/siswa/", {
+			const res = await fetch("${PUBLIC_API_BASE_URL}/siswa/", {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -104,7 +106,7 @@
 			if (!response.ok) throw new Error(`${response.statusText}`);
 
 			penilaianSurat = await response.json();
-			goto("http://localhost:5173/pengajar/kelas");
+			goto(`${PUBLIC_API_BASE_URL}/pengajar/kelas`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;

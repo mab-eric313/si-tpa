@@ -1,8 +1,8 @@
 <script>
     import { onMount } from "svelte";
 
-  // State untuk menyimpan data formulir pendaftaran
-  // TODO: use $state()
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
   let namaSantri = $state('');
   let jenisKelamin = $state('');
   let tanggalLahir = $state('');
@@ -19,7 +19,7 @@
 	let errorMessage = $state('');
 	onMount(async () => {
 		try {
-			const res = await fetch("http://localhost:8000/kelas/", {
+			const res = await fetch(`${PUBLIC_API_BASE_URL}/kelas/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 			});
@@ -52,7 +52,7 @@
     }
 
 		try {
-			const res = await fetch("http://localhost:8000/pendaftaran-siswa/", {
+			const res = await fetch(`${PUBLIC_API_BASE_URL}/pendaftaran-siswa/`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(payload)

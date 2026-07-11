@@ -2,13 +2,14 @@
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let errorMessage = $state("");
 	let daftarUser = $state([]);
 
 	onMount(async () => {
 		try {
-			// TODO: change hardcoded url. Make URL variable placed in $lib dir
-			const response = await fetch("http://localhost:8000/auth/", {
+			const response = await fetch(`${PUBLIC_API_BASE_URL}/auth/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -35,14 +36,14 @@
 
 		try {
 			const resBiodata = await fetch(
-				`http://localhost:8000/biodata-user/by-user/${id}`, {
+				`${PUBLIC_API_BASE_URL}/biodata-user/by-user/${id}`, {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
 			});
 			if (!resBiodata.ok) throw new Error(`${resBiodata.statusText}`);
 
-			const resUser = await fetch(`http://localhost:8000/auth/${id}`, {
+			const resUser = await fetch(`${PUBLIC_API_BASE_URL}/auth/${id}`, {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",

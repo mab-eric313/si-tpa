@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let errorMessage = $state("");
 	let siswa = $state({});
 	let daftarKelas = $state({});
@@ -14,10 +16,10 @@
 	onMount(async () => {
 		try {
 			const [resSiswa, resKelas] = await Promise.all([
-				fetch(`http://localhost:8000/siswa/${siswa_id}`, {
+				fetch(`${PUBLIC_API_BASE_URL}/siswa/${siswa_id}`, {
 					credentials: "include"
 				}),
-				fetch(`http://localhost:8000/kelas/`, {
+				fetch(`${PUBLIC_API_BASE_URL}/kelas/`, {
 					credentials: "include"
 				}),
 			]);
@@ -68,13 +70,13 @@
 	async function handleSubmit() {
 		try {
 			const [resSiswa, resWali] = await Promise.all([
-				fetch(`http://localhost:8000/siswa/${siswa_id}`, {
+				fetch(`${PUBLIC_API_BASE_URL}/siswa/${siswa_id}`, {
 					method: "PATCH",
 					headers: { "Content-Type": "application/json" },
 					credentials: "include",
 					body: JSON.stringify(payloadSiswa)
 				}),
-				fetch(`http://localhost:8000/wali/${wali_id}`, {
+				fetch(`${PUBLIC_API_BASE_URL}/wali/${wali_id}`, {
 					method: "PATCH",
 					headers: { "Content-Type": "application/json" },
 					credentials: "include",
@@ -82,7 +84,7 @@
 				}),
 			]);
 
-			goto("http://localhost:5173/admin/kelola-siswa/");
+			goto(`${PUBLIC_API_BASE_URL}/admin/kelola-siswa/`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;

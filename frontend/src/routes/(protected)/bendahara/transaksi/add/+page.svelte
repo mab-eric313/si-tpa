@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let bendahara = $state({});
 	let errorMessage = $state("");
 
@@ -15,8 +17,8 @@
 	onMount(async () => {
 		try {
 			const [resSiswa, resKaryawan] = await Promise.all([
-				fetch("http://localhost:8000/siswa/", { credentials: "include" }),
-				fetch("http://localhost:8000/biodata-user/", { credentials: "include" }),
+				fetch(`${PUBLIC_API_BASE_URL}/siswa/`, { credentials: "include" }),
+				fetch(`${PUBLIC_API_BASE_URL}/biodata-user/`, { credentials: "include" }),
 			]);
 
 			if (!resSiswa.ok) throw new Error(`Error siswa: ${resSiswa.statusText}`);
@@ -71,7 +73,7 @@
 		}
 
 		try {
-			const response = await fetch("http://localhost:8000/trg-transaksi", {
+			const response = await fetch(`${PUBLIC_API_BASE_URL}/trg-transaksi`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -81,7 +83,7 @@
 
 			const resJSON = await response.json();
 			console.log(resJSON);
-			goto("http://localhost:5173/bendahara/pemasukan");
+			goto(`${PUBLIC_API_BASE_URL}/bendahara/pencatatan`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;
@@ -90,7 +92,7 @@
 </script>
 
 <section class="sidebar-gap">
-	<a href="/bendahara/pemasukan/" class="btn btn-light bi bi-arrow-left mb-5">
+	<a href="/bendahara/pencatatan/" class="btn btn-light bi bi-arrow-left mb-5">
 		Kembali
 	</a>
 	<form action="">
@@ -238,7 +240,7 @@
 				</div>
 			</div>
 		<div class="container d-flex justify-content-end">
-			<a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2">Batal</a>
+			<a href="/bendahara/pencatatan/" class="btn border rounded w-50 mx-2">Batal</a>
 			<!-- <a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2 bg-green text-white">Simpan</a> -->
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"

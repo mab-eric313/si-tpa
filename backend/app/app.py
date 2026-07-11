@@ -36,7 +36,7 @@ app.include_router(trg_log_siswa.router)
 app.include_router(trg_transaksi.router)
 app.include_router(pendaftaran_siswa.router)
 
-origins = ["http://localhost:5173"]
+origins = [config.PUBLIC_FRONTEND_BASE_URL]
 
 app.add_middleware(
     CORSMiddleware,
@@ -53,7 +53,7 @@ async def value_error_handler(request: Request, exc: ValueError):
 @app.get("")
 @app.get("/")
 async def hello():
-    return {"message": "world"}
+    return {"message": "hello world"}
 
 @app.get("/api/data")
 async def read_data():

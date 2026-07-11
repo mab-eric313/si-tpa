@@ -2,6 +2,8 @@
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
 	let errorMessage = $state("");
 	let daftarCalonSiswa = $state([]);
 	let daftarKelas = $state([]);
@@ -10,15 +12,14 @@
 
 	onMount(async () => {
 		try {
-			// TODO: change hardcoded url. Make URL variable placed in $lib dir
 			const [resSiswa, resKelas, resWali] = await Promise.all([
-				fetch("http://localhost:8000/siswa/", { 
+				fetch(`${PUBLIC_API_BASE_URL}/siswa/`, { 
 					credentials: "include",
 				}),
-				fetch("http://localhost:8000/kelas/", { 
+				fetch(`${PUBLIC_API_BASE_URL}/kelas/`, { 
 					credentials: "include",
 				}),
-				fetch("http://localhost:8000/wali/", { 
+				fetch(`${PUBLIC_API_BASE_URL}/wali/`, { 
 					credentials: "include",
 				}),
 			]);
@@ -65,7 +66,7 @@
 
 		try {
 			const res = await fetch(
-				`http://localhost:8000/siswa/${id}`, {
+				`${PUBLIC_API_BASE_URL}/siswa/${id}`, {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
