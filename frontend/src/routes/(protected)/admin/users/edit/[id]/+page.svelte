@@ -80,7 +80,7 @@
 			});
 			if (!resBiodata.ok) throw new Error(`Error: ${resBiodata.statusText}`);
 
-			goto(`${PUBLIC_API_BASE_URL}admin/kelola-pengguna/`);
+			goto(`${PUBLIC_API_BASE_URL}/admin/kelola-pengguna/`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;

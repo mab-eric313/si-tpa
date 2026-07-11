@@ -2,9 +2,12 @@ from datetime import date, datetime
 from enum import Enum as PyEnum
 from typing import Optional, List
 from sqlalchemy import (
-    ForeignKey, String, Integer, Date, DateTime, TIMESTAMP,Enum, text, event, inspect
+    ForeignKey, String, Integer, Date, DateTime, TIMESTAMP,Enum, text, event, 
+    inspect, Time
 )
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, declared_attr
+from sqlalchemy.orm import (
+    DeclarativeBase, Mapped, mapped_column, relationship, declared_attr
+)
 
 # NOTE: Type data conventions
 # nama: String(150)
@@ -20,11 +23,6 @@ class Base(DeclarativeBase):
 class JenisKelamin(str, PyEnum):
     L = "L"
     P = "P"
-
-class NamaKelas(str, PyEnum):
-    JILID_1_3 = "Jilid 1-3"
-    JILID_4_6 = "Jilid 4-6"
-    AL_QURAN = "Al-Quran"
 
 class KategoriPenilaian(str, PyEnum):
     HAFALAN_SURAT = "Hafalan Surat"
@@ -69,6 +67,15 @@ class StatusSiswa(str, PyEnum):
     AKTIF = "Aktif"
     TIDAK_AKTIF = "Tidak Aktif"
 
+class NamaHari(str, PyEnum):
+    SENIN = "Senin"
+    SELASA = "Selasa"
+    RABU = "Rabu"
+    KAMIS = "Kamis"
+    JUMAT = "Jumat"
+    SABTU = "Sabtu"
+    MINGGU = "Minggu"
+
 
 # Tables
 class Wali(Base):
@@ -87,7 +94,11 @@ class Kelas(Base):
     __tablename__ = "kelas"
     
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    nama: Mapped[NamaKelas] = mapped_column(Enum(NamaKelas), nullable=False)
+    nama: Mapped[str] = mapped_column(String(150), nullable=False)
+    start_day: Mapped[NamaHari] = mapped_column(Enum(NamaHari), nullable=False)
+    end_day: Mapped[NamaHari] = mapped_column(Enum(NamaHari), nullable=False)
+    start_time: Mapped[Time] = mapped_column(Time, nullable=False)
+    end_time: Mapped[Time] = mapped_column(Time, nullable=False)
 
     # Relationships
     pendaftaran_siswa: Mapped[List["PendaftaranSiswa"]] = relationship(back_populates="kelas")

@@ -76,6 +76,13 @@
 					Kelola Calon Siswa
 				</a>
 			</li>
+			<li class="nav-sidebar-item">
+				<a href="/admin/kelola-kelas" 
+					class:active={page.url.pathname === "/admin/kelola-kelas"}>
+					<img src={personsIcon} alt="">
+					Kelola Kelas
+				</a>
+			</li>
 		</div>
 		<div class="nav-sidebar-goto-users mb-5">
 			<li class="nav-sidebar-item">

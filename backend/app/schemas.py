@@ -1,5 +1,6 @@
+from app.models import NamaHari
 from pydantic import BaseModel, ConfigDict, Field
-from datetime import date, datetime
+from datetime import date, datetime, time
 
 
 class BaseSchema(BaseModel):
@@ -22,13 +23,25 @@ class KelasBase(BaseModel):
 
 class KelasCreate(KelasBase):
     nama: str
+    start_day: NamaHari
+    end_day: NamaHari
+    start_time: time
+    end_time: time
 
 class KelasUpdate(KelasBase):
     nama: str | None = None
+    start_day: NamaHari | None = None
+    end_day: NamaHari | None = None
+    start_time: time | None = None
+    end_time: time | None = None
 
 class KelasResponse(BaseSchema, KelasBase):
     id: int
     nama: str
+    start_day: NamaHari
+    end_day: NamaHari
+    start_time: time
+    end_time: time
 
 
 # Table: PendaftaranSiswa

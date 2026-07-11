@@ -46,9 +46,9 @@ bendahara = [
 ]
 
 kelas = [
-    {"nama": "Jilid 1-3"},
-    {"nama": "Jilid 4-6"},
-    {"nama": "Al-Quran"},
+    {"nama": "Jilid 1-3", "start_day": "Senin", "end_day": "Sabtu", "start_time": "13:00", "end_time": "14:30"},
+    {"nama": "Jilid 4-6", "start_day": "Senin", "end_day": "Sabtu", "start_time": "15:30", "end_time": "17:00"},
+    {"nama": "Al-Quran", "start_day": "Senin", "end_day": "Sabtu", "start_time": "18:00", "end_time": "18:30"},
 ]
 
 wali = [
