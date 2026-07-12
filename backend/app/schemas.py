@@ -57,6 +57,9 @@ class PendaftaranSiswaCreate(PendaftaranSiswaBase):
     tanggal_lahir_siswa: date
     nama_wali: str
     kelas_id: int
+    foto_kk: str
+    foto_ak: str
+    foto_pas: str
 
 class PendaftaranSiswaUpdate(PendaftaranSiswaBase):
     nama_siswa: str | None = None
@@ -65,6 +68,9 @@ class PendaftaranSiswaUpdate(PendaftaranSiswaBase):
     tanggal_lahir_siswa: date | None = None
     nama_wali: str | None = None
     kelas_id: int | None = None
+    foto_kk: str | None = None
+    foto_ak: str | None = None
+    foto_pas: str | None = None
 
 class PendaftaranSiswaResponse(BaseSchema, PendaftaranSiswaBase):
     id: int
@@ -74,6 +80,9 @@ class PendaftaranSiswaResponse(BaseSchema, PendaftaranSiswaBase):
     tanggal_lahir_siswa: date
     nama_wali: str
     kelas_id: int
+    foto_kk: str
+    foto_ak: str
+    foto_pas: str
 
 class PendaftaranSiswaRelatRes(BaseSchema, PendaftaranSiswaBase):
     id: int
@@ -84,6 +93,9 @@ class PendaftaranSiswaRelatRes(BaseSchema, PendaftaranSiswaBase):
     nama_wali: str
     kelas_id: int
     kelas: KelasResponse | None = None
+    foto_kk: str
+    foto_ak: str
+    foto_pas: str
 
 
 # Table: Siswa

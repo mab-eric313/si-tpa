@@ -108,6 +108,7 @@
 					<th>Alamat Wali</th>
 					<th>No Hp Wali</th>
 					<th>Kelas</th>
+					<th>Foto</th>
 					<th class="text-center">Action</th>
 				</tr>
 				</thead>
@@ -124,6 +125,43 @@
 							<td>{calonSiswa.alamat_wali ?? 'NULL'}</td>
 							<td>{calonSiswa.no_hp_wali ?? 'NULL'}</td>
 							<td>{getNamaKelas(calonSiswa.kelas_id)}</td>
+							<th>
+								<div class="dropdown">
+									<button
+										type="button"
+										class="btn btn-sm btn-primary dropdown-toggle"
+										data-bs-toggle="dropdown" aria-expanded="false"
+										aria-label="Lihat Foto">
+										Lihat
+									</button>
+									<ul class="dropdown-menu">
+										<li>
+											<a class="dropdown-item" 
+											   href={calonSiswa.foto_kk}
+											   target="_blank" 
+											   rel="noopener noreferrer">
+												Foto Kartu Keluarga
+											</a>
+										</li>
+										<li>
+											<a class="dropdown-item" 
+											   href={calonSiswa.foto_ak}
+											   target="_blank" 
+											   rel="noopener noreferrer">
+												Foto Akta Kelahiran
+											</a>
+										</li>
+										<li>
+											<a class="dropdown-item" 
+											   href={calonSiswa.foto_pas}
+											   target="_blank" 
+											   rel="noopener noreferrer">
+												Pas Foto
+											</a>
+										</li>
+									</ul>
+								</div>
+							</th>
 							<td class="text-center">
 								<button
 									class="btn btn-sm btn-success" 

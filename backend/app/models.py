@@ -120,7 +120,9 @@ class PendaftaranSiswa(Base):
     no_hp_wali: Mapped[Optional[str]] = mapped_column(String(20))
     alamat_wali: Mapped[Optional[str]] = mapped_column(String(255))
     kelas_id: Mapped[int] = mapped_column(ForeignKey("kelas.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
-    # siswa_id: Mapped[int] = mapped_column(ForeignKey("siswa.id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
+    foto_kk: Mapped[str] = mapped_column(String(255), nullable=False)
+    foto_ak: Mapped[str] = mapped_column(String(255), nullable=False)
+    foto_pas: Mapped[str] = mapped_column(String(255), nullable=False)
 
     # Relationships
     kelas: Mapped["Kelas"] = relationship(back_populates="pendaftaran_siswa")

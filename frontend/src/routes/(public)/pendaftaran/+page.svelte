@@ -12,6 +12,9 @@
   let alamatWali = $state('');
   let daftarKelas = $state({});
   let selectedKelas = $state('');
+  let fotoKk = $state('');
+  let fotoAk = $state('');
+  let fotoPas = $state('');
 
   // TODO: Add Uploading files
   // let files = $state(null);
@@ -41,6 +44,9 @@
 		no_hp_wali: noHp,
 		alamat_wali: alamatWali,
 		kelas_id: selectedKelas,
+		foto_kk: fotoKk,
+		foto_ak: fotoAk,
+		foto_pas: fotoPas,
 	});
 
   // Fungsi untuk menangani pengiriman form
@@ -60,20 +66,22 @@
 			if (!res.ok) throw new Error(res.statusText);
 
 			daftarKelas = await res.json();
-			$state.snapshot(daftarKelas);
 		} catch (error) {
 			console.error(error);
 		}
 
     const formData = {
       namaSantri,
-			jenisKelamin,
+	  jenisKelamin,
       tanggalLahir,
       alamatSantri,
       namaWali,
       noHp,
       alamatWali,
       selectedKelas,
+  	  fotoKk,
+  	  fotoAk,
+  	  fotoPas,
     };
 
     console.log('Data pendaftaran berhasil dikirim:', formData);
@@ -92,6 +100,9 @@
     noHp = '';
     alamatWali = '';
     selectedKelas = '';
+    fotoKk = '';
+    fotoAk = '';
+    fotoPas = '';
   }
 </script>
 
@@ -109,10 +120,14 @@
     <h2>Syarat Pendaftaran</h2>
     <ul>
       <li>Usia minimal 5 tahun</li>
-      <li>Fotocopy Kartu Keluarga (KK)</li>
-      <li>Fotocopy Akta Kelahiran</li>
-      <li>Pas foto ukuran 3x4 (2 lembar)</li>
       <li>Mengisi formulir pendaftaran dengan lengkap</li>
+	  <li>Masukkan foto-foto yang dibutuhkan ke dalam Google Drive</li>
+	  <ul>
+		  <li>Foto Kartu Keluarga</li>
+		  <li>Foto Akta Kelahiran</li>
+		  <li>Pas foto ukuran 3x4</li>
+	  </ul>
+	  <li>Kemudian salin link foto-foto tersebut lalu masukkan ke dalam form yang sesuai</li>
     </ul>
   </div>
 
@@ -161,7 +176,6 @@
           id="alamat-santri"
           placeholder="Masukkan alamat santri" 
           bind:value={alamatSantri}
-          required
         ></textarea>
       </div>
 
@@ -183,7 +197,6 @@
           type="text" 
           placeholder="contoh: 081234567890" 
           bind:value={noHp}
-          required
         />
       </div>
 
@@ -193,7 +206,6 @@
           id="alamatWali"
           placeholder="Masukkan alamat wali" 
           bind:value={alamatWali}
-          required
         ></textarea>
       </div>
 
@@ -207,8 +219,44 @@
 				<option value={kelas.id}>{kelas.nama}</option>
 			{/each}
 		</select>
-	</div>
-			<button type="submit" class="btn" onclick={handleSubmit}>
+	  </div>
+
+      <div class="form-group">
+        <label for="no-hp">Foto Kartu Keluarga<span>*</span></label>
+        <input 
+          id="no-hp"
+          type="text" 
+          placeholder="Masukkan link foto Kartu Keluarga" 
+          bind:value={fotoKk}
+          required
+        />
+      </div>
+
+
+      <div class="form-group">
+        <label for="no-hp">Foto Akta Kelahiran<span>*</span></label>
+        <input 
+          id="no-hp"
+          type="text" 
+          placeholder="Masukkan link foto Akta Kelahiran" 
+          bind:value={fotoAk}
+          required
+        />
+      </div>
+
+
+      <div class="form-group">
+        <label for="no-hp">Pas Foto 3x4<span>*</span></label>
+        <input 
+          id="no-hp"
+          type="text" 
+          placeholder="Masukkan link pas foto 3x4" 
+          bind:value={fotoPas}
+          required
+        />
+      </div>
+
+	  <button type="submit" class="btn" onclick={handleSubmit}>
         Kirim Pendaftaran
       </button>
     </form>
