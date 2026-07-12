@@ -17,6 +17,7 @@ $ grep -Rn "TODO:" . \
 ./frontend/src/routes/(protected)/admin/kelola-siswa/+page.svelte:107:                          <!-- TODO: Change this and take the data from kelas table -->
 ./frontend/src/routes/(protected)/bendahara/Header.svelte:8:    // TODO: Use Lucide Icons
 ```
+- (HIGH) Add DB_CONNECTION to .env
 - (HIGH) Add Kelola Kelas page, can manage CRUD (Siswa and Kelas) and image
 - (MED) Change all static data in pengajar beranda page
 - (LOW) rename auth.py to user.py
