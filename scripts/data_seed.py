@@ -23,6 +23,8 @@ so you can login using this pre-configured username and password.
     - password: admin1234
 """
 
+from datetime import date
+
 import requests
 import sys
 
@@ -91,6 +93,15 @@ siswa = [
     {"nama": "Fahri Anwar", "jenis_kelamin": "L", "tanggal_lahir": "2012-07-05", "alamat": "", "wali_id": 13, "kelas_id": 3, "pendaftaran_siswa_id": 0},
     {"nama": "Nadia Dewi", "jenis_kelamin": "P", "tanggal_lahir": "2016-01-30", "alamat": "Jl. Kalimantan, GKB, Kec. Manyar", "wali_id": 14, "kelas_id": 1, "pendaftaran_siswa_id": 0},
     {"nama": "Ilham Eko", "jenis_kelamin": "L", "tanggal_lahir": "2011-03-14", "alamat": "Jl. Veteran, Kec. Kebomas", "wali_id": 15, "kelas_id": 3, "pendaftaran_siswa_id": 0},
+]
+
+date_today = str(date.today())
+absensi = [
+    {"siswa_id": 1, "kehadiran": "Hadir", "tanggal": date_today, "note": ""},
+    {"siswa_id": 2, "kehadiran": "Hadir", "tanggal": date_today, "note": ""},
+    {"siswa_id": 3, "kehadiran": "Izin", "tanggal": date_today, "note": "Keperluan keluarga"},
+    {"siswa_id": 4, "kehadiran": "Sakit", "tanggal": date_today, "note": "Demam"},
+    {"siswa_id": 5, "kehadiran": "Hadir", "tanggal": date_today, "note": ""},
 ]
 
 biodata_user = [
@@ -256,12 +267,18 @@ ENTITY_REGISTRY = [
     {"name": "Penilaian Surat", "endpoint": f"{BASE_URL}/penilaian-surat/", "data": penilaian_surat, "is_auth_route": False},
     {"name": "Penilaian Doa", "endpoint": f"{BASE_URL}/penilaian-doa/", "data": penilaian_doa, "is_auth_route": False},
     {"name": "Penilaian Jilid", "endpoint": f"{BASE_URL}/penilaian-jilid/", "data": penilaian_jilid, "is_auth_route": False},
+    {
+        "name": "Absensi",
+        "endpoint": f"{BASE_URL}/absensi/",
+        "data": absensi,
+        "is_auth_route": False
+    },
     # {
-    #     "name": "name",
+    #     "name": "Name",
     #     "endpoint": f"{BASE_URL}/route/",
     #     "data": data,
     #     "is_auth_route": False
-    # }
+    # },
 ]
 
 def get_target_url(entity: dict, operation: str) -> str | None:

@@ -76,6 +76,12 @@ class NamaHari(str, PyEnum):
     SABTU = "Sabtu"
     MINGGU = "Minggu"
 
+class Kehadiran(str, PyEnum):
+    HADIR = "Hadir"
+    IZIN  = "Izin"
+    SAKIT = "Sakit"
+    ALPHA = "Alpha"
+
 
 # Tables
 class Wali(Base):
@@ -148,6 +154,20 @@ class Siswa(Base):
     logs: Mapped[List["TrgLogSiswa"]] = relationship(back_populates="siswa")
     spp_records: Mapped[List["SppSiswa"]] = relationship(back_populates="siswa")
     pendaftaran_siswa: Mapped["PendaftaranSiswa"] = relationship(back_populates="siswa")
+    absensi: Mapped["Absensi"] = relationship(back_populates="siswa")
+
+
+class Absensi(Base):
+    __tablename__ = "absensi"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    siswa_id: Mapped[int] = mapped_column(ForeignKey("siswa.id"), nullable=False)
+    kehadiran: Mapped[Kehadiran] = mapped_column(Enum(Kehadiran), nullable=False)
+    tanggal: Mapped[date] = mapped_column(Date, nullable=False)
+    note: Mapped[str] = mapped_column(String(255), nullable=True)
+
+    # Relationships
+    siswa: Mapped["Siswa"] = relationship(back_populates="absensi")
 
 
 class TrgLogSiswa(Base):

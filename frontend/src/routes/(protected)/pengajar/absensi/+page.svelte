@@ -4,15 +4,22 @@
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
-	let selectedTabelPenilaian = $state("jilid");
-
 	let errorMessage = $state("");
+	let editStatus = $state(false);
+	let isLoading = $state(false);
 
-	let selectedKehadiran = $state([]);
+	let selectedKehadiran = $state({});
+
 	let valueInputCatatan = $state({});
+	function getLocalDate() {
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, '0');
+		const day = String(now.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	}
 
-	$inspect(valueInputCatatan);
-
+	let selectedDate = $state(getLocalDate());
 	let daftarSiswa = $state([]);
 	let daftarKelas = $state([]);
 
@@ -32,14 +39,63 @@
 			daftarSiswa = await resSiswa.json();
 			daftarKelas = await resKelas.json();
 
-			selectedKehadiran = daftarSiswa.map(() => "Hadir");
+			daftarSiswa.forEach(siswa => {
+				selectedKehadiran[siswa.id] = "";
+				valueInputCatatan[siswa.id] = "";
+			});
+
+			resetKehadiranState();
+			await fetchAbsensi(selectedDate);
 		} catch(error) {
 			console.error(error);
 			errorMessage = error.message;
 		}
 	});
 
+	function resetKehadiranState() {
+		const newKehadiran = {};
+		const newCatatan = {};
+		daftarSiswa.forEach(siswa => {
+			newKehadiran[siswa.id] = "";
+			newCatatan[siswa.id] = "";
+		});
+		selectedKehadiran = newKehadiran;
+		valueInputCatatan = newCatatan;
+	}
+
+	async function fetchAbsensi(tanggal) {
+		try {
+			isLoading = true;
+			const res = await fetch(
+				`${PUBLIC_API_BASE_URL}/absensi/tanggal/${tanggal}`, 
+				{ credentials: "include" }
+			);
+			
+			if (!res.ok) throw new Error("Gagal memuat data absensi");
+			
+			const data = await res.json();
+			
+			const newKehadiran = { ...selectedKehadiran };
+			const newCatatan = { ...valueInputCatatan };
+			
+			data.forEach(absensi => {
+				newKehadiran[absensi.siswa_id] = absensi.kehadiran;
+				newCatatan[absensi.siswa_id] = absensi.note || "";
+			});
+			
+			selectedKehadiran = newKehadiran;
+			valueInputCatatan = newCatatan;
+			
+		} catch (error) {
+			console.error("Error fetching absensi:", error);
+			errorMessage = error.message;
+		} finally {
+			isLoading = false;
+		}
+	}
+
 	let selectedKelasId = $state("");
+
 	let filteredSiswa = $derived(
 		daftarSiswa.filter(siswa => {
 			const matchKelas = selectedKelasId === "" || siswa.kelas_id === Number(selectedKelasId);
@@ -50,75 +106,116 @@
 		})
 	);
 
-	function handleAdd() {
-		goto(`siswa/add`);
-	}
-
-	function handleEdit(id, siswa_id) {
-		goto(`siswa/edit/${id}?penilaian=${selectedTabelPenilaian}&siswa_id=${siswa_id}`);
-	}
-
-	async function handleDelete(id) {
-		const konfirmasi = confirm("Yakin ingin menghapus data ini?");
-		if (!konfirmasi) return;
-
-		try {
-			const endpoint = `${endpointMap[selectedTabelPenilaian]}${id}`;
-			const res = await fetch(endpoint, {
-				method: "DELETE",
-				headers: { "Content-Type": "application/json" },
-				credentials: "include",
-			})
-			if (!res.ok) throw new Error(`Error: ${res.statusText}`);
-
-			daftarPenilaian = daftarPenilaian.filter(item => item.id !== id);
-		} catch (error) {
-			console.error("Error deleting data: ", error);
-			errorMessage = error.message;
+	function handleKehadiranChange(siswaId, value) {
+		selectedKehadiran = {
+			...selectedKehadiran,
+			[siswaId]: value
+		};
+		if (value === "Hadir") {
+			valueInputCatatan = {
+				...valueInputCatatan,
+				[siswaId]: ""
+			};
 		}
 	}
 
+	async function handleDateChange() {
+		resetKehadiranState();
+		await fetchAbsensi(selectedDate);
+	}
+
+	async function handleSubmit() {
+		try {
+
+			const belumDiisi = filteredSiswa.filter(s => selectedKehadiran[s.id] === "");
+			if (belumDiisi.length > 0) {
+				alert(`Masih ada ${belumDiisi.length} siswa yang belum diabsen!`);
+				return;
+			}
+
+			const payload = {
+				data: filteredSiswa.map(item => ({
+					siswa_id: item.id,
+					kehadiran: selectedKehadiran[item.id],
+					catatan: valueInputCatatan[item.id] || null,
+					tanggal: selectedDate
+				}))
+			};
+
+			const res = await fetch(`${PUBLIC_API_BASE_URL}/absensi/bulk`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				credentials: "include",
+				body: JSON.stringify(payload)
+			});
+
+			if (!res.ok) {
+				const errorData = await res.json().catch(() => null);
+				throw new Error(errorData?.detail || "Gagal menyimpan absensi");
+			}
+			
+			alert("Absensi berhasil disimpan!");
+			editStatus = false;
+		} catch (error) {
+			console.error(error);
+			errorMessage = error.message;
+		}
+	}
 </script>
 
 <section class="sidebar-gap">
-	<h1 class="my-4">Absensi</h1>
+	<h1 class="my-4">Absensi - {selectedDate}</h1>
 
 	<div class="container border rounded">
 
 		<div class="d-flex justify-content-between">
-			<div class="ms-2 my-3">
-				<span class="mb-2">Pilih Kelas</span>
-				<!-- TODO: Change this and take the data from kelas table -->
-				<select 
-					class="form-select text-center" 
-					bind:value={selectedKelasId}
-					aria-label="Default select example">
-					<option value="">Semua Kelas</option>
-					{#each daftarKelas as kelas}
-						<option value={String(kelas.id)}>{kelas.nama}</option>
-					{/each}
-				</select>
+			<div class="d-flex ms-2 my-3">
+				<div class="mx-3">
+					<span class="mb-2">Pilih Kelas</span>
+					<select 
+						class="form-select text-center" 
+						bind:value={selectedKelasId}
+						aria-label="Pilih kelas">
+						<option value="">Semua Kelas</option>
+						{#each daftarKelas as kelas}
+							<option value={String(kelas.id)}>{kelas.nama}</option>
+						{/each}
+					</select>
+				</div>
+				<div>
+					<span class="mb-2">Pilih Tanggal</span>
+					<input 
+						type="date" 
+						class="form-control" 
+						bind:value={selectedDate}
+						onchange={handleDateChange}>
+				</div>
 			</div>
-			<!--
-			<div class="me-2 my-3">
-				<span class="mb-2">Pilih Status</span>
-				<select 
-					class="form-select text-center" 
-					bind:value={selectedStatus}
-					aria-label="Pilih tabel penilian">
-					<option value="">Semua Status</option>
-					<option value="Aktif">Aktif</option>
-					<option value="Tidak Aktif">Tidak Aktif</option>
-				</select>
+
+			<div class="me-2 mt-4">
+				{#if editStatus === true}
+					<button 
+						class="btn btn-success" 
+						onclick={handleSubmit}>
+						{isLoading ? 'Menyimpan...' : 'Simpan Perubahan'}
+					</button>
+				{:else}
+					<button 
+						class="btn btn-primary" 
+						onclick={() => editStatus = true}>
+						Edit
+					</button>
+				{/if}
 			</div>
-			-->
 		</div>
 
 		<div>
 			{#if errorMessage}
 				<p class="text-danger">{errorMessage}</p>
+			{:else if isLoading}
+				<p>Memuat data...</p>
 			{:else if daftarSiswa.length === 0}
-				<p>Sedang memuat data atau tidak ada data...</p>
+				<p>Tidak ada data siswa...</p>
 			{:else}
 				<table class="table table-bordered text-center">
 					<thead>
@@ -141,13 +238,15 @@
 										<input 
 										 	type="radio" 
 											class="form-check-input ms-0"
-											id={"inputHadir-" + i}
-											name={"kehadiran-" + i}
+											id={"inputHadir-" + item.id}
+											name={"kehadiran-" + item.id}
 											value="Hadir"
-											bind:group={selectedKehadiran[i]}
+											disabled={editStatus === false}
+											checked={selectedKehadiran[item.id] === "Hadir"}
+											onchange={() => handleKehadiranChange(item.id, "Hadir")}
 											style="font-size: 25px;">
 										<label 
-											for={"inputHadir-" + i}
+											for={"inputHadir-" + item.id}
 											class="form-check-label">
 											Hadir
 										</label>
@@ -158,13 +257,15 @@
 										<input 
 										 	type="radio" 
 											class="form-check-input ms-0"
-											id={"inputIzin-" + i}
-											name={"kehadiran-" + i}
+											id={"inputIzin-" + item.id}
+											name={"kehadiran-" + item.id}
 											value="Izin"
-											bind:group={selectedKehadiran[i]}
+											disabled={editStatus === false}
+											checked={selectedKehadiran[item.id] === "Izin"}
+											onchange={() => handleKehadiranChange(item.id, "Izin")}
 											style="font-size: 25px;">
 										<label 
-											for={"inputIzin-" + i}
+											for={"inputIzin-" + item.id}
 											class="form-check-label">
 											Izin
 										</label>
@@ -175,13 +276,15 @@
 										<input 
 										 	type="radio" 
 											class="form-check-input ms-0"
-											id={"inputSakit-" + i}
-											name={"kehadiran-" + i}
+											id={"inputSakit-" + item.id}
+											name={"kehadiran-" + item.id}
 											value="Sakit"
-											bind:group={selectedKehadiran[i]}
+											disabled={editStatus === false}
+											checked={selectedKehadiran[item.id] === "Sakit"}
+											onchange={() => handleKehadiranChange(item.id, "Sakit")}
 											style="font-size: 25px;">
 										<label 
-											for={"inputSakit-" + i}
+											for={"inputSakit-" + item.id}
 											class="form-check-label">
 											Sakit
 										</label>
@@ -192,33 +295,32 @@
 										<input 
 										 	type="radio" 
 											class="form-check-input ms-0"
-											id={"inputAlpha-" + i}
-											name={"kehadiran-" + i}
+											id={"inputAlpha-" + item.id}
+											name={"kehadiran-" + item.id}
 											value="Alpha"
-											bind:group={selectedKehadiran[i]}
+											disabled={editStatus === false}
+											checked={selectedKehadiran[item.id] === "Alpha"}
+											onchange={() => handleKehadiranChange(item.id, "Alpha")}
 											style="font-size: 25px;">
 										<label 
-											for={"inputAlpha-" + i}
+											for={"inputAlpha-" + item.id}
 											class="form-check-label">
 											Alpha
 										</label>
 									</div>
 								</td>
 								<td>
-									{#if selectedKehadiran[i] == "Hadir"}
-										<input 
-											type="text" 
-											class="form-control text-center" 
-											placeholder="Tambahkan catatan"
-											value=""
-											disabled>
-									{:else}
-										<input 
-											type="text" 
-											class="form-control text-center" 
-											placeholder="Tambahkan catatan"
-											bind:value={valueInputCatatan[item.id]}>
-									{/if}
+									<input 
+										type="text" 
+										class="form-control text-center" 
+										placeholder="Tambahkan catatan"
+										bind:value={valueInputCatatan[item.id]}
+										disabled={
+											selectedKehadiran[item.id] === "Hadir" ||
+											selectedKehadiran[item.id] === "" ||
+											editStatus === false
+										}
+									/>
 								</td>
 							</tr>
 						{/each}
@@ -238,14 +340,6 @@
 
 	tr:hover {
 		background-color: #f1f5f9;
-	}
-
-	.select-width {
-		width: 20%;
-	}
-
-	.fs-small {
-		font-size: 15px;
 	}
 
 	.bg-radio-green .form-check-input:checked {

@@ -1,6 +1,7 @@
-from app.models import NamaHari
+from app.models import NamaHari, Kehadiran
 from pydantic import BaseModel, ConfigDict, Field
 from datetime import date, datetime, time
+from typing import List
 
 
 class BaseSchema(BaseModel):
@@ -137,6 +138,29 @@ class SiswaResponse(BaseSchema, SiswaBase):
     wali_id: int
     kelas_id: int
     status: str
+
+
+# Table: Absensi
+class AbsensiBase(BaseModel):
+    note: str | None = None
+
+class AbsensiCreate(AbsensiBase):
+    siswa_id: int
+    kehadiran: Kehadiran
+    tanggal: date
+
+class AbsensiUpdate(AbsensiBase):
+    siswa_id: int | None = None
+    kehadiran: Kehadiran | None = None
+    tanggal: date | None = None
+
+class AbsensiResponse(BaseSchema, AbsensiBase):
+    siswa_id: int
+    kehadiran: Kehadiran
+    tanggal: date
+
+class AbsensiBulkCreate(BaseModel):
+    data: List[AbsensiCreate]
 
 
 # Table: Wali
