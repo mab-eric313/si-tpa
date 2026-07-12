@@ -57,13 +57,12 @@
 				</a>
 			</li>
 			<li class="nav-sidebar-item">
-				<a href="/pengajar/kelas" 
-					class:active={page.url.pathname === "/pengajar/kelas"}>
+				<a href="/pengajar/penilaian" 
+					class:active={page.url.pathname === "/pengajar/penilaian"}>
 					<img src={personsIcon} alt="">
-					Kelas
+					Penilaian
 				</a>
 			</li>
-			<!--
 			<li class="nav-sidebar-item">
 				<a href="/pengajar/absensi"
 				   class:active={page.url.pathname === "/pengajar/absensi"}>
@@ -71,6 +70,7 @@
 					Absensi
 				</a>
 			</li>
+			<!--
 			<li class="nav-sidebar-item">
 				<a href="/pengajar/rekap-nilai"
 				   class:active={page.url.pathname === "/pengajar/rekap-nilai"}>

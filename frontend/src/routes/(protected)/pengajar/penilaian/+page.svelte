@@ -94,6 +94,7 @@
 		}
 	}
 
+	// TODO: Remove this unused code
 	let selectedKelasId = $state("");
 	let filteredSiswa = $derived(
 		selectedKelasId === ""
@@ -104,8 +105,8 @@
 
 <section class="sidebar-gap">
 	<div class="my-4">
-		<h1>Kelola Data Kelas</h1>
-		<span>Kelola informasi kelas dan pantau perkembangan mereka</span>
+		<h1>Kelola Data Penilaian</h1>
+		<span>Kelola informasi penilaian dan pantau perkembangan mereka</span>
 	</div>
 
 	<div class="container border rounded">
