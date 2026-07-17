@@ -18,13 +18,14 @@ def get_password() -> str:
 if not password:
     password = get_password()
 
-DB_NAME     = os.getenv("DB_NAME")
-DB_USER     = os.getenv("DB_USER")
-DB_HOST     = os.getenv("DB_HOST")
-DB_PORT     = os.getenv("DB_PORT")
-DB_PASSWORD = password
+DB_CONNECTION = os.getenv("DB_CONNECTION")
+DB_NAME       = os.getenv("DB_NAME")
+DB_USER       = os.getenv("DB_USER")
+DB_HOST       = os.getenv("DB_HOST")
+DB_PORT       = os.getenv("DB_PORT")
+DB_PASSWORD   = password
 
-DB_URL = f"mariadb+asyncmy://" \
+DB_URL = f"{DB_CONNECTION}+asyncmy://" \
          f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 BASE_DB_URL =  f"mariadb+asyncmy://" \
