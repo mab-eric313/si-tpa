@@ -19,6 +19,9 @@ $ grep -Rn "TODO:" . \
 ```
 - (HIGH) Add DB_CONNECTION to .env
 - (HIGH) Add Kelola Kelas page, can manage CRUD (Siswa and Kelas) and image
+- (MED) Remove kelas field in pendaftaran page
+- (MED) Add comma in number field
+- (MED) Add Backup automation
 - (MED) Change all static data in pengajar beranda page
 - (LOW) rename auth.py to user.py
 - (LOW) Check console log, maybe there are debug message
