@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+	import { PUBLIC_FRONTEND_BASE_URL } from "$env/static/public";
 
 	let errorMessage = $state("");
 	let siswa = $state({});
@@ -84,7 +85,7 @@
 				}),
 			]);
 
-			goto(`${PUBLIC_API_BASE_URL}/admin/kelola-siswa/`);
+			goto(`${PUBLIC_FRONTEND_BASE_URL}/admin/kelola-siswa`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;

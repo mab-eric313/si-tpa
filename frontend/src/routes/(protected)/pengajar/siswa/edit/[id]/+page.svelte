@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+	import { PUBLIC_FRONTEND_BASE_URL } from "$env/static/public";
 
 	let lulusUlang = $state("lulus");
 	let penilaian = $state($page.url.searchParams.get("penilaian") ?? "surat");
@@ -45,6 +46,40 @@
 		}, 
 	});
 
+    onMount(() => {
+        if (id) {
+            fetchExistingData();
+        }
+    });
+
+    async function fetchExistingData() {
+        try {
+            const response = await fetch(endpointMap[penilaian], {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include"
+            });
+
+            if (!response.ok) throw new Error(`Gagal mengambil data: ${response.statusText}`);
+            
+            const data = await response.json();
+
+            if (data) {
+                input[penilaian] = {
+                    ...input[penilaian],
+                    ...data
+                };
+
+                if (data.lulus_ulang) {
+                    lulusUlang = String(data.lulus_ulang).toLowerCase();
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching existing data: ", error);
+            errorMessage = error.message;
+        }
+    }
+
 	let payload = $derived({ 
 		...input[penilaian], 
 		lulus_ulang: lulusUlang, 
@@ -62,7 +97,7 @@
 			if (!response.ok) throw new Error(`Error: ${response.statusText}`);
 
 			penilaianSurat = await response.json();
-			goto(`${PUBLIC_API_BASE_URL}/pengajar/kelas`);
+			goto(`${PUBLIC_FRONTEND_BASE_URL}/pengajar/penilaian`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;
@@ -71,7 +106,7 @@
 </script>
 
 <section class="sidebar-gap">
-	<a href="/pengajar/kelas/" class="btn btn-light bi bi-arrow-left mb-5">
+	<a href="/pengajar/penilaian/" class="btn btn-light bi bi-arrow-left mb-5">
 		Kembali
 	</a>
 	<form action="">
@@ -294,7 +329,7 @@
 		</div>
 
 		<div class="container d-flex justify-content-end">
-			<a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2">Batal</a>
+			<a href="/pengajar/penilaian/" class="btn border rounded w-50 mx-2">Batal</a>
 			<!-- <a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2 bg-green text-white">Simpan</a> -->
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"

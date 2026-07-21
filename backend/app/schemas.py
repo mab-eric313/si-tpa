@@ -428,7 +428,6 @@ class PenilaianJilidCreate(PenilaianJilidBase):
     nilai_tajwid: int
     nilai_makhraj: int
     nilai_kelancaran: int
-    nilai_akhir: int
     # waktu_penilaian: str = "Harian"
 
 class PenilaianJilidUpdate(PenilaianJilidBase):
@@ -438,7 +437,6 @@ class PenilaianJilidUpdate(PenilaianJilidBase):
     nilai_tajwid: int | None = None
     nilai_makhraj: int | None = None
     nilai_kelancaran: int | None = None
-    nilai_akhir: int | None = None
     # waktu_penilaian: str | None = None
 
 class PenilaianJilidResponse(BaseSchema, PenilaianJilidBase):
@@ -450,7 +448,6 @@ class PenilaianJilidResponse(BaseSchema, PenilaianJilidBase):
     nilai_tajwid: int
     nilai_makhraj: int
     nilai_kelancaran: int
-    nilai_akhir: int
     # waktu_penilaian: str
     updated_at: datetime
 

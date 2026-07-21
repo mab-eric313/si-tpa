@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+	import { PUBLIC_FRONTEND_BASE_URL } from "$env/static/public";
 
 	let bendahara = $state({});
 	let errorMessage = $state("");
@@ -45,7 +46,7 @@
 		daftarSiswa.find(s => s.nama === inputBendahara.spp_siswa_nama)?.id ?? null
 	);
 	let gaji_pengajar_id = $derived(
-		daftarKaryawan.find(k => k.nama === inputBendahara.gaji_pengajar_nama)?.id ?? null
+		daftarKaryawan.find(k => k.nama_lengkap === inputBendahara.gaji_pengajar_nama)?.id ?? null
 	);
 
 	let kategori = $state("");
@@ -83,7 +84,7 @@
 
 			const resJSON = await response.json();
 			console.log(resJSON);
-			goto(`${PUBLIC_API_BASE_URL}/bendahara/pencatatan`);
+			goto(`${PUBLIC_FRONTEND_BASE_URL}/bendahara/pencatatan`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;

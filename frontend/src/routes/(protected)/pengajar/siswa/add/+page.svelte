@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+	import { PUBLIC_FRONTEND_BASE_URL } from "$env/static/public";
 
 	let lulusUlang = $state("lulus");
 	let penilaian = $state($page.url.searchParams.get("penilaian") ?? "surat");
@@ -71,7 +72,7 @@
 
 	onMount(async () => {
 		try {
-			const res = await fetch("${PUBLIC_API_BASE_URL}/siswa/", {
+			const res = await fetch(`${PUBLIC_API_BASE_URL}/siswa/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -92,7 +93,7 @@
 	let payload = $derived({ 
 		...input[penilaian], 
 		lulus_ulang: lulusUlang, 
-		siswa_id: selectedSiswaId
+		siswa_id: Number(selectedSiswaId)
 	});
 	$inspect(payload);
 	async function handleSubmit() {
@@ -106,7 +107,7 @@
 			if (!response.ok) throw new Error(`${response.statusText}`);
 
 			penilaianSurat = await response.json();
-			goto(`${PUBLIC_API_BASE_URL}/pengajar/kelas`);
+			goto(`${PUBLIC_FRONTEND_BASE_URL}/pengajar/penilaian/`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;
@@ -116,7 +117,7 @@
 </script>
 
 <section class="sidebar-gap">
-	<a href="/pengajar/kelas/" class="btn btn-light bi bi-arrow-left mb-5">
+	<a href="/pengajar/penilaian/" class="btn btn-light bi bi-arrow-left mb-5">
 		Kembali
 	</a>
 	<form action="">
@@ -371,7 +372,7 @@
 		</div>
 
 		<div class="container d-flex justify-content-end">
-			<a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2">Batal</a>
+			<a href="/pengajar/penilaian/" class="btn border rounded w-50 mx-2">Batal</a>
 			<!-- <a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2 bg-green text-white">Simpan</a> -->
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"
