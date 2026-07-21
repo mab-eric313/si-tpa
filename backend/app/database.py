@@ -10,9 +10,15 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine
 )
 
+from config import connect_args
+
 async def create_db_if_not_exists(base_db_url: str, db_name: str | None):
     # NOTE: set echo=False when the project is ready for production
-    temp_engine = create_async_engine(base_db_url, echo=True)
+    temp_engine = create_async_engine(
+        base_db_url, 
+        echo=True,
+        connect_args=connect_args
+    )
     async with temp_engine.connect() as conn:
         await conn.execute(text(f"CREATE DATABASE IF NOT EXISTS `{db_name}`"))
         await conn.commit()
@@ -22,7 +28,11 @@ async def create_db_if_not_exists(base_db_url: str, db_name: str | None):
 DB_URL = os.environ["DB_URL"]
 
 # NOTE: set echo=False when the project is ready for production
-engine: AsyncEngine = create_async_engine(DB_URL, echo=True)
+engine: AsyncEngine = create_async_engine(
+    DB_URL, 
+    echo=True,
+    connect_args=connect_args
+)
 
 Session = async_sessionmaker(
     bind=engine, class_=AsyncSession, expire_on_commit=False

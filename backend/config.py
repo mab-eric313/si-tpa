@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import getpass
 import keyring
 import os
+import ssl
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ def get_password() -> str:
 
     return password
 
-if not password:
+if not os.getenv("DB_PASS") and not password:
     password = get_password()
 
 DB_CONNECTION = os.getenv("DB_CONNECTION")
@@ -23,13 +24,22 @@ DB_NAME       = os.getenv("DB_NAME")
 DB_USER       = os.getenv("DB_USER")
 DB_HOST       = os.getenv("DB_HOST")
 DB_PORT       = os.getenv("DB_PORT")
-DB_PASSWORD   = password
+DB_PASS       = os.getenv("DB_PASS", password)
+DB_USE_SSL    = os.getenv("DB_USE_SSL", "false").lower() == "true"
+
+connect_args = {}
+
+if DB_USE_SSL:
+    ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+    connect_args["ssl"] = ssl_context
 
 DB_URL = f"{DB_CONNECTION}+asyncmy://" \
-         f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+         f"{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-BASE_DB_URL =  f"mariadb+asyncmy://" \
-            f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}"
+BASE_DB_URL =  f"{DB_CONNECTION}+asyncmy://" \
+            f"{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}"
 
 SECRET_KEY = os.getenv("SECRET_KEY", "")
 

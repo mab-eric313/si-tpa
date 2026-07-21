@@ -3,6 +3,7 @@
 
 # Database
 *.db
+data_seed_prod.py
 
 # Output
 .output
