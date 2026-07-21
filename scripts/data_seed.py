@@ -195,19 +195,19 @@ penilaian_doa = [
 ]
 
 penilaian_jilid = [
-    {"siswa_id": 3, "materi_bacaan": "Halaman 10", "tanggal_setor": "2026-05-10", "nilai_tajwid": 75, "nilai_makhraj": 70, "nilai_kelancaran": 80, "nilai_akhir": 75, 
+    {"siswa_id": 3, "materi_bacaan": "Halaman 10", "tanggal_setor": "2026-05-10", "nilai_tajwid": 75, "nilai_makhraj": 70, "nilai_kelancaran": 80, 
      # "waktu_penilaian": "Harian", 
      "lulus_ulang": "Lulus", "note": "Perhatikan panjang pendek"},
-    {"siswa_id": 6, "materi_bacaan": "Halaman 15", "tanggal_setor": "2026-05-11", "nilai_tajwid": 85, "nilai_makhraj": 80, "nilai_kelancaran": 85, "nilai_akhir": 83, 
+    {"siswa_id": 6, "materi_bacaan": "Halaman 15", "tanggal_setor": "2026-05-11", "nilai_tajwid": 85, "nilai_makhraj": 80, "nilai_kelancaran": 85,
      # "waktu_penilaian": "Harian", 
      "lulus_ulang": "Lulus", "note": "Naik halaman"},
-    {"siswa_id": 8, "materi_bacaan": "Halaman 3", "tanggal_setor": "2026-05-12", "nilai_tajwid": 65, "nilai_makhraj": 60, "nilai_kelancaran": 70, "nilai_akhir": 65, 
+    {"siswa_id": 8, "materi_bacaan": "Halaman 3", "tanggal_setor": "2026-05-12", "nilai_tajwid": 65, "nilai_makhraj": 60, "nilai_kelancaran": 70,
      # "waktu_penilaian": "Harian", 
      "lulus_ulang": "Ulang", "note": "Ulangi halaman ini besok"},
-    {"siswa_id": 11, "materi_bacaan": "Halaman 22", "tanggal_setor": "2026-05-13", "nilai_tajwid": 80, "nilai_makhraj": 75, "nilai_kelancaran": 80, "nilai_akhir": 78, 
+    {"siswa_id": 11, "materi_bacaan": "Halaman 22", "tanggal_setor": "2026-05-13", "nilai_tajwid": 80, "nilai_makhraj": 75, "nilai_kelancaran": 80,
      # "waktu_penilaian": "Harian", 
      "lulus_ulang": "Lulus", "note": "Lancar"},
-    {"siswa_id": 15, "materi_bacaan": "Halaman 5", "tanggal_setor": "2026-05-14", "nilai_tajwid": 70, "nilai_makhraj": 65, "nilai_kelancaran": 70, "nilai_akhir": 68, 
+    {"siswa_id": 15, "materi_bacaan": "Halaman 5", "tanggal_setor": "2026-05-14", "nilai_tajwid": 70, "nilai_makhraj": 65, "nilai_kelancaran": 70,
      # "waktu_penilaian": "Harian", 
      "lulus_ulang": "Ulang", "note": "Makhraj huruf 'tsa' masih keliru"},
 ]

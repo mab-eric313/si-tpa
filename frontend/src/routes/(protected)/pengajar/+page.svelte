@@ -115,8 +115,8 @@
 </script>
 
 <section class="sidebar-gap">
-	<h1 class="py-5">Selamat Datang, Ustadz ...</h1>
-	<div class="container pb-5">
+	<!-- <h1 class="py-5">Selamat Datang, Ustadz ...</h1> -->
+	<div class="container py-5">
 		<div class="row mb-5">
 			<div class="col text-center d-flex align-items-center justify-content-center shadow-none border">
 				<i class="bi bi-check-lg rounded-circle rounded-icon-total-hadir"></i>

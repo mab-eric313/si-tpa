@@ -328,7 +328,6 @@ class PenilaianJilid(Base, BasePenilaian):
     nilai_tajwid: Mapped[int] = mapped_column(Integer, nullable=False)
     nilai_makhraj: Mapped[int] = mapped_column(Integer, nullable=False)
     nilai_kelancaran: Mapped[int] = mapped_column(Integer, nullable=False)
-    nilai_akhir: Mapped[int] = mapped_column(Integer, nullable=False)
 
 
 # Triggers
