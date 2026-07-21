@@ -17,11 +17,13 @@ $ grep -Rn "TODO:" . \
 ./frontend/src/routes/(protected)/admin/kelola-siswa/+page.svelte:107:                          <!-- TODO: Change this and take the data from kelas table -->
 ./frontend/src/routes/(protected)/bendahara/Header.svelte:8:    // TODO: Use Lucide Icons
 ```
-- (HIGH) Add DB_CONNECTION to .env
-- (HIGH) Add Kelola Kelas page, can manage CRUD (Siswa and Kelas) and image
+- (HIGH) Add column `mengajar` in table `pengajar` 
+    for assigning to what class
+
 - (MED) Remove kelas field in pendaftaran page
+- (MED) What the difference between "Nama Pencatatan" dan "Catatan"
 - (MED) Add comma in number field
 - (MED) Add Backup automation
-- (MED) Change all static data in pengajar beranda page
 - (LOW) rename auth.py to user.py
 - (LOW) Check console log, maybe there are debug message
+- (LOW) Change name `PUBLIC_FRONTEND_BASE_URL` to `PUBLIC_FE_BASE_URL` in .env
