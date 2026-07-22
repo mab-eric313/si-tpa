@@ -1,9 +1,17 @@
-<!-- TODO: class schedule still static -->
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from "$app/navigation";
 
+	import { authState } from '$lib/authStore.svelte';
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
+	$effect(() => {
+        if (!authState.isLoggedIn || 
+			authState.role !== 'Admin' || 
+			authState.role !== 'Pengajar') {
+            goto('/login');
+        }
+    });
 
 	function handleEdit(id) {
 		goto(`pengajar/edit/${id}`);
@@ -114,6 +122,7 @@
 	}
 </script>
 
+{#if authState.isLoggedIn && authState.role === 'Admin'}
 <section class="sidebar-gap">
 	<!-- <h1 class="py-5">Selamat Datang, Ustadz ...</h1> -->
 	<div class="container py-5">
@@ -217,6 +226,11 @@
 		</div>
 	</div>
 </section>
+{:else}
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <p>Memverifikasi akses...</p>
+    </div>
+{/if}
 
 <style>
 	.sidebar-gap {
