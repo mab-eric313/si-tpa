@@ -1,6 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
-	import { authState } from "$lib/authStore";
+	import { setAuth } from '$lib/authStore';
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
@@ -31,6 +31,16 @@
 				const errorData = await response.json();
 				errorMessage = errorData.detail || "Terjadi kesalahan saat login";
 				return;
+			} else {
+				const data = await response.json();
+				setAuth({
+					username: data.username,
+					role: data.role
+				});
+
+				if (data.role === "Admin") {
+					goto("/admin");
+				}
 			}
 
 			const data = await response.json();
