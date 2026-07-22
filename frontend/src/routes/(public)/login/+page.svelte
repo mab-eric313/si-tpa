@@ -38,33 +38,37 @@
 					role: data.role
 				});
 
-				if (data.role === "Admin") {
+				if (data.role === "Pengajar") {
+					goto("/pengajar");
+				}
+				else if (data.role === "Bendahara") {
+					goto("/bendahara/pencatatan");
+				}
+				else if (data.role === "Admin") {
 					goto("/admin");
 				}
+				else goto("/login")
 			}
 
-			const data = await response.json();
-			console.log(data);
-
-			authState.set({
+			/*
+			// TOOD: Make sure if this code is work or not
+			setAuth({
 				isLoggedIn: true,
 				username: data.username,
 				role: data.role,
 			})
 
 			if (data.role === "Pengajar") {
-				console.log("(data.role === 'Pengajar') TRUE");
 				goto("/pengajar");
 			}
 			else if (data.role === "Bendahara") {
-				console.log("(data.role === 'Bendahara') TRUE");
 				goto("/bendahara/pencatatan");
 			}
 			else if (data.role === "Admin") {
-				console.log("(data.role === 'Admin') TRUE");
 				goto("/admin");
 			}
-			else goto("/")
+			*/
+
 
 		} catch {
 			loginSuccess = false;

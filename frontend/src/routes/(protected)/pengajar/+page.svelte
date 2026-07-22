@@ -7,8 +7,7 @@
 
 	$effect(() => {
         if (!authState.isLoggedIn || 
-			authState.role !== 'Admin' || 
-			authState.role !== 'Pengajar') {
+			(authState.role !== 'Admin' && authState.role !== 'Pengajar')) {
             goto('/login');
         }
     });
@@ -45,9 +44,13 @@
 		try {
 			const [resSiswa, resAbsensi] = await Promise.all([
 				fetch(`${PUBLIC_API_BASE_URL}/siswa/`, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" },
 					credentials: "include"
 				}),
 				fetch(`${PUBLIC_API_BASE_URL}/absensi/tanggal/${getLocalDate()}`, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" },
 					credentials: "include"
 				}),
 			]);
@@ -122,7 +125,7 @@
 	}
 </script>
 
-{#if authState.isLoggedIn && authState.role === 'Admin'}
+{#if authState.isLoggedIn && (authState.role === 'Admin' || authState.role === 'Pengajar')}
 <section class="sidebar-gap">
 	<!-- <h1 class="py-5">Selamat Datang, Ustadz ...</h1> -->
 	<div class="container py-5">
