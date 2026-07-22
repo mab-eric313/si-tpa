@@ -7,10 +7,12 @@ $ grep -Rn "TODO:" . \
     --exclude="TODO.md" \
     --exclude="*.bak"
 ./frontend/src/routes/(public)/login/+page.svelte:132:                          <!-- TODO: "Ingat Saya" is not working -->
-./frontend/src/routes/(public)/pendaftaran/+page.svelte:16:  // TODO: Add Uploading files
+./frontend/src/routes/(public)/pendaftaran/+page.svelte:19:  // TODO: Add Uploading files
 ./frontend/src/routes/(protected)/pengajar/Header.svelte:9:     // TODO: change icons to Lucide
 ./frontend/src/routes/(protected)/pengajar/Header.svelte:49:                            <!-- TODO: Add user icon -->
-./frontend/src/routes/(protected)/pengajar/+page.svelte:1:<!-- TODO: All '...' is need to take data from database -->
+./frontend/src/routes/(protected)/pengajar/+page.svelte:1:<!-- TODO: class schedule still static -->
+./frontend/src/routes/(protected)/pengajar/absensi/+page.svelte:102:                    // TODO: check if siswa is active
+./frontend/src/routes/(protected)/pengajar/penilaian/+page.svelte:97:   // TODO: Remove this unused code
 ./frontend/src/routes/(protected)/admin/users/add/+page.svelte:10:      // TODO: add kelas_id when user select role "Pengajar"
 ./frontend/src/routes/(protected)/admin/kelola-calon-siswa/+page.svelte:64:     /* TODO: Add edit page for pendaftaran siswa
 ./frontend/src/routes/(protected)/admin/Header.svelte:9:        // TODO: change icons to Lucide
