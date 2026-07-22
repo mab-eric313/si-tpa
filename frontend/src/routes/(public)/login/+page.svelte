@@ -1,6 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
-	import { setAuth } from '$lib/authStore';
+	import { setAuth } from '$lib/authStore.svelte';
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 

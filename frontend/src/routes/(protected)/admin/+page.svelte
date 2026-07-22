@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
-	import { authState } from '$lib/authStore';
+	import { authState } from '$lib/authStore.svelte';
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
 	$effect(() => {
