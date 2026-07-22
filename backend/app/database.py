@@ -17,7 +17,8 @@ async def create_db_if_not_exists(base_db_url: str, db_name: str | None):
     temp_engine = create_async_engine(
         base_db_url, 
         echo=False,
-        connect_args=connect_args
+        connect_args=connect_args,
+        pool_pre_ping=True
     )
     async with temp_engine.connect() as conn:
         await conn.execute(text(f"CREATE DATABASE IF NOT EXISTS `{db_name}`"))
@@ -31,7 +32,8 @@ DB_URL = os.environ["DB_URL"]
 engine: AsyncEngine = create_async_engine(
     DB_URL, 
     echo=False,
-    connect_args=connect_args
+    connect_args=connect_args,
+    pool_pre_ping=True
 )
 
 Session = async_sessionmaker(
