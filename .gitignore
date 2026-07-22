@@ -10,7 +10,7 @@ data_seed_prod.py
 .vercel
 .netlify
 .wrangler
-/.svelte-kit
+.svelte-kit
 /build
 
 # OS

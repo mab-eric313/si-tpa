@@ -1,7 +1,6 @@
 [project]
 name = "SI-TPA"
 description = "Website Sistem Informasi untuk Taman Pendidikan Al-Quran"
-readme = "README.md"
 requires-python = ">=3.13"
 version = "0.1.0"
 authors = [
@@ -24,8 +23,8 @@ dependencies = [
 	"pyjwt>=2.13.0",
 ]
 
-[tool.setuptools]
-packages = ["backend", "backend.app", "backend.app.routers", "backend.app.tests"]
+# [tool.setuptools]
+# packages = ["backend", "backend.app", "backend.app.routers", "backend.app.tests"]
 
 [tool.poetry]
 package-mode = false
