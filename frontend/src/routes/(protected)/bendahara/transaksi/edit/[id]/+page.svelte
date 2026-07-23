@@ -87,7 +87,6 @@
 			if (!response.ok) throw new Error(`Error: ${response.statusText}`);
 
 			const resJSON = await response.json();
-			console.log(resJSON);
 			goto(`${PUBLIC_API_BASE_URL}/bendahara/pencatatan`);
 		} catch(error) {
 			console.error("Error fetching data: ", error);

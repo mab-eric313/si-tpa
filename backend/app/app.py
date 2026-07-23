@@ -37,7 +37,10 @@ app.include_router(trg_transaksi.router)
 app.include_router(pendaftaran_siswa.router)
 app.include_router(absensi.router)
 
-origins = [config.PUBLIC_FRONTEND_BASE_URL]
+origins = [
+    config.PUBLIC_FRONTEND_BASE_URL,
+    "https://si-tpa.vercel.app",
+]
 
 app.add_middleware(
     CORSMiddleware,

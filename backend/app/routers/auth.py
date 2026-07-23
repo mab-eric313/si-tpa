@@ -30,6 +30,35 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+def set_auth_cookie(response: Response, token: str):
+    """Set cookie dengan semua atribut yang dibutuhkan untuk cross-site + CHIPS"""
+    response.set_cookie(
+        key="access_token",
+        value=token,
+        httponly=True,
+        samesite="none",
+        secure=True,
+        max_age=ACCESS_TOKEN_EXPIRES_MINUTE * 60,
+        path="/",
+    )
+    current_cookie = response.headers.get("set-cookie", "")
+    if current_cookie and "Partitioned" not in current_cookie:
+        response.headers["set-cookie"] = f"{current_cookie}; Partitioned"
+
+
+def delete_auth_cookie(response: Response):
+    """Hapus cookie dengan parameter yang SAMA PERSIS dengan set_auth_cookie"""
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        httponly=True,
+        samesite="none",
+        secure=True,
+    )
+    current_cookie = response.headers.get("set-cookie", "")
+    if current_cookie and "Partitioned" not in current_cookie:
+        response.headers["set-cookie"] = f"{current_cookie}; Partitioned"
+
 # Register and Login
 @router.post("/register/", response_model=UserResponse)
 async def register(payload: UserCreate, session: AsyncSession = Depends(get_session)):
@@ -69,23 +98,7 @@ async def login(
             data={"sub": str(user_login.id), "role": user_login.role}, 
             expires_delta=token_expires
         )
-        response.set_cookie(
-            key="access_token",
-            value=token,
-            httponly=True,
-            samesite="lax",
-            secure=False,
-            max_age=ACCESS_TOKEN_EXPIRES_MINUTE * 60
-        )
-
-        # query = select(User) \
-        #     .options(selectinload(User.biodata)) \
-        #     .where(User.id == id)
-        # result = await session.scalars(query)
-        # user = result.first()
-        # if not user:
-        #     raise HTTPException(status_code=404, detail="User tidak ditemukan")
-        # return user
+        set_auth_cookie(response, token)
         return user_login
 
     raise HTTPException(
@@ -95,13 +108,7 @@ async def login(
 
 @router.post("/logout/")
 async def logout(response: Response):
-    response.delete_cookie(
-        key="access_token",
-        path="/",
-        httponly=True,
-        samesite="lax",
-        secure=False
-    )
+    delete_auth_cookie(response)
     return {"detail": "Logout successfully"}
 
 # CRUD

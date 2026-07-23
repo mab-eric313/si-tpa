@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
+/*
 export function load({ cookies }) {
 	const token = cookies.get('access_token');
 	if (!token) {
@@ -21,4 +22,9 @@ export function load({ cookies }) {
 		console.error("catch error");
 		throw redirect(307, '/login');
 	}
+}
+*/
+
+export function load() {
+	return {};
 }

@@ -1,30 +1,33 @@
-from pathlib import Path
-from dotenv import load_dotenv
-import getpass
-import keyring
 import os
 import ssl
+from pathlib import Path
+from dotenv import load_dotenv
 
 load_dotenv()
 
 SERVICE_NAME = "si-tpa_db"
-password = keyring.get_password(SERVICE_NAME, os.getenv("DB_USER", ""))
+DB_USER = os.getenv("DB_USER", "")
 
-def get_password() -> str:
-    password = getpass.getpass("enter your DB password: ")
-    keyring.set_password(SERVICE_NAME, os.getenv("DB_USER", ""), password)
+DB_PASS = os.getenv("DB_PASS")
 
-    return password
+if not DB_PASS:
+    try:
+        import keyring
+        DB_PASS = keyring.get_password(SERVICE_NAME, DB_USER)
+    except Exception:
+        DB_PASS = None
 
-if not os.getenv("DB_PASS") and not password:
-    password = get_password()
+if not DB_PASS:
+    raise ValueError(
+        "DB_PASS tidak ditemukan! \n"
+        "1. Untuk Cloud Deployment: Jalankan 'fastapi cloud env set --secret DB_PASS \"password_anda\"'\n"
+        "2. Untuk Local Development: Pastikan password tersimpan di keyring atau tambahkan DB_PASS ke file .env"
+    )
 
 DB_CONNECTION = os.getenv("DB_CONNECTION")
 DB_NAME       = os.getenv("DB_NAME")
-DB_USER       = os.getenv("DB_USER")
 DB_HOST       = os.getenv("DB_HOST")
 DB_PORT       = os.getenv("DB_PORT")
-DB_PASS       = os.getenv("DB_PASS", password)
 DB_USE_SSL    = os.getenv("DB_USE_SSL", "false").lower() == "true"
 
 connect_args = {}
@@ -35,11 +38,8 @@ if DB_USE_SSL:
     ssl_context.verify_mode = ssl.CERT_NONE
     connect_args["ssl"] = ssl_context
 
-DB_URL = f"{DB_CONNECTION}+asyncmy://" \
-         f"{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-BASE_DB_URL =  f"{DB_CONNECTION}+asyncmy://" \
-            f"{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}"
+DB_URL = f"{DB_CONNECTION}+asyncmy://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+BASE_DB_URL = f"{DB_CONNECTION}+asyncmy://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}"
 
 SECRET_KEY = os.getenv("SECRET_KEY", "")
 

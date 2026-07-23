@@ -84,7 +84,6 @@
   	  fotoPas,
     };
 
-    console.log('Data pendaftaran berhasil dikirim:', formData);
     alert('Pendaftaran berhasil dikirim! Admin akan segera menghubungi Anda.');
     
     // Reset form setelah sukses

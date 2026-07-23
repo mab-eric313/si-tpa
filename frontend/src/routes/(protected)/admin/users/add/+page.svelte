@@ -81,7 +81,6 @@
 			});
 			if (!resUser.ok) throw new Error(`Error: ${resUser.statusText}`);
 			add = await resUser.json();
-			console.log(add);
 
 			let payloadBiodata = $derived(
 				{ ...inputBiodata, user_id: add.id }

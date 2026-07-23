@@ -1,6 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
-	import { authState } from "$lib/authStore";
+	import { setAuth } from '$lib/authStore.svelte';
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
@@ -31,30 +31,44 @@
 				const errorData = await response.json();
 				errorMessage = errorData.detail || "Terjadi kesalahan saat login";
 				return;
+			} else {
+				const data = await response.json();
+				setAuth({
+					username: data.username,
+					role: data.role
+				});
+
+				if (data.role === "Pengajar") {
+					goto("/pengajar");
+				}
+				else if (data.role === "Bendahara") {
+					goto("/bendahara/pencatatan");
+				}
+				else if (data.role === "Admin") {
+					goto("/admin");
+				}
+				else goto("/login")
 			}
 
-			const data = await response.json();
-			console.log(data);
-
-			authState.set({
+			/*
+			// TOOD: Make sure if this code is work or not
+			setAuth({
 				isLoggedIn: true,
 				username: data.username,
 				role: data.role,
 			})
 
 			if (data.role === "Pengajar") {
-				console.log("(data.role === 'Pengajar') TRUE");
 				goto("/pengajar");
 			}
 			else if (data.role === "Bendahara") {
-				console.log("(data.role === 'Bendahara') TRUE");
 				goto("/bendahara/pencatatan");
 			}
 			else if (data.role === "Admin") {
-				console.log("(data.role === 'Admin') TRUE");
 				goto("/admin");
 			}
-			else goto("/")
+			*/
+
 
 		} catch {
 			loginSuccess = false;
