@@ -23,12 +23,14 @@ Information System Website with Svelte and FastAPI
     **Windows**  
     Open the code editor or command prompt  
     ```cmd
+    cd backend
     python -m venv .venv
     .\.venv\Scripts\activate
     ```
       
     **Linux**
     ```sh
+    cd backend
     python3 -m venv .venv
     source .venv/bin/activate
     ```
@@ -48,7 +50,9 @@ Information System Website with Svelte and FastAPI
 
 4. Install Svelte dependencies  
 
+    Open new terminal
     ```sh
+    cd frontend
     npm install
     ```
 
@@ -63,13 +67,27 @@ Information System Website with Svelte and FastAPI
    ```
 
    Use your text editor to create `.env` file
-   ```
-   DB_USER=your_pc_username
+
+   - Backend
+   ```env
+   DB_CONNECTION=mariadb
+   DB_USER=yourusername
+   DB_PASS=
    DB_HOST=localhost
    DB_PORT=3306
-   DB_NAME=si_tpa
+   DB_NAME=yourdatabase
+
+   # true | false
+   DB_USE_SSL=false
 
    SECRET_KEY=openssl_generate_key
+
+   PUBLIC_FRONTEND_BASE_URL=http://localhost:5173
+   ```
+
+   - Frontend
+   ```env
+   PUBLIC_API_BASE_URL=http://localhost:8000
    ```
 
 6. Seeding the data (For Development Only)  
@@ -81,8 +99,18 @@ Information System Website with Svelte and FastAPI
 
 7. Run the project
 
+    Open two terminal
+
+    - Backend
     ```sh
-    npm run dev:all
+    cd backend
+    fastapi dev
+    ```
+
+    - Frontend
+    ```sh
+    cd frontend
+    npm run dev
     ```
 
 

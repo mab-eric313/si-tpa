@@ -22,6 +22,7 @@ $ grep -Rn "TODO:" . \
 - (HIGH) Add column `mengajar` in table `pengajar` 
     for assigning to what class
 
+- (HIGH) If the class is just for monday, then presence must just for monday
 - (MED) Remove kelas field in pendaftaran page
 - (MED) What the difference between "Nama Pencatatan" dan "Catatan"
 - (MED) Add comma in number field
