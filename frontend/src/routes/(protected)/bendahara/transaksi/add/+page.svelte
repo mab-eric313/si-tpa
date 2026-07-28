@@ -5,6 +5,7 @@
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 	import { PUBLIC_FRONTEND_BASE_URL } from "$env/static/public";
+	import { handleInput } from '$lib/utils';
 
 	let bendahara = $state({});
 	let errorMessage = $state("");
@@ -37,10 +38,11 @@
 		nama: "",
 		tanggal: "",
 		catatan: "",
-		nominal: "",
+		nominal: 0,
 		spp_siswa_nama: "",
 		gaji_pengajar_nama: "",
 	});
+	$inspect(inputBendahara);
 
 	let spp_siswa_id = $derived(
 		daftarSiswa.find(s => s.nama === inputBendahara.spp_siswa_nama)?.id ?? null
@@ -64,8 +66,6 @@
 			? gaji_pengajar_id
 			: null,
 	});
-	$inspect(payload);
-	$inspect(inputBendahara.spp_siswa_id);
 
 	async function handleSubmit() {
 		if (!kategori) {
@@ -231,17 +231,21 @@
 						class="form-label">
 						Nominal
 					</label>
-					<input 
-						type="number" 
-						class="form-control" 
-						id="inputNominal"
-						placeholder="Masukkan nominal"
-						bind:value={inputBendahara.nominal}>
+					<div class="d-flex align-items-center">
+						<span style="margin-right: 5px;">Rp</span>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="inputNominal"
+							placeholder="Masukkan nominal"
+							oninput={(e) => handleInput(e, inputBendahara)}
+						/>
+						<span style="margin-left: 5px;">,00</span>
+					</div>
 				</div>
 			</div>
 		<div class="container d-flex justify-content-end">
 			<a href="/bendahara/pencatatan/" class="btn border rounded w-50 mx-2">Batal</a>
-			<!-- <a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2 bg-green text-white">Simpan</a> -->
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"
 				onclick={handleSubmit}>

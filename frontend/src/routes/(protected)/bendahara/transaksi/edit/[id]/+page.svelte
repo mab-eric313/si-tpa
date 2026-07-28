@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+	import { handleInput } from '$lib/utils';
 
 	let bendahara = $state({});
 	let inputBendahara = $state({});
@@ -235,12 +236,17 @@
 						class="form-label">
 						Nominal
 					</label>
-					<input 
-						type="number" 
-						class="form-control" 
-						id="inputNominal"
-						placeholder="Masukkan nominal"
-						bind:value={inputBendahara.nominal}>
+					<div class="d-flex align-items-center">
+						<span style="margin-right: 5px;">Rp</span>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="inputNominal"
+							placeholder="Masukkan nominal"
+							oninput={(e) => handleInput(e, inputBendahara)}
+						/>
+						<span style="margin-left: 5px;">,00</span>
+					</div>
 				</div>
 			</div>
 		<div class="container d-flex justify-content-end">

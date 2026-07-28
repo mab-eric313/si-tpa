@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
+	import { formatRupiah } from '$lib/utils';
 	import { authState } from '$lib/authStore.svelte.js';
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
@@ -117,7 +118,7 @@
 						<td>{transaksi.tanggal}</td>
 						<td>{transaksi.kategori}</td>
 						<td>{transaksi.note}</td>
-						<td>{transaksi.nominal}</td>
+						<td>{rupiahFormat(transaksi.nominal)}</td>
 						<td class="text-center">
 							<button
 								class="btn btn-sm btn-primary" 
