@@ -95,7 +95,7 @@
 		lulus_ulang: lulusUlang, 
 		siswa_id: Number(selectedSiswaId)
 	});
-	$inspect(payload);
+
 	async function handleSubmit() {
 		try {
 			const response = await fetch(endpointMap[penilaian], {
@@ -164,19 +164,6 @@
 						<option value="{siswa.nama}"></option>
 					{/each}
 				</datalist>
-				<!--
-				<select 
-					class="form-select mt-1" 
-					bind:value={selectedSiswaId}
-					aria-label="Pilih siswa">
-					<option value="">Pilih siswa</option>
-					{#each filteredSiswa as siswa}
-						<option value={String(siswa.id)}>
-							{siswa.nama}
-						</option>
-					{/each}
-				</select>
-				-->
 			</div>
 
 			{#if penilaian === "surat"}
@@ -373,7 +360,6 @@
 
 		<div class="container d-flex justify-content-end">
 			<a href="/pengajar/penilaian/" class="btn border rounded w-50 mx-2">Batal</a>
-			<!-- <a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2 bg-green text-white">Simpan</a> -->
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"
 				onclick={handleSubmit}>

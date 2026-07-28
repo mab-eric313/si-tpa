@@ -104,7 +104,6 @@
 		<div class="d-flex justify-content-between">
 			<div class="ms-2 my-3">
 				<span class="mb-2">Pilih Kelas</span>
-				<!-- TODO: Change this and take the data from kelas table -->
 				<select 
 					class="form-select text-center" 
 					bind:value={selectedKelasId}
@@ -148,9 +147,6 @@
 				</tr>
 				</thead>
 				<tbody>
-					<!-- {#each daftarSiswa.filter( -->
-					<!-- 	siswa => siswa.status === "Aktif" -->
-					<!-- ) as siswa, i} -->
 					{#each filteredSiswa as siswa, i}
 						<tr>
 							<td>{i + 1}</td>

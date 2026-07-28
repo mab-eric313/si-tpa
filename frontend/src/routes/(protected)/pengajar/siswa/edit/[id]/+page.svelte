@@ -85,7 +85,7 @@
 		lulus_ulang: lulusUlang, 
 		siswa_id: siswaId
 	});
-	$inspect(payload);
+
 	async function handleSubmit() {
 		try {
 			const response = await fetch(endpointMap[penilaian], {
@@ -330,7 +330,6 @@
 
 		<div class="container d-flex justify-content-end">
 			<a href="/pengajar/penilaian/" class="btn border rounded w-50 mx-2">Batal</a>
-			<!-- <a href="/pengajar/kelas/" class="btn border rounded w-50 mx-2 bg-green text-white">Simpan</a> -->
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"
 				onclick={handleSubmit}>

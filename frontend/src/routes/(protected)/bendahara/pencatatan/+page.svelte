@@ -118,7 +118,7 @@
 						<td>{transaksi.tanggal}</td>
 						<td>{transaksi.kategori}</td>
 						<td>{transaksi.note}</td>
-						<td>{rupiahFormat(transaksi.nominal)}</td>
+						<td>{formatRupiah(transaksi.nominal)}</td>
 						<td class="text-center">
 							<button
 								class="btn btn-sm btn-primary" 

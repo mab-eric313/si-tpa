@@ -60,7 +60,7 @@
 	let payload = $derived(
 		(inputUser.password === inputUser.confirmPassword) ? { ...inputUser } : {}
 	);
-	$inspect(payload);
+
 	async function handleSubmit() {
 		try {
 			const resUser = await fetch(`${PUBLIC_API_BASE_URL}/auth/${id}`, {

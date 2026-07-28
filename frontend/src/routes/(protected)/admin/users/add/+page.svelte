@@ -70,7 +70,7 @@
 	let payloadUser = $derived(
 		(inputUser.password === inputUser.confirmPassword) ? { ...inputUser } : {}
 	);
-	$inspect(payloadUser);
+
 	async function handleSubmit() {
 		try {
 			const resUser = await fetch(`${PUBLIC_API_BASE_URL}/auth/register/`, {
@@ -241,23 +241,6 @@
 					{/each}
 				</select>
 			</div>
-			<!--
-			{#if role === "Pengajar"}
-				<div class="mb-3">
-					<label 
-						for="inputKelas" 
-						class="form-label">
-						Kelas
-					</label>
-					<select name="" id="inputKelas" class="form-select"
-						bind:value={inputBiodata.kelas_id}>
-						{#each selectDaftarRole as role}
-							<option value={role}>{role}</option>
-						{/each}
-					</select>
-				</div>
-			{/if}
-			-->
 		</div>
 		<div class="container d-flex justify-content-end">
 			<a href="/admin/kelola-pengguna/"class="btn border rounded w-50 mx-2">

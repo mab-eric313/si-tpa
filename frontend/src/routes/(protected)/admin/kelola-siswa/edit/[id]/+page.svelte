@@ -14,6 +14,7 @@
 
 	let inputSiswa = $state({});
 	let inputWali = $state({});
+
 	onMount(async () => {
 		try {
 			const [resSiswa, resKelas] = await Promise.all([
@@ -62,7 +63,6 @@
 		return result;
 	}
 	let selectDaftarKelas = $derived(selectKelas(daftarKelas, siswa.kelas));
-	$inspect(selectDaftarKelas);
 
 	let edit = $state([]);
 	let payloadSiswa = $derived({...inputSiswa});

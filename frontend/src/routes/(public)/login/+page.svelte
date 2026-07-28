@@ -38,38 +38,11 @@
 					role: data.role
 				});
 
-				if (data.role === "Pengajar") {
-					goto("/pengajar");
-				}
-				else if (data.role === "Bendahara") {
-					goto("/bendahara/pencatatan");
-				}
-				else if (data.role === "Admin") {
-					goto("/admin");
-				}
+				if 		(data.role === "Pengajar") 	goto("/pengajar");
+				else if (data.role === "Bendahara") goto("/bendahara/pencatatan");
+				else if (data.role === "Admin") 	goto("/admin");
 				else goto("/login")
 			}
-
-			/*
-			// TOOD: Make sure if this code is work or not
-			setAuth({
-				isLoggedIn: true,
-				username: data.username,
-				role: data.role,
-			})
-
-			if (data.role === "Pengajar") {
-				goto("/pengajar");
-			}
-			else if (data.role === "Bendahara") {
-				goto("/bendahara/pencatatan");
-			}
-			else if (data.role === "Admin") {
-				goto("/admin");
-			}
-			*/
-
-
 		} catch {
 			loginSuccess = false;
 			errorMessage = "Tidak dapat terhubung ke server";
@@ -116,14 +89,10 @@
 
 		<!-- Panel Kanan -->
 		<div class="right-panel">
-
 			<h2 class="text-center mb-3">Login</h2>
-
 			<form onsubmit={handleSubmit}>
-
 				<div class="form-group">
 					<label for="username">Username</label>
-
 					<input
 						id="username"
 						type="text"
@@ -131,10 +100,9 @@
 						placeholder="Masukkan username anda"
 					/>
 				</div>
-
 				<div class="form-group">
 					<label for="password">Kata Sandi</label>
-
+					<!-- TODO: Add see password -->
 					<input
 						id="password"
 						type="password"

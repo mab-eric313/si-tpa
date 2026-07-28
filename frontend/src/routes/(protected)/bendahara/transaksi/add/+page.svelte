@@ -42,7 +42,6 @@
 		spp_siswa_nama: "",
 		gaji_pengajar_nama: "",
 	});
-	$inspect(inputBendahara);
 
 	let spp_siswa_id = $derived(
 		daftarSiswa.find(s => s.nama === inputBendahara.spp_siswa_nama)?.id ?? null
