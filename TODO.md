@@ -17,8 +17,8 @@ $ grep -Rn "TODO:" . \
 ./frontend/src/routes/(protected)/admin/users/add/+page.svelte:10:      // TODO: add kelas_id when user select role "Pengajar"
 ./frontend/src/routes/(protected)/admin/kelola-calon-siswa/+page.svelte:64:     /* TODO: Add edit page for pendaftaran siswa
 ./frontend/src/routes/(protected)/admin/Header.svelte:9:        // TODO: change icons to Lucide
+./frontend/src/routes/(protected)/admin/+page.svelte:56:<!-- TODO: Auth checking not is actually checking -->
 ./frontend/src/routes/(protected)/bendahara/Header.svelte:8:    // TODO: Use Lucide Icons
-
 ```
 - (HIGH) Add column `mengajar` in table `pengajar` 
     for assigning to what class

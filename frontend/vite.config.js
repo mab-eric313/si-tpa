@@ -2,7 +2,9 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [
+		sveltekit()
+	],
 	ssr: {
 		noExternal: ['lucide', 'bits-ui', 'svelte-sonner']
 	},
@@ -13,6 +15,18 @@ export default defineConfig({
 			'/docs': 'http://localhost:8000',
 			'/redoc': 'http://localhost:8000',
 			'/openapi.json': 'http://localhost:8000',
+		},
+	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				silenceDeprecations: [
+					'import',
+					'mixed-decls',
+					'color-functions',
+					'global-builtin',
+				],
+			},
 		},
 	},
 });

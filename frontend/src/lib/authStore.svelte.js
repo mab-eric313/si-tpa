@@ -1,13 +1,3 @@
-/*
-import { writable } from "svelte/store";
-
-export const authState = writable({
-	isLoggedIn: false,
-	username: "",
-	role: "",
-})
-*/
-
 const storedUser = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user_session') || 'null') : null;
 
 export let authState = $state({

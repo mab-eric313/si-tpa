@@ -6,7 +6,7 @@
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
 	$effect(() => {
-        if (!authState.isLoggedIn || authState.role !== 'Admin') {
+        if (!authState.isLoggedIn && authState.role !== 'Admin') {
             goto('/login');
         }
     });
@@ -22,7 +22,7 @@
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
 			});
-			if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+			if (!response.ok) throw new Error(response.statusText);
 			daftarUser = await response.json();
 		} catch(error) {
 			console.error(error);
@@ -37,7 +37,7 @@
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
 			});
-			if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+			if (!response.ok) throw new Error(response.statusText);
 			daftarSiswa = await response.json();
 		} catch(error) {
 			console.error(error);
@@ -50,8 +50,10 @@
     let countBendahara = $derived(daftarUser.filter(user => user.role === 'Bendahara').length);
     let countSiswa = $derived(daftarSiswa.length);
 
+	// $inspect(authState);
 </script>
 
+<!-- TODO: Auth checking not is actually checking -->
 {#if authState.isLoggedIn && authState.role === 'Admin'}
 <section class="sidebar-gap">
 	<div class="container">
