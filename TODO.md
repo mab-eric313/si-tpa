@@ -26,7 +26,6 @@ $ grep -Rn "TODO:" . \
 - (HIGH) If the class is just for monday, then presence must just for monday
 - (MED) Remove kelas field in pendaftaran page
 - (MED) What the difference between "Nama Pencatatan" dan "Catatan"
-- (MED) Add comma in number field
 - (MED) Add Backup automation
 - (LOW) rename auth.py to user.py
 - (LOW) Check console log, maybe there are debug message
