@@ -146,29 +146,29 @@
 				<table class="table table-bordered table-hover mb-0">
 					<thead class="table-light">
 						<tr>
-							<th>No</th>
-							<th>Nama Siswa</th>
-							<th>Tanggal Lahir</th>
+							<th class="text-center">No</th>
+							<th class="text-center">Nama Siswa</th>
+							<th class="text-center">Tanggal Lahir</th>
 							<!-- <th>Alamat Siswa</th> -->
-							<th>Nama Wali</th>
+							<th class="text-center">Nama Wali</th>
 							<!-- <th>Alamat Wali</th> -->
-							<th>No HP Wali</th>
-							<th>Kelas</th>
-							<th>Status</th>
+							<th class="text-center">No HP Wali</th>
+							<th class="text-center">Kelas</th>
+							<th class="text-center">Status</th>
 							<th class="text-center">Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each filteredSiswa as siswa, i}
 							<tr>
-								<td>{i + 1}</td>
+								<td class="text-center">{i + 1}</td>
 								<td class="fw-semibold">{siswa.nama}</td>
-								<td>{siswa.tanggal_lahir}</td>
+								<td class="text-center">{siswa.tanggal_lahir}</td>
 								<!-- <td>{siswa.alamat ?? '-'}</td> -->
-								<td>{getNamaWali(siswa.wali_id)}</td>
+								<td class="text-center">{getNamaWali(siswa.wali_id)}</td>
 								<!-- <td>{getAlamatWali(siswa.wali_id)}</td> -->
-								<td>{getNoHpWali(siswa.wali_id)}</td>
-								<td>{getNamaKelas(siswa.kelas_id)}</td>
+								<td class="text-center">{getNoHpWali(siswa.wali_id)}</td>
+								<td class="text-center">{getNamaKelas(siswa.kelas_id)}</td>
 								<td class="text-center">
 									{#if siswa.status === "Aktif"}
 										<span class="badge bg-success">Aktif</span>
