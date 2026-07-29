@@ -1,6 +1,5 @@
 <script>
 	import favicon from '$lib/assets/favicon.svg';
-	import Header from './Header.svelte';
 	import './layout.css';
 	import Sidebar from '../Sidebar.svelte';
 
