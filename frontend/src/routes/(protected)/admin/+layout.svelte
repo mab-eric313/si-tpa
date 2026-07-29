@@ -62,11 +62,11 @@
 
 	@media (max-width: 768px) {
 		.app-layout {
-			grid-template-columns: 1fr; /* Full width di mobile */
+			grid-template-columns: 1fr;
 		}
 
 		.main-content {
-			padding: 80px 15px 24px 15px; /* Lebih besar padding top untuk hamburger */
+			padding: 80px 15px 24px 15px;
 		}
 	}
 </style>

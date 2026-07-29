@@ -108,11 +108,13 @@
 {/if}
 
 <style>
+/*
 	.sidebar-gap {
 		padding-left: 240px; 
 		position: relative; 
 		min-height: 100vh;
 	}
+*/
 
 	.rounded-icon-admin {
 		font-size: 25px;
