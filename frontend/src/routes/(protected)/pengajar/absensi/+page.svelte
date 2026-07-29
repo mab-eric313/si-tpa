@@ -163,17 +163,16 @@
 	}
 </script>
 
-<section class="sidebar-gap">
+<section class="content-section">
 	<h1 class="my-4">Absensi - {selectedDate}</h1>
-
-	<div class="container border rounded">
-
-		<div class="d-flex justify-content-between">
-			<div class="d-flex ms-2 my-3">
-				<div class="mx-3">
-					<span class="mb-2">Pilih Kelas</span>
+	<div class="table-container border rounded">
+		<div class="filter-section p-3 border-bottom">
+			<div class="row g-3">
+				<div class="col-md-6">
+					<label class="form-label" for="select-kelas">Pilih Kelas</label>
 					<select 
-						class="form-select text-center" 
+						id="select-kelas"
+						class="form-select" 
 						bind:value={selectedKelasId}
 						aria-label="Pilih kelas">
 						<option value="">Semua Kelas</option>
@@ -182,9 +181,10 @@
 						{/each}
 					</select>
 				</div>
-				<div>
-					<span class="mb-2">Pilih Tanggal</span>
+				<div class="col-md-6">
+					<label class="form-label" for="input-tanggal">Pilih Tanggal</label>
 					<input 
+						id="input-tanggal"
 						type="date" 
 						class="form-control" 
 						bind:value={selectedDate}
@@ -211,133 +211,137 @@
 
 		<div>
 			{#if errorMessage}
-				<p class="text-danger">{errorMessage}</p>
-			{:else if isLoading}
-				<p>Memuat data...</p>
-			{:else if daftarSiswa.length === 0}
-				<p>Tidak ada data siswa...</p>
+				<div class="d-flex p-4 justify-content-center">
+					<div class="card border-danger mb-3">
+						<div class="card-header bg-danger text-white">
+							<span>{errorMessage}</span>
+						</div>
+					</div>
+				</div>
+			{:else if isLoading || daftarSiswa.length === 0}
+				<div class="d-flex justify-content-center p-4">
+					<div class="spinner-border text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
 			{:else}
-				<table class="table table-bordered text-center">
-					<thead>
-						<tr>
-							<th>No</th>
-							<th>Nama</th>
-							<th>Kehadiran</th>
-							<th>Catatan</th>
-						</tr>
-					</thead>
-					<tbody>
-						{#each filteredSiswa as item, i (item.id)}
+				<div class="table-responsive">
+					<table class="table table-bordered text-center">
+						<thead class="table-light">
 							<tr>
-								<td>{i + 1}</td>
-								<td>{item.nama}</td>
-								<td class="d-flex justify-content-center">
-
-									<!-- Hadir -->
-									<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-green">
-										<input 
-										 	type="radio" 
-											class="form-check-input ms-0"
-											id={"inputHadir-" + item.id}
-											name={"kehadiran-" + item.id}
-											value="Hadir"
-											disabled={editStatus === false}
-											checked={selectedKehadiran[item.id] === "Hadir"}
-											onchange={() => handleKehadiranChange(item.id, "Hadir")}
-											style="font-size: 25px;">
-										<label 
-											for={"inputHadir-" + item.id}
-											class="form-check-label">
-											Hadir
-										</label>
-									</div>
-
-									<!-- Izin -->
-									<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-yellowgreen">
-										<input 
-										 	type="radio" 
-											class="form-check-input ms-0"
-											id={"inputIzin-" + item.id}
-											name={"kehadiran-" + item.id}
-											value="Izin"
-											disabled={editStatus === false}
-											checked={selectedKehadiran[item.id] === "Izin"}
-											onchange={() => handleKehadiranChange(item.id, "Izin")}
-											style="font-size: 25px;">
-										<label 
-											for={"inputIzin-" + item.id}
-											class="form-check-label">
-											Izin
-										</label>
-									</div>
-
-									<!-- Sakit -->
-									<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-yellow">
-										<input 
-										 	type="radio" 
-											class="form-check-input ms-0"
-											id={"inputSakit-" + item.id}
-											name={"kehadiran-" + item.id}
-											value="Sakit"
-											disabled={editStatus === false}
-											checked={selectedKehadiran[item.id] === "Sakit"}
-											onchange={() => handleKehadiranChange(item.id, "Sakit")}
-											style="font-size: 25px;">
-										<label 
-											for={"inputSakit-" + item.id}
-											class="form-check-label">
-											Sakit
-										</label>
-									</div>
-
-									<!-- Alpha -->
-									<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-red">
-										<input 
-										 	type="radio" 
-											class="form-check-input ms-0"
-											id={"inputAlpha-" + item.id}
-											name={"kehadiran-" + item.id}
-											value="Alpha"
-											disabled={editStatus === false}
-											checked={selectedKehadiran[item.id] === "Alpha"}
-											onchange={() => handleKehadiranChange(item.id, "Alpha")}
-											style="font-size: 25px;">
-										<label 
-											for={"inputAlpha-" + item.id}
-											class="form-check-label">
-											Alpha
-										</label>
-									</div>
-								</td>
-								<td>
-									<input 
-										type="text" 
-										class="form-control text-center" 
-										placeholder="Tambahkan catatan"
-										bind:value={valueInputCatatan[item.id]}
-										disabled={
-											selectedKehadiran[item.id] === "Hadir" ||
-											selectedKehadiran[item.id] === "" ||
-											editStatus === false
-										}
-									/>
-								</td>
+								<th>No</th>
+								<th>Nama</th>
+								<th>Kehadiran</th>
+								<th>Catatan</th>
 							</tr>
-						{/each}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{#each filteredSiswa as item, i (item.id)}
+								<tr>
+									<td>{i + 1}</td>
+									<td class="fw-semibold">{item.nama}</td>
+									<td class="d-flex justify-content-center">
+
+										<!-- Hadir -->
+										<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-green">
+											<input 
+												type="radio" 
+												class="form-check-input ms-0"
+												id={"inputHadir-" + item.id}
+												name={"kehadiran-" + item.id}
+												value="Hadir"
+												disabled={editStatus === false}
+												checked={selectedKehadiran[item.id] === "Hadir"}
+												onchange={() => handleKehadiranChange(item.id, "Hadir")}
+												style="font-size: 25px;">
+											<label 
+												for={"inputHadir-" + item.id}
+												class="form-check-label">
+												Hadir
+											</label>
+										</div>
+
+										<!-- Izin -->
+										<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-yellowgreen">
+											<input 
+												type="radio" 
+												class="form-check-input ms-0"
+												id={"inputIzin-" + item.id}
+												name={"kehadiran-" + item.id}
+												value="Izin"
+												disabled={editStatus === false}
+												checked={selectedKehadiran[item.id] === "Izin"}
+												onchange={() => handleKehadiranChange(item.id, "Izin")}
+												style="font-size: 25px;">
+											<label 
+												for={"inputIzin-" + item.id}
+												class="form-check-label">
+												Izin
+											</label>
+										</div>
+
+										<!-- Sakit -->
+										<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-yellow">
+											<input 
+												type="radio" 
+												class="form-check-input ms-0"
+												id={"inputSakit-" + item.id}
+												name={"kehadiran-" + item.id}
+												value="Sakit"
+												disabled={editStatus === false}
+												checked={selectedKehadiran[item.id] === "Sakit"}
+												onchange={() => handleKehadiranChange(item.id, "Sakit")}
+												style="font-size: 25px;">
+											<label 
+												for={"inputSakit-" + item.id}
+												class="form-check-label">
+												Sakit
+											</label>
+										</div>
+
+										<!-- Alpha -->
+										<div class="form-check d-flex flex-column align-items-center justify-content-start h-100 bg-radio-red">
+											<input 
+												type="radio" 
+												class="form-check-input ms-0"
+												id={"inputAlpha-" + item.id}
+												name={"kehadiran-" + item.id}
+												value="Alpha"
+												disabled={editStatus === false}
+												checked={selectedKehadiran[item.id] === "Alpha"}
+												onchange={() => handleKehadiranChange(item.id, "Alpha")}
+												style="font-size: 25px;">
+											<label 
+												for={"inputAlpha-" + item.id}
+												class="form-check-label">
+												Alpha
+											</label>
+										</div>
+									</td>
+									<td>
+										<input 
+											type="text" 
+											class="form-control text-center fs-input" 
+											placeholder="Tambahkan catatan"
+											bind:value={valueInputCatatan[item.id]}
+											disabled={
+												selectedKehadiran[item.id] === "Hadir" ||
+												selectedKehadiran[item.id] === "" ||
+												editStatus === false
+											}
+										/>
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 			{/if}
 		</div>
 	</div>
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
-	}
-
 	tr:hover {
 		background-color: #f1f5f9;
 	}
@@ -360,5 +364,65 @@
 	.bg-radio-red .form-check-input:checked {
 		background-color: red;
 		border-color: red;
+	}
+
+	.content-section {
+		padding: 0;
+	}
+
+	h1 {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.table-container {
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+
+	.filter-section {
+		background-color: #f8f9fa;
+	}
+
+	.table-responsive {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	table {
+		min-width: 500px;
+	}
+
+	th, td {
+		font-size: 15px;
+		padding: 12px 8px;
+		vertical-align: middle;
+	}
+
+	th {
+		font-weight: 600;
+		text-transform: uppercase;
+		font-size: 13px;
+		letter-spacing: 0.5px;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 1.5rem;
+			text-align: center;
+		}
+
+		th, td {
+			font-size: 13px;
+			padding: 10px 6px;
+		}
+
+		.fs-input {
+			font-size: 13px;
+		}
+
+		.table-responsive {
+			border-radius: 0 0 8px 8px;
+		}
 	}
 </style>
