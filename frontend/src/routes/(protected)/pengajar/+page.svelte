@@ -13,11 +13,11 @@
     });
 
 	function handleEdit(id) {
-		goto(`pengajar/edit/${id}`);
+		goto(`/pengajar/edit/${id}`);
 	}
 
 	function handleDelete(id) {
-		goto(`pengajar/delete/${id}`);
+		goto(`/pengajar/delete/${id}`);
 	}
 
 	function getFormattedDate() {
@@ -126,103 +126,120 @@
 </script>
 
 {#if authState.isLoggedIn && (authState.role === 'Admin' || authState.role === 'Pengajar')}
-<section class="sidebar-gap">
-	<!-- <h1 class="py-5">Selamat Datang, Ustadz ...</h1> -->
-	<div class="container py-5">
-		<div class="row mb-5">
-			<div class="col text-center d-flex align-items-center justify-content-center shadow-none border">
-				<i class="bi bi-check-lg rounded-circle rounded-icon-total-hadir"></i>
-				<div class="px-3 d-flex flex-column">
-					<span class="fs-5">Total Hadir</span>
-					<span>{countTotalHadir} Siswa</span>
-				</div>
-			</div>
-			<div class="col text-center d-flex align-items-center justify-content-center shadow-none border">
-				<i class="bi bi-info rounded-circle rounded-icon-izin-sakit"></i>
-				<div class="px-3 d-flex flex-column">
-					<span class="fs-5">Izin/Sakit</span>
-					<span>{countTotalIzinSakit} Siswa</span>
-				</div>
-			</div>
-			<div class="col text-center d-flex align-items-center justify-content-center shadow-none border">
-				<i class="bi bi-x rounded-circle rounded-icon-alpha"></i>
-				<div class="px-3 d-flex flex-column">
-					<span class="fs-5">Alpha</span>
-					<span>{countTotalAlpha} Siswa</span>
-				</div>
-			</div>
-			<div class="col text-center d-flex align-items-center justify-content-center shadow-none border">
-				<div class="rounded-circle rounded-icon-outer-tanggal">
-					<i class="bi bi-calendar rounded-circle rounded-icon-tanggal"></i>
+<section class="content-section">
+	<div class="row mb-5 g-3">
+		<div class="col-6 col-md-3">
+			<div class="text-center d-flex align-items-center justify-content-center border p-3 h-100 shadow-sm bg-body-tertiary rounded-3">
+				<div class="rounded-circle rounded-icon bg-green">
+					<i class="bi bi-check-lg text-white"></i>
 				</div>
 				<div class="px-3 d-flex flex-column">
-					<span class="fs-5">Tanggal</span>
-					<span>{getFormattedDate()}</span>
+					<span class="fs-card-title">Total Hadir</span>
+					<span class="fs-card-desc" >{countTotalHadir} Siswa</span>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col shadow-none border pt-4">
-				<h3 class="text-black text-center mb-4">Kelas Yang Diampu</h3>
+		<div class="col-6 col-md-3">
+			<div class="text-center d-flex align-items-center justify-content-center border p-3 h-100 shadow-sm bg-body-tertiary rounded-3">
+				<div class="rounded-circle rounded-icon bg-yellow">
+					<i class="bi bi-info-lg text-black"></i>
+				</div>
+				<div class="px-3 d-flex flex-column">
+					<span class="fs-card-title">Izin/Sakit</span>
+					<span class="fs-card-desc">{countTotalIzinSakit} Siswa</span>
+				</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-3">
+			<div class="text-center d-flex align-items-center justify-content-center border p-3 h-100 shadow-sm bg-body-tertiary rounded-3">
+				<div class="rounded-circle rounded-icon bg-red">
+					<i class="bi bi-x fw-bold text-white"></i>
+				</div>
+				<div class="px-3 d-flex flex-column">
+					<span class="fs-card-title">Alpha</span>
+					<span class="fs-card-desc">{countTotalAlpha} Siswa</span>
+				</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-3">
+			<div class="text-center d-flex align-items-center justify-content-center border p-3 h-100 shadow-sm bg-body-tertiary rounded-3">
+				<div class="rounded-circle rounded-icon bg-primary">
+					<i class="bi bi-calendar text-white" style="font-size: 20px;"></i>
+				</div>
+				<div class="px-3 d-flex flex-column">
+					<span class="fs-card-title">Tanggal</span>
+					<span class="fs-card-desc">{getFormattedDate()}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row g-3">
+		<div class="col-12 col-md-6">
+			<div class="shadow-none border pt-4 p-4 h-100 rounded-3">
+				<h5 class="text-black text-center mb-4">Kelas Yang Diampu</h5>
 				<div class="d-flex flex-column gap-3">
-					<div class="shadow-none border p-3 d-flex flex-column rounded-4 bg-warm-blue">
+					<div class="shadow-sm border p-3 d-flex flex-column rounded-3 bg-warm-blue">
 						<div class="d-flex justify-content-between">
-							<span class="fs-4">Jilid 1-3</span>
-							<span class="rounded-pill total-santri">
+							<span class="fs-card-title">Jilid 1-3</span>
+							<span class="rounded-pill total-santri fs-card-count">
 								{countSiswa1} Santri
 							</span>
 						</div>
-						<span>Senin & Rabu, 14:00-15:00</span>
+						<!-- TODO: Schedule still static -->
+						<span class="fs-card-desc">Senin & Rabu, 14:00-15:00</span>
 					</div>
-					<div class="shadow-none border p-3 d-flex flex-column rounded-4 bg-warm-blue">
+					<div class="shadow-sm border p-3 d-flex flex-column rounded-3 bg-warm-blue">
 						<div class="d-flex justify-content-between">
-							<span class="fs-4">Jilid 4-6</span>
-							<span class="rounded-pill total-santri">
+							<span class="fs-card-title">Jilid 4-6</span>
+							<span class="rounded-pill total-santri fs-card-count">
 								{countSiswa2} Santri
 							</span>
 						</div>
-						<span>Selasa & Kamis, 16:00-17:00</span>
+						<span class="fs-card-desc">Selasa & Kamis, 16:00-17:00</span>
 					</div>
-					<div class="shadow-none border p-3 d-flex flex-column rounded-4 bg-warm-blue">
+					<div class="shadow-sm border p-3 d-flex flex-column rounded-3 bg-warm-blue">
 						<div class="d-flex justify-content-between">
-							<span class="fs-4">Al-Quran</span>
-							<span class="rounded-pill total-santri">
+							<span class="fs-card-title">Al-Quran</span>
+							<span class="rounded-pill total-santri fs-card-count">
 								{countSiswa3} Santri
 							</span>
 						</div>
-						<span>Senin & Jumat, 18:00-19:00</span>
+						<span class="fs-card-desc">Senin & Jumat, 18:00-19:00</span>
 					</div>
 				</div>
 			</div>
-			<div class="col shadow-none border pt-4">
-				<h3 class="text-black text-center mb-4">Absensi</h3>
+		</div>
+		<div class="col-12 col-md-6">
+			<div class="shadow-none border pt-4 p-4 h-100 rounded-3">
+				<h5 class="text-black text-center mb-4">Absensi</h5>
 				<div class="d-flex flex-column gap-3">
-					<div class="shadow-none border p-3 d-flex flex-column rounded-4 bg-warm-blue">
+					<div class="shadow-sm border p-3 d-flex flex-column rounded-3 bg-warm-blue">
 						<div class="d-flex justify-content-between">
-							<span class="fs-4">Jilid 1-3</span>
-							<span class="rounded-pill absen {getAbsenClass(statusAbsensiKelas[1])}">
+							<span class="fs-card-title">Jilid 1-3</span>
+							<span class="rounded-pill status-absen fs-card-count {getAbsenClass(statusAbsensiKelas[1])}">
 								{getAbsenLabel(statusAbsensiKelas[1])}
 							</span>
 						</div>
-						<span>Senin & Rabu, 14:00-15:00</span>
+						<span class="fs-card-desc">Senin & Rabu, 14:00-15:00</span>
 					</div>
-					<div class="shadow-none border p-3 d-flex flex-column rounded-4 bg-warm-blue">
+					<div class="shadow-sm border p-3 d-flex flex-column rounded-3 bg-warm-blue">
 						<div class="d-flex justify-content-between">
-							<span class="fs-4">Jilid 4-6</span>
-							<span class="rounded-pill absen {getAbsenClass(statusAbsensiKelas[2])}">
+							<span class="fs-card-title">Jilid 4-6</span>
+							<span class="rounded-pill status-absen fs-card-count {getAbsenClass(statusAbsensiKelas[2])}">
 								{getAbsenLabel(statusAbsensiKelas[2])}
 							</span>
 						</div>
-						<span>Selasa & Kamis, 16:00-17:00</span>
+						<span class="fs-card-desc">Selasa & Kamis, 16:00-17:00</span>
 					</div>
-					<div class="shadow-none border p-3 d-flex flex-column rounded-4 bg-warm-blue">
+					<div class="shadow-sm border p-3 d-flex flex-column rounded-3 bg-warm-blue">
 						<div class="d-flex justify-content-between">
-							<span class="fs-4">Al-Quran</span>
-							<span class="rounded-pill absen {getAbsenClass(statusAbsensiKelas[3])}">
+							<span class="fs-card-title">Al-Quran</span>
+							<span class="rounded-pill status-absen fs-card-count {getAbsenClass(statusAbsensiKelas[3])}">
 								{getAbsenLabel(statusAbsensiKelas[3])}
 							</span>
 						</div>
-						<span>Senin & Jumat, 18:00-19:00</span>
+						<span class="fs-card-desc">Senin & Jumat, 18:00-19:00</span>
 					</div>
 				</div>
 			</div>
@@ -236,49 +253,37 @@
 {/if}
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
-	}
-
-	.rounded-icon-total-hadir {
-		font-size: 25px;
-		width: 40px;
-		height: 40px;
-
-		color: white;
+	.bg-green {
 		background-color: green;
 	}
 
-	.rounded-icon-izin-sakit {
-		font-size: 25px;
-		width: 40px;
-		height: 40px;
-
-		color: white;
-		background-color: orange;
+	.bg-yellow {
+		background-color: yellow;
 	}
 
-	.rounded-icon-alpha {
-		font-size: 25px;
-		width: 40px;
-		height: 40px;
-
-		color: white;
+	.bg-red {
 		background-color: red;
 	}
 
-	.rounded-icon-outer-tanggal {
-		padding-top: 4px;
+	.rounded-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 25px;
 		width: 40px;
 		height: 40px;
-		background-color: green;
 	}
 
-	.rounded-icon-tanggal {
-		font-size: 20px;
-		color: white;
+	.fs-card-title {
+		font-size: 18px;
+	}
+
+	.fs-card-desc {
+		font-size: 16px;
+	}
+
+	.fs-card-count {
+		font-size: 14px;
 	}
 
 	.total-santri {
@@ -293,7 +298,7 @@
 		background-color: #D2FAFE;
 	}
 
-	.absen {
+	.status-absen {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -303,18 +308,6 @@
 
 		color: white;
 		background-color: #D2FAFE;
-	}
-
-	.sudah-absen {
-		background-color: #338136;
-	}
-
-	.belum-absen {
-		background-color: #FF0000;
-	}
-
-	.sedang-absen {
-		background-color: #F2B50B;
 	}
 
 	.sudah-absen { background-color: #338136; }
@@ -327,12 +320,42 @@
 		background-color: #F3F9FF;
 	}
 
-	.col {
-		min-height: 150px;
-		margin-right: 10px;
-		margin-bottom: 10px;
-		border-radius: 10px;
-		padding: 20px;
+	.content-section {
+		padding: 0;
 	}
 
+	.table-container {
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+
+	.filter-section {
+		background-color: #f8f9fa;
+	}
+
+	.table-responsive {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.btn-group-vertical {
+		width: 100%;
+	}
+
+	@media (max-width: 768px) {
+		.table-responsive {
+			border-radius: 0 0 8px 8px;
+		}
+
+		.fs-card-title {
+			font-size: 16px;
+		}
+
+		.fs-card-desc {
+			font-size: 14px;
+		}
+
+		.fs-card-count {
+			font-size: 12px;
+		}
+	}
 </style>

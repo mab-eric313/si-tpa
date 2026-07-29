@@ -55,7 +55,7 @@
 
 <!-- TODO: Auth checking not is actually checking -->
 {#if authState.isLoggedIn && authState.role === 'Admin'}
-<section class="sidebar-gap">
+<section class="content-section">
 	<div class="container">
 		<h1 class="py-5 text-center">Ringkasan Role Pengguna</h1>
 		<div class="row">
@@ -108,6 +108,10 @@
 {/if}
 
 <style>
+	.content-section {
+		padding: 0;
+	}
+
 	h1 {
 		font-size: 1.75rem;
 		font-weight: 700;
