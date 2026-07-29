@@ -12,7 +12,7 @@
 	}
 
 	let daftarPenilaian = $state([]);
-	let errorDaftarPenilaian = $state("");
+	let errorMessage = $state("");
 
 	/*
 	onMount(async () => {
@@ -27,7 +27,7 @@
 			daftarPenilaian = await res.json();
 		} catch(error) {
 			console.error("Error fetching data: ", error);
-			errorDaftarPenilaian = error.message;
+			errorMessage = error.message;
 		}
 	});
 	*/
@@ -63,7 +63,7 @@
 				return res.json();
 			})
 			.then(data => daftarPenilaian = data)
-			.catch(err => errorDaftarPenilaian = err.message);
+			.catch(err => errorMessage = err.message);
 	});
 
 	function handleAdd() {
@@ -90,7 +90,7 @@
 			daftarPenilaian = daftarPenilaian.filter(item => item.id !== id);
 		} catch (error) {
 			console.error("Error deleting data: ", error);
-			errorDaftarPenilaian = error.message;
+			errorMessage = error.message;
 		}
 	}
 
@@ -103,104 +103,194 @@
 	)
 </script>
 
-<section class="sidebar-gap">
+<section class="content-section">
 	<div class="my-4">
 		<h1>Kelola Data Penilaian</h1>
-		<span>Kelola informasi penilaian dan pantau perkembangan mereka</span>
 	</div>
 
-	<div class="container border rounded">
-		<div class="d-flex justify-content-between">
-			<div class="ms-2 my-3 select-width">
-				<span class="mb-2">Pilih Penilaian</span>
-				<select 
-					class="form-select text-center" 
-					bind:value={selectedTabelPenilaian}
-					aria-label="Pilih tabel penilian">
-					<option value="jilid">Bacaan Jilid</option>
-					<option value="surat">Hafalan Surat</option>
-					<option value="doa">Hafalan Doa</option>
-				</select>
-			</div>
-			<div class="me-2 mt-5">
-				<button 
-					class="btn btn-primary"
-					onclick={handleAdd}>
-					Tambah Data
-				</button>
+	<div class="table-container border rounded bg-white">
+		<div class="filter-section p-3 border-bottom">
+			<div class="row g-3">
+				<label class="form-label fw-bold" for="select-penilaian">
+					Pilih Penilaian
+				</label>
+				<div class="col-md-6">
+					<select 
+						id="select-penilaian"
+						class="form-select" 
+						bind:value={selectedTabelPenilaian}
+						aria-label="Pilih tabel penilian">
+						<option value="jilid">Bacaan Jilid</option>
+						<option value="surat">Hafalan Surat</option>
+						<option value="doa">Hafalan Doa</option>
+					</select>
+				</div>
+				<div class="d-flex align-items-center col-md-6">
+					<button 
+						class="btn btn-primary"
+						onclick={handleAdd}>
+						Tambah Data
+					</button>
+				</div>
 			</div>
 		</div>
 
 		<div>
-			{#if errorDaftarPenilaian}
-				<p class="text-danger">{errorDaftarPenilaian}</p>
+			{#if errorMessage}
+				<div class="d-flex p-4 justify-content-center">
+					<div class="card border-danger mb-3">
+						<div class="card-header bg-danger text-white">
+							<span>{errorMessage}</span>
+						</div>
+					</div>
+				</div>
 			{:else if daftarPenilaian.length === 0}
-				<p>Sedang memuat data...</p>
+				<div class="d-flex justify-content-center p-4">
+					<div class="spinner-border text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
 			{:else}
-				<table class="table table-bordered text-center">
-					<thead>
-						<tr>
-							<th class="fs-small">No</th>
-							<th class="fs-small">Nama</th>
-							{#each kolomAktif as kolom}
-								<th class="fs-small">{kolom.label}</th>
-							{/each}
-							<th class="fs-small">Status</th>
-							<th class="fs-small">Note</th>
-							<th class="fs-small">Tanggal Setor</th>
-							<th class="fs-small">Aksi</th>
-						</tr>
-					</thead>
-					<tbody>
-						{#each daftarPenilaian as item, i (item.id)}
+				<div class="table-responsive">
+					<table class="table table-bordered text-center">
+						<thead class="table-light">
 							<tr>
-								<td class="fs-small">{i + 1}</td>
-								<td class="fs-small">{item.siswa.nama}</td>
+								<th>No</th>
+								<th>Nama</th>
 								{#each kolomAktif as kolom}
-									<td class="fs-small">{item[kolom.key]}</td>
+									<th>{kolom.label}</th>
 								{/each}
-								<td class="fs-small">{item.lulus_ulang}</td>
-								<td class="fs-small">{item.note}</td>
-								<td class="fs-small">{item.tanggal_setor}</td>
-								<td>
-									<button 
-										class="btn btn-sm btn-primary fs-small" 
-										onclick={() => handleEdit(item.id, item.siswa_id)}>
-										<i class='bi bi-pencil-fill'></i>
-										Edit
-									</button>
-									<button 
-										class="btn btn-sm btn-danger fs-small" 
-										onclick={() => handleDelete(item.id)}>
-										<i class='bi bi-trash-fill'></i>
-										Hapus
-									</button>
-								</td>
+								<th>Status</th>
+								<!-- TODO: Move to detail button -->
+								<!-- <th>Note</th> -->
+								<!-- TODO: Tanggal Setor must be a filter -->
+								<!-- <th>Tanggal Setor</th> -->
+								<th>Aksi</th>
 							</tr>
-						{/each}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{#each daftarPenilaian as item, i (item.id)}
+								<tr>
+									<td>{i + 1}</td>
+									<td class="fw-semibold">{item.siswa.nama}</td>
+									{#each kolomAktif as kolom}
+										<td>{item[kolom.key]}</td>
+									{/each}
+									<td>
+										{#if item.lulus_ulang === "Lulus"}
+											<span class="badge bg-success">Lulus</span>
+										{:else}
+											<span class="badge bg-secondary">Ulang</span>
+										{/if}
+									</td>
+									<!-- <td>{item.note}</td> -->
+									<!-- <td>{item.tanggal_setor}</td> -->
+									<td>
+										<div class="btn-group-vertical btn-group-sm d-md-none">
+											<button 
+												class="btn btn-sm btn-primary" 
+												onclick={() => handleEdit(item.id, item.siswa_id)}>
+												<i class='bi bi-pencil-fill'></i>
+												Edit
+											</button>
+											<button 
+												class="btn btn-sm btn-danger" 
+												onclick={() => handleDelete(item.id)}>
+												<i class='bi bi-trash-fill'></i>
+												Hapus
+											</button>
+										</div>
+										<div class="btn-group d-none d-md-inline-flex">
+											<button 
+												class="btn btn-sm btn-primary" 
+												onclick={() => handleEdit(item.id, item.siswa_id)}>
+												<i class='bi bi-pencil-fill'></i>
+												Edit
+											</button>
+											<button 
+												class="btn btn-sm btn-danger" 
+												onclick={() => handleDelete(item.id)}>
+												<i class='bi bi-trash-fill'></i>
+												Hapus
+											</button>
+										</div>
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 			{/if}
 		</div>
 	</div>
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
-	}
-
 	tr:hover {
 		background-color: #f1f5f9;
 	}
 
-	.select-width {
-		width: 20%;
+	.content-section {
+		padding: 0;
 	}
 
-	.fs-small {
-		font-size: 15px;
+	h1 {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.table-container {
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+
+	.filter-section {
+		background-color: #f8f9fa;
+	}
+
+	.table-responsive {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	table {
+		min-width: 500px;
+	}
+
+	th, td {
+		font-size: 14px;
+		padding: 12px 8px;
+		vertical-align: middle;
+	}
+
+	th {
+		font-weight: 600;
+		text-transform: uppercase;
+		font-size: 13px;
+		letter-spacing: 0.5px;
+	}
+
+	.btn-group-vertical {
+		width: 100%;
+	}
+
+	.btn-group-vertical .btn {
+		width: 100%;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 1.5rem;
+			text-align: center;
+		}
+
+		th, td {
+			font-size: 13px;
+			padding: 10px 6px;
+		}
+
+		.table-responsive {
+			border-radius: 0 0 8px 8px;
+		}
 	}
 </style>

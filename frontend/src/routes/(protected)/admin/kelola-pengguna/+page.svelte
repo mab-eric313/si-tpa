@@ -90,7 +90,7 @@
 		{:else}
 			<div class="table-responsive">
 				<table class="table table-bordered text-center">
-					<thead>
+					<thead class="table-light">
 					<tr>
 						<th>No</th>
 						<th>Username</th>
