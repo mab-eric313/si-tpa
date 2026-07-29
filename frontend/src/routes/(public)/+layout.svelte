@@ -26,10 +26,4 @@
     --warna-abu-tua: #24292e;
     --warna-menu-aktif: #9ea39e;
   }
-
-  body {
-    background-color: #ffffff;
-    color: #333333;
-    line-height: 1.6;
-  }
 </style>

@@ -235,11 +235,6 @@
     color: #888888;
   }
 
-  .kartu-kosong {
-    background: transparent;
-    border-style: dashed;
-  }
-
   footer {
     background-color: var(--warna-abu-tua);
     color: #cccccc;
