@@ -143,40 +143,40 @@
 			</div>
 		{:else}
 			<div class="table-responsive">
-				<table class="table table-bordered table-hover mb-0">
+				<table class="table table-bordered table-hover mb-0 text-center">
 					<thead class="table-light">
 						<tr>
-							<th class="text-center">No</th>
-							<th class="text-center">Nama Siswa</th>
-							<th class="text-center">Tanggal Lahir</th>
+							<th>No</th>
+							<th>Nama Siswa</th>
+							<th>Tanggal Lahir</th>
 							<!-- <th>Alamat Siswa</th> -->
-							<th class="text-center">Nama Wali</th>
+							<th>Nama Wali</th>
 							<!-- <th>Alamat Wali</th> -->
-							<th class="text-center">No HP Wali</th>
-							<th class="text-center">Kelas</th>
-							<th class="text-center">Status</th>
-							<th class="text-center">Action</th>
+							<th>No HP Wali</th>
+							<th>Kelas</th>
+							<th>Status</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each filteredSiswa as siswa, i}
 							<tr>
-								<td class="text-center">{i + 1}</td>
+								<td>{i + 1}</td>
 								<td class="fw-semibold">{siswa.nama}</td>
-								<td class="text-center">{siswa.tanggal_lahir}</td>
+								<td>{siswa.tanggal_lahir}</td>
 								<!-- <td>{siswa.alamat ?? '-'}</td> -->
-								<td class="text-center">{getNamaWali(siswa.wali_id)}</td>
+								<td>{getNamaWali(siswa.wali_id)}</td>
 								<!-- <td>{getAlamatWali(siswa.wali_id)}</td> -->
-								<td class="text-center">{getNoHpWali(siswa.wali_id)}</td>
-								<td class="text-center">{getNamaKelas(siswa.kelas_id)}</td>
-								<td class="text-center">
+								<td>{getNoHpWali(siswa.wali_id)}</td>
+								<td>{getNamaKelas(siswa.kelas_id)}</td>
+								<td>
 									{#if siswa.status === "Aktif"}
 										<span class="badge bg-success">Aktif</span>
 									{:else}
 										<span class="badge bg-secondary">Tidak Aktif</span>
 									{/if}
 								</td>
-								<td class="text-center">
+								<td>
 									<div class="btn-group-vertical btn-group-sm d-md-none">
 										<button
 											class="btn btn-primary" 
