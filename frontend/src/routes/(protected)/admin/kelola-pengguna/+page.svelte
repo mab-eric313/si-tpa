@@ -58,92 +58,186 @@
 	}
 </script>
 
-<section class="sidebar-gap">
-	<h1 class="py-5">Kelola Data Pengguna</h1>
+<section class="content-section">
+	<h1 class="mb-4">Kelola Data Pengguna</h1>
 
-	<div class="container border rounded">
-		<div class="d-flex justify-content-end my-3">
-			<button 
-				class="btn btn-primary"
-				onclick={handleAdd}>
-				Tambah Data
-			</button>
+	<div class="table-container border rounded bg-white">
+		<div class="filter-section p-3 border-bottom">
+			<div class="row g-3">
+				<div class="col-md-6">
+					<button 
+						class="btn btn-primary"
+						onclick={handleAdd}>
+						Tambah Data
+					</button>
+				</div>
+			</div>
 		</div>
 		{#if errorMessage}
-			<p class="text-danger">{errorMessage}</p>
+			<div class="d-flex p-4 justify-content-center">
+				<div class="card border-danger mb-3">
+					<div class="card-header bg-danger text-white">
+						<span>{errorMessage}</span>
+					</div>
+				</div>
+			</div>
 		{:else if daftarUser.length === 0}
-			<p>Sedang memuat data...</p>
+			<div class="d-flex justify-content-center p-4">
+				<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
 		{:else}
-			<table class="table table-bordered text-center">
-				<thead>
-				<tr>
-					<th>No</th>
-					<th>Username</th>
-					<th>Nama Lengkap</th>
-					<th>Nama Panggilan</th>
-					<th>No Hp</th>
-					<th>Alamat</th>
-					<th>Role</th>
-					<th>Status</th>
-					<th class="text-center">Action</th>
-				</tr>
-				</thead>
-				<tbody>
-					{#each daftarUser as user}
+			<div class="table-responsive">
+				<table class="table table-bordered text-center">
+					<thead>
 					<tr>
-						<td>{user.id}</td>
-						<td>{user.username}</td>
-						{#if user.biodata === null}
-							<td>NULL</td>
-							<td>NULL</td>
-							<td>NULL</td>
-							<td>NULL</td>
-						{:else}
-							<td>{user.biodata.nama_lengkap}</td>
-							<td>{user.biodata.nama_panggilan}</td>
-							<td>{user.biodata.no_hp}</td>
-							<td>{user.biodata.alamat}</td>
-						{/if}
-						<td>{user.role.charAt(0).toUpperCase() + user.role.slice(1)}</td>
-						{#if user.biodata === null}
-							<td>NULL</td>
-						{:else}
-							<td>{user.biodata.status}</td>
-						{/if}
-						<td class="text-center">
-							<button
-								href="/admin/users/edit/{user.id}"
-								class="btn btn-sm btn-primary" 
-								aria-label="Edit"
-								onclick={() => handleEdit(user.id)}>
-								<i class="bi bi-pencil-fill"></i>
-								Edit
-							</button>
-							<button
-								href="/admin/users/delete/{user.id}"
-								class="btn btn-sm btn-danger"
-								aria-label="Delete"
-								onclick={() => handleDelete(user.id)}>
-								<i class="bi bi-trash-fill"></i>
-								Hapus
-							</button>
-						</td>
+						<th>No</th>
+						<th>Username</th>
+						<th>Nama Lengkap</th>
+						<th>Nama Panggilan</th>
+						<!-- <th>No Hp</th> -->
+						<!-- <th>Alamat</th> -->
+						<th>Role</th>
+						<th>Status</th>
+						<th>Action</th>
 					</tr>
-					{/each}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{#each daftarUser as user, i}
+						<tr>
+							<td>{i + 1}</td>
+							<td class="fw-semibold">{user.username}</td>
+							{#if user.biodata === null}
+								<td>-</td>
+								<td>-</td>
+								<td>-</td>
+								<td>-</td>
+							{:else}
+								<td>{user.biodata.nama_lengkap}</td>
+								<td>{user.biodata.nama_panggilan}</td>
+								<!-- <td>{user.biodata.no_hp}</td> -->
+								<!-- <td>{user.biodata.alamat}</td> -->
+							{/if}
+							<td>
+								{user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+							</td>
+							{#if user.biodata === null}
+								<td>-</td>
+							{:else}
+								<td class="text-center">
+									{#if user.biodata.status === "Aktif"}
+										<span class="badge bg-success">Aktif</span>
+									{:else}
+										<span class="badge bg-secondary">Tidak Aktif</span>
+									{/if}
+								</td>
+							{/if}
+							<td class="text-center">
+								<div class="btn-group-vertical btn-group-sm d-md-none">
+									<button
+										class="btn btn-sm btn-primary" 
+										onclick={() => handleEdit(user.id)}>
+										<i class="bi bi-pencil-fill"></i>
+										Edit
+									</button>
+									{#if user.biodata.status === "Aktif"}
+										<button
+											class="btn btn-sm btn-danger"
+											onclick={() => handleDelete(user.id)}>
+											<i class="bi bi-trash-fill"></i>
+											Hapus
+										</button>
+									{/if}
+								</div>
+								<div class="btn-group d-none d-md-inline-flex">
+									<button
+										class="btn btn-sm btn-primary" 
+										onclick={() => handleEdit(user.id)}>
+										<i class="bi bi-pencil-fill"></i>
+										Edit
+									</button>
+									{#if user.biodata.status === "Aktif"}
+										<button
+											class="btn btn-sm btn-danger"
+											onclick={() => handleDelete(user.id)}>
+											<i class="bi bi-trash-fill"></i>
+											Hapus
+										</button>
+									{/if}
+								</div>
+							</td>
+						</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
 		{/if}
 	</div>
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
 	}
 
-	th, td, button{
+	h1 {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.table-container {
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+
+	.filter-section {
+		background-color: #f8f9fa;
+	}
+
+	.table-responsive {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	table {
+		min-width: 500px;
+	}
+
+	th, td {
 		font-size: 15px;
+		padding: 12px 8px;
+		vertical-align: middle;
+	}
+
+	th {
+		font-weight: 600;
+		text-transform: uppercase;
+		font-size: 13px;
+		letter-spacing: 0.5px;
+	}
+
+	.btn-group-vertical {
+		width: 100%;
+	}
+
+	.btn-group-vertical .btn {
+		width: 100%;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 1.5rem;
+			text-align: center;
+		}
+
+		th, td {
+			font-size: 13px;
+			padding: 10px 6px;
+		}
+
+		.table-responsive {
+			border-radius: 0 0 8px 8px;
+		}
 	}
 </style>

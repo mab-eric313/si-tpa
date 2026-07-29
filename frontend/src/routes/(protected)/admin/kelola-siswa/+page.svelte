@@ -97,8 +97,11 @@
 		<div class="filter-section p-3 border-bottom">
 			<div class="row g-3">
 				<div class="col-md-6">
-					<label class="form-label fw-bold">Pilih Kelas</label>
+					<label class="form-label fw-bold" for="select-kelas">
+						Pilih Kelas
+					</label>
 					<select 
+						id="select-kelas"
 						class="form-select" 
 						bind:value={selectedKelasId}
 						aria-label="Pilih kelas">
@@ -109,8 +112,11 @@
 					</select>
 				</div>
 				<div class="col-md-6">
-					<label class="form-label fw-bold">Pilih Status</label>
+					<label class="form-label fw-bold" for="select-status">
+						Pilih Status
+					</label>
 					<select 
+						id="select-status"
 						class="form-select" 
 						bind:value={selectedStatus}
 						aria-label="Pilih status">
@@ -122,12 +128,18 @@
 			</div>
 		</div>
 		{#if errorMessage}
-			<div class="p-4">
-				<p class="text-danger mb-0">{errorMessage}</p>
+			<div class="d-flex p-4 justify-content-center">
+				<div class="card border-danger mb-3">
+					<div class="card-header bg-danger text-white">
+						<span>{errorMessage}</span>
+					</div>
+				</div>
 			</div>
 		{:else if daftarSiswa.length === 0}
-			<div class="p-4 text-center">
-				<p class="mb-0">Sedang memuat data atau tidak ada data siswa...</p>
+			<div class="d-flex justify-content-center p-4">
+				<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
 			</div>
 		{:else}
 			<div class="table-responsive">
@@ -207,7 +219,6 @@
 
 <style>
 	.content-section {
-		/* Tidak perlu padding-left lagi! */
 		padding: 0;
 	}
 
@@ -227,11 +238,11 @@
 
 	.table-responsive {
 		overflow-x: auto;
-		-webkit-overflow-scrolling: touch; /* Smooth scroll di iOS */
+		-webkit-overflow-scrolling: touch;
 	}
 
 	table {
-		min-width: 1000px; /* Paksa lebar minimum agar tidak terlalu sempit di mobile */
+		min-width: 500px;
 	}
 
 	th, td {
@@ -253,7 +264,6 @@
 
 	.btn-group-vertical .btn {
 		width: 100%;
-		margin-bottom: 4px;
 	}
 
 	@media (max-width: 768px) {

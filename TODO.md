@@ -24,6 +24,7 @@ $ grep -Rn "TODO:" . \
     for assigning to what class
 
 - (HIGH) If the class is just for monday, then presence must just for monday
+- (MED) Add Detail button for every row table
 - (MED) Remove kelas field in pendaftaran page
 - (MED) What the difference between "Nama Pencatatan" dan "Catatan"
 - (MED) Add Backup automation

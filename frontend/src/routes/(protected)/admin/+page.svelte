@@ -57,7 +57,7 @@
 {#if authState.isLoggedIn && authState.role === 'Admin'}
 <section class="sidebar-gap">
 	<div class="container">
-		<h1 class="py-5">Ringkasan Role Pengguna</h1>
+		<h1 class="py-5 text-center">Ringkasan Role Pengguna</h1>
 		<div class="row">
 			<div class="col text-center d-flex align-items-center justify-content-center shadow-none border">
 				<i class="bi bi-person-fill-gear rounded-circle rounded-icon-admin"></i>
@@ -108,13 +108,15 @@
 {/if}
 
 <style>
-/*
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	h1 {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: #1a3a2e;
 	}
-*/
+	
+	span {
+		font-size: 15px;
+	}
 
 	.rounded-icon-admin {
 		font-size: 25px;
