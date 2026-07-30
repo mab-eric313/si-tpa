@@ -180,7 +180,7 @@
 										{#if item.lulus_ulang === "Lulus"}
 											<span class="badge bg-success">Lulus</span>
 										{:else}
-											<span class="badge bg-secondary">Ulang</span>
+											<span class="badge bg-danger">Ulang</span>
 										{/if}
 									</td>
 									<!-- <td>{item.note}</td> -->

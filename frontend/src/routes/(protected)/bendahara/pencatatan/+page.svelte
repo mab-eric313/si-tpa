@@ -68,77 +68,121 @@
 </script>
 
 {#if authState.isLoggedIn && (authState.role === 'Admin' || authState.role === 'Bendahara')}
-<section class="sidebar-gap">
-	<h1 class="mt-5">Data Pencatatan Finansial TPA</h1>
-	<p class="mb-5">Kelola seluruh pencatatan transaksi pemasukan dan pengeluaran</p>
-
-	<div class="container border rounded">
-		<div class="d-flex justify-content-between">
-			<div class="ms-2 my-3 select-width">
-				<span class="mb-2">Pilih Kategori</span>
-				<select 
-					class="form-select text-center" 
-					bind:value={selectKategori}
-					aria-label="Pilih kategori">
-					<option value="semua">Semua</option>
-					<option value="Pemasukan">Pemasukan</option>
-					<option value="Pengeluaran">Pengeluaran</option>
-				</select>
+<section class="content-section">
+	<h1 class="mb-4">Data Pencatatan Finansial</h1>
+	<div class="table-container border rounded bg-white">
+		<div class="filter-section p-3 border-bottom">
+			<div class="row g-3">
+				<label class="form-label fw-bold" for="select-kategori">
+					Pilih Kategori
+				</label>
 			</div>
-			<div class="me-2 mt-5">
-				<button 
-					class="btn btn-primary"
-					onclick={handleAdd}>
-					Tambah Data
-				</button>
+			<div class="d-flex justify-content-between">
+				<div class="col pe-2">
+					<select 
+						id="select-kategori"
+						class="form-select" 
+						bind:value={selectKategori}
+						aria-label="Pilih kategori">
+						<option value="semua">Semua</option>
+						<option value="Pemasukan">Pemasukan</option>
+						<option value="Pengeluaran">Pengeluaran</option>
+					</select>
+				</div>
+				<div class="">
+					<button 
+						class="btn btn-primary"
+						onclick={handleAdd}>
+						Tambah Data
+					</button>
+				</div>
 			</div>
 		</div>
 		{#if errorMessage}
-			<p class="text-danger">{errorMessage}</p>
+			<div class="d-flex p-4 justify-content-center">
+				<div class="card border-danger mb-3">
+					<div class="card-header bg-danger text-white">
+						<span>{errorMessage}</span>
+					</div>
+				</div>
+			</div>
 		{:else if daftarTransaksi.length === 0}
-			<p>Sedang memuat data...</p>
+			<div class="d-flex justify-content-center p-4">
+				<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
 		{:else}
-			<table class="table table-bordered text-center">
-				<thead>
-				<tr>
-					<th>No</th>
-					<th>Nama</th>
-					<th>Tanggal</th>
-					<th>Kategori</th>
-					<th>Catatan</th>
-					<th>Nominal</th>
-					<th class="text-center">Action</th>
-				</tr>
-				</thead>
-				<tbody>
-					{#each filteredTransaksi as transaksi, i}
+			<div class="table-responsive">
+				<table class="table table-bordered text-center">
+					<thead class="table-light">
 					<tr>
-						<td>{i+1}</td>
-						<td>{transaksi.nama}</td>
-						<td>{transaksi.tanggal}</td>
-						<td>{transaksi.kategori}</td>
-						<td>{transaksi.note}</td>
-						<td>{formatRupiah(transaksi.nominal)}</td>
-						<td class="text-center">
-							<button
-								class="btn btn-sm btn-primary" 
-								aria-label="Edit"
-								onclick={() => handleEdit(transaksi.id)}>
-								<i class="bi bi-pencil-fill"></i>
-								Edit
-							</button>
-							<button
-								class="btn btn-sm btn-danger"
-								aria-label="Delete"
-								onclick={() => handleDelete(transaksi.id)}>
-								<i class="bi bi-trash-fill"></i>
-								Hapus
-							</button>
-						</td>
+						<th>No</th>
+						<th>Nama</th>
+						<th>Tanggal</th>
+						<th>Kategori</th>
+						<!-- TODO: Catatan must be in detail -->
+						<!-- <th>Catatan</th> -->
+						<th>Nominal</th>
+						<th>Action</th>
 					</tr>
-					{/each}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{#each filteredTransaksi as transaksi, i}
+						<tr>
+							<td>{i+1}</td>
+							<td class="fw-semibold">{transaksi.nama}</td>
+							<td>{transaksi.tanggal}</td>
+							<td>
+								{#if transaksi.kategori === "Pemasukan"}
+									<span class="badge bg-success">Pemasukan</span>
+								{:else if transaksi.kategori === "Pengeluaran"}
+									<span class="badge bg-danger">Pengeluaran</span>
+								{:else}
+									<span class="badge bg-secondary">-</span>
+								{/if}
+							</td>
+							<!-- <td>{transaksi.note}</td> -->
+							<td>{formatRupiah(transaksi.nominal)}</td>
+							<td>
+								<div class="btn-group-vertical btn-group-sm d-md-none">
+									<button
+										class="btn btn-sm btn-primary" 
+										aria-label="Edit"
+										onclick={() => handleEdit(transaksi.id)}>
+										<i class="bi bi-pencil-fill"></i>
+										Edit
+									</button>
+									<button
+										class="btn btn-sm btn-danger"
+										aria-label="Delete"
+										onclick={() => handleDelete(transaksi.id)}>
+										<i class="bi bi-trash-fill"></i>
+										Hapus
+									</button>
+								</div>
+								<div class="btn-group d-none d-md-inline-flex">
+									<button
+										class="btn btn-sm btn-primary" 
+										aria-label="Edit"
+										onclick={() => handleEdit(transaksi.id)}>
+										<i class="bi bi-pencil-fill"></i>
+										Edit
+									</button>
+									<button
+										class="btn btn-sm btn-danger"
+										aria-label="Delete"
+										onclick={() => handleDelete(transaksi.id)}>
+										<i class="bi bi-trash-fill"></i>
+										Hapus
+									</button>
+								</div>
+							</td>
+						</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
 		{/if}
 	</div>
 </section>
@@ -149,14 +193,68 @@
 {/if}
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
 	}
 
-	th, td, button{
-		font-size: 15px;
+	h1 {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.table-container {
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+
+	.filter-section {
+		background-color: #f8f9fa;
+	}
+
+	.table-responsive {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	table {
+		min-width: 500px;
+	}
+
+	th, td {
+		font-size: 14px;
+		padding: 12px 8px;
+		vertical-align: middle;
+	}
+
+	th {
+		font-weight: 600;
+		text-transform: uppercase;
+		font-size: 13px;
+		letter-spacing: 0.5px;
+	}
+
+	.btn-group-vertical {
+		width: 100%;
+	}
+
+	.btn-group-vertical .btn {
+		width: 100%;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 1.5rem;
+			text-align: center;
+		}
+
+		th, td {
+			font-size: 13px;
+			padding: 10px 6px;
+		}
+
+		.table-responsive {
+			border-radius: 0 0 8px 8px;
+		}
 	}
 </style>
 

@@ -31,4 +31,14 @@
 		overflow-y: auto;
 		background-color: #f4f6f8;
 	}
+
+	@media (max-width: 768px) {
+		.app-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.main-content {
+			padding: 80px 15px 24px 15px;
+		}
+	}
 </style>

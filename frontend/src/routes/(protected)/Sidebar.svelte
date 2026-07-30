@@ -20,8 +20,10 @@
 		],
 		bendahara: [
 			{ href: '/bendahara/pencatatan', label: 'Pencatatan', icon: 'bi-cash-stack' },
+			/*
 			{ href: '/bendahara/transaksi', label: 'Transaksi', icon: 'bi-receipt' },
 			{ href: '/bendahara/laporan', label: 'Laporan', icon: 'bi-file-earmark-bar-graph' }
+			*/
 		],
 		pengajar: [
 			{ href: '/pengajar', label: 'Beranda', icon: 'bi-house' },
