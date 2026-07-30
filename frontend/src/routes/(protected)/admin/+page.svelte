@@ -1,7 +1,8 @@
 <script>
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
-
+	
+	import LoadingOverlay from "$lib/components/LoadingOverlay.svelte";
 	import { authState } from '$lib/authStore.svelte';
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
@@ -15,8 +16,12 @@
 	let daftarSiswa = $state([]);
 	let errorMessage = $state("");
 
+	let isFetchAuth = $state(false);
+	let isFetchSiswa = $state(false);
+
 	$effect(async () => {
 		try {
+			isFetchAuth = true;
 			const response = await fetch(`${PUBLIC_API_BASE_URL}/auth/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
@@ -24,6 +29,7 @@
 			});
 			if (!response.ok) throw new Error(response.statusText);
 			daftarUser = await response.json();
+			if (daftarSiswa) isFetchAuth = false;
 		} catch(error) {
 			console.error(error);
 			errorMessage = error.message;
@@ -32,6 +38,7 @@
 
 	onMount(async () => {
 		try {
+			isFetchSiswa = true;
 			const response = await fetch(`${PUBLIC_API_BASE_URL}/siswa/`, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" },
@@ -39,6 +46,7 @@
 			});
 			if (!response.ok) throw new Error(response.statusText);
 			daftarSiswa = await response.json();
+			if (daftarSiswa) isFetchSiswa = false;
 		} catch(error) {
 			console.error(error);
 			errorMessage = error.message;
@@ -56,6 +64,9 @@
 <!-- TODO: Auth checking not is actually checking -->
 {#if authState.isLoggedIn && authState.role === 'Admin'}
 <section class="content-section">
+	{#if isFetchAuth && isFetchSiswa}
+		<LoadingOverlay visible={true} color="primary" />
+	{/if}
 	<div class="container">
 		<h1 class="py-5 text-center">Ringkasan Role Pengguna</h1>
 		<div class="row">

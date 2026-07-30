@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from "$app/navigation";
 
+	import LoadingOverlay from "$lib/components/LoadingOverlay.svelte";
 	import { authState } from '$lib/authStore.svelte';
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
@@ -40,8 +41,11 @@
 	let daftarAbsensi = $state([]);
 	let errorMessage = $state("");
 
+	let isFetching = $state(false);
+
 	onMount(async () => {
 		try {
+			isFetching = true;
 			const [resSiswa, resAbsensi] = await Promise.all([
 				fetch(`${PUBLIC_API_BASE_URL}/siswa/`, {
 					method: "GET",
@@ -60,6 +64,7 @@
 
 			daftarSiswa = await resSiswa.json();
 			daftarAbsensi = await resAbsensi.json();
+			if (daftarSiswa && daftarAbsensi) isFetching = false;
 		} catch(error) {
 			console.error("Error fetching data: ", error);
 			errorMessage = error.message;
@@ -127,6 +132,9 @@
 
 {#if authState.isLoggedIn && (authState.role === 'Admin' || authState.role === 'Pengajar')}
 <section class="content-section">
+	{#if isFetching}
+		<LoadingOverlay visible={true} color="primary" />
+	{/if}
 	<div class="row mb-5 g-3">
 		<div class="col-6 col-md-3">
 			<div class="text-center d-flex align-items-center justify-content-center border p-3 h-100 shadow-sm bg-body-tertiary rounded-3">
