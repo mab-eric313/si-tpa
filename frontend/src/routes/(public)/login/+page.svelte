@@ -1,6 +1,7 @@
 <script>
     import { goto } from "$app/navigation";
 	import { setAuth } from '$lib/authStore.svelte';
+	import LoadingOverlay from "$lib/components/LoadingOverlay.svelte";
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
@@ -8,11 +9,15 @@
 	let password = $state("");
 	let loginSuccess = $state(true);
 	let errorMessage = $state("");
+	let isLoading = $state(false);
+	let loadingMessage = $state('Sedang memuat data...');
 
 	async function handleSubmit(event) {
 		event.preventDefault();
 
 		try {
+			isLoading = true;
+			loadingMessage = "Sedang memuat data...";
 			const response = await fetch(`${PUBLIC_API_BASE_URL}/auth/login/`, {
 				method: "POST",
 				headers: {
@@ -60,6 +65,11 @@
 </svelte:head>
 
 <section id="login-section" class="d-flex container">
+
+	{#if isLoading}
+		<LoadingOverlay visible={isLoading} color="primary" />
+	{/if}
+
 	<div class="login-card">
 
 		<!-- Panel Kiri -->
@@ -136,7 +146,6 @@
 </section>
 
 <style>
-
 	section {
 		background:#f7f5ef;
 	}
