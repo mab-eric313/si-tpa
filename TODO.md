@@ -20,9 +20,9 @@ $ grep -Rn "TODO:" . \
 ./frontend/src/routes/(protected)/admin/+page.svelte:56:<!-- TODO: Auth checking not is actually checking -->
 ./frontend/src/routes/(protected)/bendahara/Header.svelte:8:    // TODO: Use Lucide Icons
 ```
+- (HIGH) Add feature upload image to cloudinary
 - (HIGH) Add column `mengajar` in table `pengajar` 
     for assigning to what class
-
 - (HIGH) If the class is just for monday, then presence must just for monday
 - (MED) Add Detail button for every row table
 - (MED) Remove kelas field in pendaftaran page
