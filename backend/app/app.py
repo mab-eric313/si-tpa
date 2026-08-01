@@ -8,7 +8,7 @@ from app.database import engine, create_db_if_not_exists
 from app.routers import (
     auth, siswa, kelas, wali, biodata_user, gaji_pengajar, pengganti_pengajar,
     penilaian_doa, penilaian_jilid, penilaian_surat, spp_siswa, trg_log_siswa, 
-    trg_transaksi, pendaftaran_siswa, absensi
+    trg_transaksi, pendaftaran_siswa, absensi, upload
 )
 
 @asynccontextmanager
@@ -36,6 +36,7 @@ app.include_router(trg_log_siswa.router)
 app.include_router(trg_transaksi.router)
 app.include_router(pendaftaran_siswa.router)
 app.include_router(absensi.router)
+app.include_router(upload.router)
 
 origins = [
     config.PUBLIC_FRONTEND_BASE_URL,

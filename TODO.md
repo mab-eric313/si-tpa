@@ -28,6 +28,7 @@ $ grep -Rn "TODO:" . \
 - (MED) Remove kelas field in pendaftaran page
 - (MED) What the difference between "Nama Pencatatan" dan "Catatan"
 - (MED) Add Backup automation
+- (MED) Change `os.getenv()` to Pydantic settings in `config.py` 
 - (LOW) rename auth.py to user.py
 - (LOW) Check console log, maybe there are debug message
 - (LOW) Change name `PUBLIC_FRONTEND_BASE_URL` to `PUBLIC_FE_BASE_URL` in .env

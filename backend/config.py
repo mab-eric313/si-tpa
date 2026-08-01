@@ -1,5 +1,6 @@
 import os
 import ssl
+import cloudinary
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -50,3 +51,17 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRES_MINUTE = 60
 
 PUBLIC_FRONTEND_BASE_URL = os.getenv("PUBLIC_FRONTEND_BASE_URL", "")
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
+CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
+CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
+CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
+
+cloudinary.config( 
+    cloud_name = CLOUDINARY_CLOUD_NAME, 
+    api_key = CLOUDINARY_API_KEY, 
+    api_secret = CLOUDINARY_API_SECRET,
+    secure=True
+)
+

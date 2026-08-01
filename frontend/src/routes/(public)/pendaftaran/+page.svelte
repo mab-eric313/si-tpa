@@ -1,25 +1,24 @@
 <script>
     import { onMount } from "svelte";
-
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
-  let namaSantri = $state('');
-  let jenisKelamin = $state('');
-  let tanggalLahir = $state('');
-  let alamatSantri = $state('');
-  let namaWali = $state('');
-  let noHp = $state('');
-  let alamatWali = $state('');
-  let daftarKelas = $state({});
-  let selectedKelas = $state('');
-  let fotoKk = $state('');
-  let fotoAk = $state('');
-  let fotoPas = $state('');
+	let namaSantri = $state('');
+	let jenisKelamin = $state('');
+	let tanggalLahir = $state('');
+	let alamatSantri = $state('');
+	let namaWali = $state('');
+	let noHp = $state('');
+	let alamatWali = $state('');
+	let selectedKelas = $state('');
 
-  // TODO: Add Uploading files
-  // let files = $state(null);
+	let fotoKkFile = $state(null);
+	let fotoAkFile = $state(null);
+	let fotoPasFile = $state(null);
 
+	let daftarKelas = $state([]);
 	let errorMessage = $state('');
+    let isSubmitting = $state(false);
+
 	onMount(async () => {
 		try {
 			const res = await fetch(`${PUBLIC_API_BASE_URL}/kelas/`, {
@@ -27,82 +26,79 @@
 				headers: { "Content-Type": "application/json" },
 			});
 			if (!res.ok) throw new Error(res.statusText);
-
 			daftarKelas = await res.json();
 		} catch (error) {
 			console.error(error);
+            errorMessage = "Gagal memuat data kelas.";
 		}
 	});
-
-	let payload = $derived({
-		nama_siswa: namaSantri,
-		status: "Pending",
-		jenis_kelamin_siswa: jenisKelamin,
-		tanggal_lahir_siswa: tanggalLahir,
-		alamat_siswa: alamatSantri,
-		nama_wali: namaWali,
-		no_hp_wali: noHp,
-		alamat_wali: alamatWali,
-		kelas_id: selectedKelas,
-		foto_kk: fotoKk,
-		foto_ak: fotoAk,
-		foto_pas: fotoPas,
-	});
-
-  // Fungsi untuk menangani pengiriman form
-  async function handleSubmit() {
-    // Validasi sederhana (karena semua field wajib diisi)
-    if (!namaSantri || !jenisKelamin || !tanggalLahir || !namaWali || !kelas) {
-      alert('Mohon lengkapi semua data yang wajib diisi (*).');
-      return;
+    function handleFileChange(e, fileState) {
+        fileState = e.target.files[0] || null;
     }
 
-		try {
-			const res = await fetch(`${PUBLIC_API_BASE_URL}/pendaftaran-siswa/`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload)
-			});
-			if (!res.ok) throw new Error(res.statusText);
+	async function handleSubmit(e) {
+		e.preventDefault();
 
-			daftarKelas = await res.json();
-		} catch (error) {
-			console.error(error);
+		if (!namaSantri || !jenisKelamin || !tanggalLahir || !namaWali || !kelas) {
+			errorMessage = 'Mohon lengkapi semua data wajib dan unggah semua foto.';
+			return;
 		}
 
-    const formData = {
-      namaSantri,
-	  jenisKelamin,
-      tanggalLahir,
-      alamatSantri,
-      namaWali,
-      noHp,
-      alamatWali,
-      selectedKelas,
-  	  fotoKk,
-  	  fotoAk,
-  	  fotoPas,
-    };
+        isSubmitting = true;
+        errorMessage = '';
 
-    alert('Pendaftaran berhasil dikirim! Admin akan segera menghubungi Anda.');
-    
-    // Reset form setelah sukses
-    resetForm();
-  }
+		try {
+            const formData = new FormData();
+            formData.append('nama_siswa', namaSantri);
+            formData.append('status', 'Pending');
+            formData.append('jenis_kelamin_siswa', jenisKelamin);
+            formData.append('tanggal_lahir_siswa', tanggalLahir);
+            formData.append('alamat_siswa', alamatSantri || '');
+            formData.append('nama_wali', namaWali);
+            formData.append('no_hp_wali', noHp || '');
+            formData.append('alamat_wali', alamatWali || '');
+            formData.append('kelas_id', selectedKelas);
 
-  function resetForm() {
-    namaSantri = '';
-    jenisKelamin = '';
-    tanggalLahir = '';
-    alamatSantri = '';
-    namaWali = '';
-    noHp = '';
-    alamatWali = '';
-    selectedKelas = '';
-    fotoKk = '';
-    fotoAk = '';
-    fotoPas = '';
-  }
+            if (fotoKkFile) formData.append('foto_kk', fotoKkFile);
+            if (fotoAkFile) formData.append('foto_ak', fotoAkFile);
+            if (fotoPasFile) formData.append('foto_pas', fotoPasFile);
+
+			const res = await fetch(
+				`${PUBLIC_API_BASE_URL}/pendaftaran-siswa/form`, {
+					method: "POST",
+					body: formData
+				}
+			);
+			if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.detail || res.statusText);
+			}
+
+            alert('Pendaftaran berhasil dikirim! Admin akan segera menghubungi Anda.');
+            resetForm();
+
+		} catch (error) {
+            errorMessage = error.message;
+		} finally {
+            isSubmitting = false;
+		}
+	}
+
+	function resetForm() {
+		namaSantri = '';
+		jenisKelamin = '';
+		tanggalLahir = '';
+		alamatSantri = '';
+		namaWali = '';
+		noHp = '';
+		alamatWali = '';
+		selectedKelas = '';
+		fotoKkFile = null;
+		fotoAkFile = null;
+		fotoPasFile = null;
+
+        document.querySelectorAll('input[type="file"]').forEach(input => input.value = '');
+	}
 </script>
 
 <!-- UTAMA / CONTAINER -->
@@ -120,13 +116,12 @@
     <ul>
       <li>Usia minimal 5 tahun</li>
       <li>Mengisi formulir pendaftaran dengan lengkap</li>
-	  <li>Masukkan foto-foto yang dibutuhkan ke dalam Google Drive</li>
+	  <li>Masukkan foto-foto yang dibutuhkan</li>
 	  <ul>
 		  <li>Foto Kartu Keluarga</li>
 		  <li>Foto Akta Kelahiran</li>
 		  <li>Pas foto ukuran 3x4</li>
 	  </ul>
-	  <li>Kemudian salin link foto-foto tersebut lalu masukkan ke dalam form yang sesuai</li>
     </ul>
   </div>
 
@@ -134,7 +129,7 @@
   <div class="card">
     <h2>Form Pendaftaran</h2>
 
-    <form>
+	<form onsubmit={handleSubmit}>
       <div class="form-group">
         <label for="nama-santri">Nama Lengkap Santri<span>*</span></label>
         <input 
@@ -152,6 +147,7 @@
 			id="jenis-kelamin" 
 			class="form-select"
 			bind:value={jenisKelamin}>
+			<option value="" disabled>Pilih Jenis Kelamin</option>
 			<option value="L">Laki-laki</option>
 			<option value="P">Perempuan</option>
 		</select>
@@ -213,7 +209,9 @@
 		<select 
 			id="kelas" 
 			class="form-select"
-			bind:value={selectedKelas}>
+			bind:value={selectedKelas}
+			required>
+			<option value="" disabled>Pilih Kelas</option>
 			{#each daftarKelas as kelas}
 				<option value={kelas.id}>{kelas.nama}</option>
 			{/each}
@@ -221,43 +219,57 @@
 	  </div>
 
       <div class="form-group">
-        <label for="no-hp">Foto Kartu Keluarga<span>*</span></label>
+        <label for="foto-kk" class="form-label">
+			Foto Kartu Keluarga<span>*</span>
+		</label>
         <input 
-          id="no-hp"
-          type="text" 
-          placeholder="Masukkan link foto Kartu Keluarga" 
-          bind:value={fotoKk}
+          id="foto-kk"
+		  class="form-control"
+          type="file" 
+		  accept="image/*"
+		  onchange={(e) => handleFileChange(e, fotoKkFile)}
           required
         />
       </div>
 
 
       <div class="form-group">
-        <label for="no-hp">Foto Akta Kelahiran<span>*</span></label>
+        <label for="no-hp" class="form-label">
+			Foto Akta Kelahiran<span>*</span>
+		</label>
         <input 
           id="no-hp"
-          type="text" 
-          placeholder="Masukkan link foto Akta Kelahiran" 
-          bind:value={fotoAk}
+		  class="form-control"
+          type="file" 
+		  accept="image/*"
+		  onchange={(e) => handleFileChange(e, fotoAkFile)}
           required
         />
       </div>
 
 
       <div class="form-group">
-        <label for="no-hp">Pas Foto 3x4<span>*</span></label>
+        <label for="no-hp" class="form-label">
+			Pas Foto 3x4<span>*</span>
+		</label>
         <input 
           id="no-hp"
-          type="text" 
-          placeholder="Masukkan link pas foto 3x4" 
-          bind:value={fotoPas}
+		  class="form-control"
+          type="file" 
+		  accept="image/*"
+		  onchange={(e) => handleFileChange(e, fotoPasFile)}
           required
         />
       </div>
 
-	  <button type="submit" class="btn" onclick={handleSubmit}>
-        Kirim Pendaftaran
+	  <button type="submit" class="btn" disabled={isSubmitting}>
+		{isSubmitting ? 'Sedang Mengirim...' : 'Kirim Pendaftaran'}
       </button>
+        
+      {#if errorMessage}
+          <div class="alert alert-danger mb-3">{errorMessage}</div>
+      {/if}
+
     </form>
   </div>
 
