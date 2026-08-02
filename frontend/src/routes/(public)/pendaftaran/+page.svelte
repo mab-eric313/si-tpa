@@ -32,14 +32,19 @@
             errorMessage = "Gagal memuat data kelas.";
 		}
 	});
-    function handleFileChange(e, fileState) {
-        fileState = e.target.files[0] || null;
+
+    function handleFileChange(fileStateSetter, e) {
+        fileStateSetter(e.target.files[0] || null);
     }
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 
-		if (!namaSantri || !jenisKelamin || !tanggalLahir || !namaWali || !kelas) {
+        console.log("File KK:", fotoKkFile);
+        console.log("File AK:", fotoAkFile);
+        console.log("File Pas:", fotoPasFile);
+
+        if (!namaSantri || !jenisKelamin || !tanggalLahir || !namaWali || !selectedKelas || !fotoKkFile || !fotoAkFile || !fotoPasFile) {
 			errorMessage = 'Mohon lengkapi semua data wajib dan unggah semua foto.';
 			return;
 		}
@@ -59,9 +64,9 @@
             formData.append('alamat_wali', alamatWali || '');
             formData.append('kelas_id', selectedKelas);
 
-            if (fotoKkFile) formData.append('foto_kk', fotoKkFile);
-            if (fotoAkFile) formData.append('foto_ak', fotoAkFile);
-            if (fotoPasFile) formData.append('foto_pas', fotoPasFile);
+            formData.append('foto_kk', fotoKkFile);
+            formData.append('foto_ak', fotoAkFile);
+            formData.append('foto_pas', fotoPasFile);
 
 			const res = await fetch(
 				`${PUBLIC_API_BASE_URL}/pendaftaran-siswa/form`, {
@@ -78,7 +83,8 @@
             resetForm();
 
 		} catch (error) {
-            errorMessage = error.message;
+            console.error("Error submitting form: ", error);
+            errorMessage = typeof error.message === 'string' ? error.message : "Terjadi kesalahan pada server";
 		} finally {
             isSubmitting = false;
 		}
@@ -227,7 +233,7 @@
 		  class="form-control"
           type="file" 
 		  accept="image/*"
-		  onchange={(e) => handleFileChange(e, fotoKkFile)}
+			onchange={(e) => fotoKkFile = e.target.files[0] || null}
           required
         />
       </div>
@@ -242,7 +248,7 @@
 		  class="form-control"
           type="file" 
 		  accept="image/*"
-		  onchange={(e) => handleFileChange(e, fotoAkFile)}
+			onchange={(e) => fotoAkFile = e.target.files[0] || null}
           required
         />
       </div>
@@ -257,7 +263,7 @@
 		  class="form-control"
           type="file" 
 		  accept="image/*"
-		  onchange={(e) => handleFileChange(e, fotoPasFile)}
+			onchange={(e) => fotoPasFile = e.target.files[0] || null}
           required
         />
       </div>

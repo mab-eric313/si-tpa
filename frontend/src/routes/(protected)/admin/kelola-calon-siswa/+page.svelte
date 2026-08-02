@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+	import { onMount, onDestroy } from "svelte";
 	import { goto } from "$app/navigation";
 
 	import { PUBLIC_API_BASE_URL } from "$env/static/public";
@@ -8,6 +8,9 @@
 	let daftarCalonSiswa = $state([]);
 	let daftarKelas = $state([]);
 	let daftarSiswa = $state([]);
+	let activeDropdownId = $state(null); 
+	let showModal = $state(false);
+	let selectedCalonSiswa = $state(null);
 
 	onMount(async () => {
 		try {
@@ -28,7 +31,37 @@
 			console.error(error);
 			errorMessage = error.message;
 		}
+
+		document.addEventListener('click', handleCloseDropdown);
+		document.addEventListener('keydown', handleEscKey);
 	});
+
+	onDestroy(() => {
+		document.removeEventListener('click', handleCloseDropdown);
+	});
+
+	function openFotoModal(calonSiswa) {
+		selectedCalonSiswa = calonSiswa;
+		showModal = true;
+	}
+
+	function closeFotoModal() {
+		showModal = false;
+		selectedCalonSiswa = null;
+	}
+
+	function handleEscKey(e) {
+		if (e.key === 'Escape' && showModal) closeFotoModal();
+	}
+
+	function handleCloseDropdown() {
+		activeDropdownId = null;
+	}
+
+	function toggleDropdown(id, event) {
+		event.stopPropagation();
+		activeDropdownId = activeDropdownId === id ? null : id;
+	}
 
 	function getNamaKelas(kelasId) {
 		return daftarKelas.find(k => k.id == kelasId)?.nama ?? "-";
@@ -92,12 +125,6 @@
 	<h1 class="mb-4">Kelola Data Calon Siswa</h1>
 
 	<div class="table-container border rounded bg-white">
-		<!--
-		<div class="filter-section p-3 border-bottom">
-			<div class="row g-3">
-			</div>
-		</div>
-		-->
 		{#if errorMessage}
 			<div class="d-flex p-4 justify-content-center">
 				<div class="card border-danger mb-3">
@@ -152,37 +179,42 @@
 									<div class="dropdown">
 										<button
 											type="button"
-											class="btn btn-sm btn-primary dropdown-toggle"
-											data-bs-toggle="dropdown" aria-expanded="false"
-											aria-label="Lihat Foto">
+											class="btn btn-sm btn-primary dropdown-toggle {activeDropdownId === calonSiswa.id ? 'show' : ''}"
+											aria-expanded={activeDropdownId === calonSiswa.id}
+											aria-label="Lihat Foto"
+											onclick={() => openFotoModal(calonSiswa)}>
+											<i class="bi bi-images"></i>
 											Lihat
 										</button>
-										<ul class="dropdown-menu">
-											<li>
-												<a class="dropdown-item" 
-												   href={calonSiswa.foto_kk}
-												   target="_blank" 
-												   rel="noopener noreferrer">
-													Foto Kartu Keluarga
-												</a>
-											</li>
-											<li>
-												<a class="dropdown-item" 
-												   href={calonSiswa.foto_ak}
-												   target="_blank" 
-												   rel="noopener noreferrer">
-													Foto Akta Kelahiran
-												</a>
-											</li>
-											<li>
-												<a class="dropdown-item" 
-												   href={calonSiswa.foto_pas}
-												   target="_blank" 
-												   rel="noopener noreferrer">
-													Pas Foto
-												</a>
-											</li>
-										</ul>
+										{#if activeDropdownId === calonSiswa.id}
+											<ul class="dropdown-menu show menu"
+												data-popper-placement="bottom-start">
+												<li>
+													<a class="dropdown-item" 
+													   href={calonSiswa.foto_kk}
+													   target="_blank" 
+													   rel="noopener noreferrer">
+														Foto Kartu Keluarga
+													</a>
+												</li>
+												<li>
+													<a class="dropdown-item" 
+													   href={calonSiswa.foto_ak}
+													   target="_blank" 
+													   rel="noopener noreferrer">
+														Foto Akta Kelahiran
+													</a>
+												</li>
+												<li>
+													<a class="dropdown-item" 
+													   href={calonSiswa.foto_pas}
+													   target="_blank" 
+													   rel="noopener noreferrer">
+														Pas Foto
+													</a>
+												</li>
+											</ul>
+										{/if}
 									</div>
 								</th>
 								<td class="text-center">
@@ -250,7 +282,99 @@
 	</div>
 </section>
 
+<!-- MODAL FOTO -->
+{#if showModal}
+	<div class="modal fade show d-block" 
+		 tabindex="0" 
+		 style="background: rgba(0,0,0,0.5); z-index: 1055;"
+		 onclick={closeFotoModal} on
+		 role="button"
+		 onkeydown={(e) => {
+			 if (e.key === 'Enter' || e.key === ' ') {
+				 e.preventDefault();
+				 closeFotoModal();
+			 }
+		 }}
+	>
+		<div class="modal-dialog modal-dialog-centered" 
+			 tabindex="0" 
+			 role="button"
+			 onclick={(e) => e.stopPropagation()}
+			 onkeydown={(e) => {
+			 	if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					closeFotoModal();
+				}
+			 }}
+		>
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">
+						Foto {selectedCalonSiswa?.nama_siswa}
+					</h5>
+					<button type="button" 
+							class="btn-close" 
+							aria-label="Close"
+							onclick={closeFotoModal}>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="list-group">
+						{#if selectedCalonSiswa?.foto_kk}
+							<a href={selectedCalonSiswa.foto_kk}
+							   target="_blank"
+							   rel="noopener noreferrer"
+							   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+								<i class="bi bi-file-earmark-image me-2"></i>
+								Foto Kartu Keluarga
+								<i class="bi bi-box-arrow-up-right"></i>
+							</a>
+						{/if}
+						
+						{#if selectedCalonSiswa?.foto_ak}
+							<a href={selectedCalonSiswa.foto_ak}
+							   target="_blank"
+							   rel="noopener noreferrer"
+							   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+								<i class="bi bi-file-earmark-image me-2"></i>
+								Foto Akta Kelahiran
+								<i class="bi bi-box-arrow-up-right"></i>
+							</a>
+						{/if}
+						
+						{#if selectedCalonSiswa?.foto_pas}
+							<a href={selectedCalonSiswa.foto_pas}
+							   target="_blank"
+							   rel="noopener noreferrer"
+							   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+								<i class="bi bi-file-earmark-image me-2"></i>
+								Pas Foto 3x4
+								<i class="bi bi-box-arrow-up-right"></i>
+							</a>
+						{/if}
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" 
+							class="btn btn-secondary"
+							onclick={closeFotoModal}>
+						Tutup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <style>
+	.menu {
+		position: absolute;
+		inset: 0px auto auto 0px;
+		margin: 0px;
+		transform: translate(0px, 32px);
+		z-index: 999999999;
+	}
+
 	.content-section {
 		padding: 0;
 	}
@@ -264,12 +388,6 @@
 	.table-container {
 		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 	}
-
-	/*
-	.filter-section {
-		background-color: #f8f9fa;
-	}
-	*/
 
 	.table-responsive {
 		overflow-x: auto;
