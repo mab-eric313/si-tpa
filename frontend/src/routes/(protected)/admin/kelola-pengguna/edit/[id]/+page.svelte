@@ -89,13 +89,13 @@
 	}
 </script>
 
-<section class="sidebar-gap">
-	<a href="/admin/kelola-pengguna" class="btn btn-light bi bi-arrow-left mb-5">
+<section class="content-section">
+	<a href="/admin/kelola-pengguna" class="btn bg-white bi bi-arrow-left mb-2">
 		Kembali
 	</a>
 	<form action="">
-		<div class="container border rounded py-4 mb-3">
-			<div class="mb-3 row mx-0">
+		<div class="container bg-white border rounded py-4 mb-3">
+			<div class="row mx-0">
 				<button 
 				 	type="button" 
 					class="fs-5 col {editTab === 'pengguna' ? 'jenis-edit-active' : 'jenis edit-deactive'} fw-medium text-center align-content-center"
@@ -112,8 +112,8 @@
 		</div>
 
 		{#if editTab === "pengguna"}
-			<div class="container border rounded py-4 mb-3">
-				<h1 class="mb-5">Edit Pengguna</h1>
+			<div class="container bg-white border rounded py-4 mb-3">
+				<h1 class="mb-3 text-center">Edit Pengguna</h1>
 				<div class="mb-3">
 					<label 
 						for="inputUsername" 
@@ -168,58 +168,62 @@
 				</div>
 			</div>
 		{:else if editTab === "biodata"}
-			<div class="container border rounded py-4 mb-3">
-				<h1 class="mb-5">Edit Biodata</h1>
-				<div class="mb-3">
-					<label 
-						for="inputNamaLengkap" 
-						class="form-label">
-						Nama Lengkap
-					</label>
-					<input 
-						type="text" 
-						class="form-control" 
-						id="inputNamaLengkap"
-						bind:value={inputBiodata.nama_lengkap}
-						placeholder="Masukkan nama lengkap">
+			<div class="container bg-white border rounded py-4 mb-3">
+				<h1 class="mb-3 text-center">Edit Biodata</h1>
+				<div class="row g-3">
+					<div class="col-md-6 mb-3">
+						<label 
+							for="inputNamaLengkap" 
+							class="form-label">
+							Nama Lengkap
+						</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="inputNamaLengkap"
+							bind:value={inputBiodata.nama_lengkap}
+							placeholder="Masukkan nama lengkap">
+					</div>
+					<div class="col-md-6 mb-3">
+						<label 
+							for="inputNamaPanggilan" 
+							class="form-label">
+							Nama Panggilan
+						</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="inputNamaPanggilan"
+							bind:value={inputBiodata.nama_panggilan}
+							placeholder="Masukkan nama panggilan">
+					</div>
 				</div>
-				<div class="mb-3">
-					<label 
-						for="inputNamaPanggilan" 
-						class="form-label">
-						Nama Panggilan
-					</label>
-					<input 
-						type="text" 
-						class="form-control" 
-						id="inputNamaPanggilan"
-						bind:value={inputBiodata.nama_panggilan}
-						placeholder="Masukkan nama panggilan">
-				</div>
-				<div class="mb-3">
-					<label 
-						for="selectJenisKelamin"
-						class="form-label">
-						Jenis Kelamin
-					</label>
-					<select name="" id="selectJenisKelamin" class="form-select"
-						bind:value={inputBiodata.jenis_kelamin}>
-						<option value="L">Laki-laki</option>
-						<option value="P">Perempuan</option>
-					</select>
-				</div>
-				<div class="mb-3">
-					<label 
-						for="inputNoHp" 
-						class="form-label">
-						Nomor Hp
-					</label>
-					<input 
-						type="text" 
-						class="form-control" 
-						id="inputNamaPanggilan"
-						bind:value={inputBiodata.no_hp}
-						placeholder="Masukkan Nomor Hp">
+				<div class="row g-3">
+					<div class="col-md-6 mb-3">
+						<label 
+							for="selectJenisKelamin"
+							class="form-label">
+							Jenis Kelamin
+						</label>
+						<select name="" id="selectJenisKelamin" class="form-select"
+							bind:value={inputBiodata.jenis_kelamin}>
+							<option value="L">Laki-laki</option>
+							<option value="P">Perempuan</option>
+						</select>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label 
+							for="inputNoHp" 
+							class="form-label">
+							Nomor Hp
+						</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="inputNamaPanggilan"
+							bind:value={inputBiodata.no_hp}
+							placeholder="Masukkan Nomor Hp">
+					</div>
 				</div>
 				<div class="mb-3">
 					<label 
@@ -249,7 +253,7 @@
 			</div>
 		{/if}
 		<div class="container d-flex justify-content-end">
-			<a href="/admin/kelola-pengguna/"class="btn border rounded w-50 mx-2">
+			<a href="/admin/kelola-pengguna"class="btn btn-secondary border rounded w-50 mx-2">
 				Batal
 			</a>
 			<button 
@@ -260,10 +264,18 @@
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
+	}
+
+	h1 {
+		font-size: 30px;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.bg-white {
+		background-color: white;
 	}
 
 	.bg-green {

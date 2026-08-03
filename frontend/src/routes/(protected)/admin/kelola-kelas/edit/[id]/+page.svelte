@@ -61,27 +61,28 @@
 	}
 </script>
 
-<section class="sidebar-gap">
-	<a href="/admin/kelola-kelas" class="btn btn-light bi bi-arrow-left mb-5">
+<section class="content-section">
+	<a href="/admin/kelola-kelas" class="btn bg-white btn-light bi bi-arrow-left mb-2">
 		Kembali
 	</a>
 	<form action="">
-			<div class="container border rounded py-4 mb-3">
-				<h1 class="mb-5">Edit Kelas</h1>
-				<div class="mb-3">
-					<label 
-						for="inputNamaKelas" 
-						class="form-label">
-						Nama Kelas
-					</label>
-					<input 
-						type="text" 
-						class="form-control" 
-						id="inputNamaKelas"
-						bind:value={inputKelas.nama}
-						placeholder="Masukkan nama">
-				</div>
-				<div class="mb-3">
+		<div class="container bg-white border rounded py-4 mb-3">
+			<h1 class="mb-3 text-center">Edit Kelas</h1>
+			<div class="mb-3">
+				<label 
+					for="inputNamaKelas" 
+					class="form-label">
+					Nama Kelas
+				</label>
+				<input 
+					type="text" 
+					class="form-control" 
+					id="inputNamaKelas"
+					bind:value={inputKelas.nama}
+					placeholder="Masukkan nama">
+			</div>
+			<div class="row">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="selectStartHari"
 						class="form-label">
@@ -95,7 +96,7 @@
 						{/each}
 					</select>
 				</div>
-				<div class="mb-3">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="selectEndHari"
 						class="form-label">
@@ -109,7 +110,9 @@
 						{/each}
 					</select>
 				</div>
-				<div class="mb-3">
+			</div>
+			<div class="row">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="inputStartWaktu"
 						class="form-label">
@@ -122,7 +125,7 @@
 						bind:value={inputKelas.start_time}
 					/>
 				</div>
-				<div class="mb-3">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="inputStartWaktu"
 						class="form-label">
@@ -136,8 +139,10 @@
 					/>
 				</div>
 			</div>
+		</div>
 		<div class="container d-flex justify-content-end">
-			<a href="/admin/kelola-kelas/"class="btn border rounded w-50 mx-2">
+			<a href="/admin/kelola-kelas/"
+				class="btn btn-secondary border rounded w-50 mx-2">
 				Batal
 			</a>
 			<button 
@@ -148,10 +153,18 @@
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
+	}
+
+	h1 {
+		font-size: 30px;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.bg-white {
+		background-color: white;
 	}
 
 	.bg-green {

@@ -103,63 +103,68 @@
 	}
 </script>
 
-<section class="sidebar-gap">
-	<a href="/admin/kelola-pengguna" class="btn btn-light bi bi-arrow-left mb-5">
+<section class="content-section">
+	<a href="/admin/kelola-pengguna" class="btn bg-white bi bi-arrow-left mb-2">
 		Kembali
 	</a>
 	<form action="">
-		<div class="container border rounded py-4 mb-3">
-			<h1 class="mb-5">Tambah Biodata</h1>
-			<div class="mb-3">
-				<label 
-					for="inputNamaLengkap" 
-					class="form-label">
-					Nama Lengkap
-				</label>
-				<input 
-					type="text" 
-					class="form-control" 
-					id="inputNamaLengkap"
-					bind:value={inputBiodata.nama_lengkap}
-					placeholder="Masukkan nama lengkap">
+		<div class="container border rounded p-4 mb-3 bg-white">
+			<h1 class="mb-3 text-center">Tambah Biodata</h1>
+			<div class="row g-3">
+				<div class="col-md-6 mb-3">
+					<label 
+						for="inputNamaLengkap" 
+						class="form-label">
+						Nama Lengkap
+					</label>
+					<input 
+						type="text" 
+						class="form-control" 
+						id="inputNamaLengkap"
+						bind:value={inputBiodata.nama_lengkap}
+						placeholder="Masukkan nama lengkap">
+				</div>
+				<div class="col-md-6 mb-3">
+					<label 
+						for="inputNamaPanggilan" 
+						class="form-label">
+						Nama Panggilan
+					</label>
+					<input 
+						type="text" 
+						class="form-control" 
+						id="inputNamaPanggilan"
+						bind:value={inputBiodata.nama_panggilan}
+						placeholder="Masukkan nama panggilan">
+				</div>
 			</div>
-			<div class="mb-3">
-				<label 
-					for="inputNamaPanggilan" 
-					class="form-label">
-					Nama Panggilan
-				</label>
-				<input 
-					type="text" 
-					class="form-control" 
-					id="inputNamaPanggilan"
-					bind:value={inputBiodata.nama_panggilan}
-					placeholder="Masukkan nama panggilan">
-			</div>
-			<div class="mb-3">
-				<label 
-					for="selectJenisKelamin"
-					class="form-label">
-					Jenis Kelamin
-				</label>
-				<select name="" id="selectJenisKelamin" class="form-select"
-					bind:value={inputBiodata.jenis_kelamin}>
-					<option value="L">Laki-laki</option>
-					<option value="P">Perempuan</option>
-				</select>
-			</div>
-			<div class="mb-3">
-				<label 
-					for="inputNoHp" 
-					class="form-label">
-					Nomor Hp
-				</label>
-				<input 
-					type="text" 
-					class="form-control" 
-					id="inputNamaPanggilan"
-					bind:value={inputBiodata.no_hp}
-					placeholder="Masukkan Nomor Hp">
+			<div class="row g-3">
+				<div class="col-md-6 mb-3">
+					<label 
+						for="selectJenisKelamin"
+						class="form-label">
+						Jenis Kelamin
+					</label>
+					<select name="" id="selectJenisKelamin" class="form-select"
+						bind:value={inputBiodata.jenis_kelamin}>
+						<option value="" disabled>Pilih Jenis Kelamin</option>
+						<option value="L">Laki-laki</option>
+						<option value="P">Perempuan</option>
+					</select>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label 
+						for="inputNoHp" 
+						class="form-label">
+						Nomor Hp
+					</label>
+					<input 
+						type="text" 
+						class="form-control" 
+						id="inputNamaPanggilan"
+						bind:value={inputBiodata.no_hp}
+						placeholder="Masukkan Nomor Hp">
+				</div>
 			</div>
 			<div class="mb-3">
 				<label 
@@ -182,13 +187,14 @@
 				</label>
 				<select name="" id="selectStatus" class="form-select"
 					bind:value={inputBiodata.status}>
+					<option value="" disabled>Pilih Status</option>
 					<option value="Aktif">Aktif</option>
 					<option value="Tidak Aktif">Tidak Aktif</option>
 				</select>
 			</div>
 		</div>
-		<div class="container border rounded py-4 mb-3">
-			<h1 class="mb-5">Tambah Pengguna</h1>
+		<div class="container border rounded p-4 mb-3 bg-white">
+			<h1 class="mb-3 text-center">Tambah Pengguna</h1>
 			<div class="mb-3">
 				<label 
 					for="inputUsername" 
@@ -236,6 +242,7 @@
 				</label>
 				<select name="" id="inputRole" class="form-select"
 					bind:value={inputUser.role}>
+					<option value="" disabled>Pilih Role</option>
 					{#each selectDaftarRole as role}
 						<option value={role}>{role}</option>
 					{/each}
@@ -243,7 +250,7 @@
 			</div>
 		</div>
 		<div class="container d-flex justify-content-end">
-			<a href="/admin/kelola-pengguna/"class="btn border rounded w-50 mx-2">
+			<a href="/admin/kelola-pengguna"class="btn btn-secondary border rounded w-50 mx-2">
 				Batal
 			</a>
 			<button 
@@ -254,30 +261,21 @@
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
+	}
+
+	h1 {
+		font-size: 25px;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.bg-white {
+		background-color: white;
 	}
 
 	.bg-green {
 		background-color: #338136;
 	}
-
-	.jenis-edit-active {
-		color: #338136;
-		border: 2px solid;
-		border-color: #338136;
-
-		background-color: #F4F8FD;
-	}
-
-	.col {
-		min-height: 150px;
-		margin-right: 10px;
-		margin-bottom: 10px;
-		border-radius: 10px;
-		padding: 20px;
-	}
 </style>
-

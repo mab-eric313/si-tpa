@@ -93,14 +93,15 @@
 	}
 </script>
 
-<section class="sidebar-gap">
-	<a href="/admin/kelola-siswa" class="btn btn-light bi bi-arrow-left mb-5">
+<section class="content-section">
+	<a href=".." class="btn bg-white bi bi-arrow-left mb-2">
 		Kembali
 	</a>
 	<form action="">
-			<div class="container border rounded py-4 mb-3">
-				<h1 class="mb-5">Edit Siswa</h1>
-				<div class="mb-3">
+		<div class="container border rounded py-4 mb-3 bg-white">
+			<h1 class="mb-3 text-center">Edit Siswa</h1>
+			<div class="row">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="inputNama" 
 						class="form-label">
@@ -113,7 +114,7 @@
 						bind:value={inputSiswa.nama}
 						placeholder="Masukkan nama">
 				</div>
-				<div class="mb-3">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="selectJenisKelamin"
 						class="form-label">
@@ -125,7 +126,9 @@
 						<option value="P">Perempuan</option>
 					</select>
 				</div>
-				<div class="mb-3">
+			</div>
+			<div class="row">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="inputTanggalLahir"
 						class="form-label">
@@ -138,20 +141,7 @@
 						bind:value={inputSiswa.tanggal_lahir}
 						placeholder="Masukkan tanggal lahir">
 				</div>
-				<div class="mb-3">
-					<label 
-						for="inputAlamatSiswa"
-						class="form-label">
-						Alamat
-					</label>
-					<textarea 
-						type="text" rows="4"
-						class="form-control" 
-						id="inputAlamatSiswa"
-						bind:value={inputSiswa.alamat}
-						placeholder="Masukkan alamat"></textarea>
-				</div>
-				<div class="mb-3">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="selectKelas"
 						class="form-label">
@@ -165,9 +155,36 @@
 					</select>
 				</div>
 			</div>
-			<div class="container border rounded py-4 mb-3">
-				<h1 class="mb-5">Edit Wali</h1>
-				<div class="mb-3">
+			<div class="mb-3">
+				<label 
+					for="inputAlamatSiswa"
+					class="form-label">
+					Alamat
+				</label>
+				<textarea 
+					type="text" rows="4"
+					class="form-control" 
+					id="inputAlamatSiswa"
+					bind:value={inputSiswa.alamat}
+					placeholder="Masukkan alamat"></textarea>
+			</div>
+			<div class="mb-3">
+				<label 
+					for="selectStatus" 
+					class="form-label">
+					Status Siswa
+				</label>
+				<select name="" id="selectStatus" class="form-select"
+					bind:value={inputSiswa.status}>
+					<option value="Aktif">Aktif</option>
+					<option value="Tidak Aktif">Tidak Aktif</option>
+				</select>
+			</div>
+		</div>
+		<div class="container border rounded py-4 mb-3 bg-white">
+			<h1 class="mb-3 text-center">Edit Wali</h1>
+			<div class="row">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="inputNamaWali"
 						class="form-label">
@@ -180,20 +197,7 @@
 						bind:value={inputWali.nama}
 						placeholder="Masukkan nama">
 				</div>
-				<div class="mb-3">
-					<label 
-						for="inputAlamatWali"
-						class="form-label">
-						Alamat
-					</label>
-					<textarea 
-						rows="4"
-						class="form-control" 
-						id="inputAlamatWali"
-						bind:value={inputWali.alamat}
-						placeholder="Masukkan alamat"></textarea>
-				</div>
-				<div class="mb-3">
+				<div class="col-md-6 mb-3">
 					<label 
 						for="inputNoHp" 
 						class="form-label">
@@ -207,22 +211,22 @@
 						placeholder="Masukkan Nomor Hp">
 				</div>
 			</div>
-			<div class="container border rounded py-4 mb-3">
-				<div class="mb-3">
-					<label 
-						for="selectStatus" 
-						class="form-label">
-						Status Siswa
-					</label>
-					<select name="" id="selectStatus" class="form-select"
-						bind:value={inputSiswa.status}>
-						<option value="Aktif">Aktif</option>
-						<option value="Tidak Aktif">Tidak Aktif</option>
-					</select>
-				</div>
+			<div class="mb-3">
+				<label 
+					for="inputAlamatWali"
+					class="form-label">
+					Alamat
+				</label>
+				<textarea 
+					rows="4"
+					class="form-control" 
+					id="inputAlamatWali"
+					bind:value={inputWali.alamat}
+					placeholder="Masukkan alamat"></textarea>
 			</div>
+		</div>
 		<div class="container d-flex justify-content-end">
-			<a href="/admin/kelola-siswa/"class="btn border rounded w-50 mx-2">
+			<a href=".."class="btn btn-secondary border rounded w-50 mx-2">
 				Batal
 			</a>
 			<button 
@@ -233,10 +237,18 @@
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
+	}
+
+	h1 {
+		font-size: 30px;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.bg-white {
+		background-color: white;
 	}
 
 	.bg-green {

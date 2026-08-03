@@ -23,11 +23,11 @@
 	});
 
 	function handleAdd() {
-		goto(`users/add`);
+		goto(`/admin/kelola-pengguna/add`);
 	}
 
 	function handleEdit(id) {
-		goto(`users/edit/${id}`);
+		goto(`/admin/kelola-pengguna/edit/${id}`);
 	}
 
 	async function handleDelete(id) {
