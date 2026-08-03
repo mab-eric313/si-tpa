@@ -67,11 +67,11 @@
 	});
 
 	function handleAdd() {
-		goto(`siswa/add`);
+		goto(`/pengajar/penilaian/add`);
 	}
 
 	function handleEdit(id, siswa_id) {
-		goto(`siswa/edit/${id}?penilaian=${selectedTabelPenilaian}&siswa_id=${siswa_id}`);
+		goto(`/pengajar/penilaian/edit/${id}?penilaian=${selectedTabelPenilaian}&siswa_id=${siswa_id}`);
 	}
 
 	async function handleDelete(id) {

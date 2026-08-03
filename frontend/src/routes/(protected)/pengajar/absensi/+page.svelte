@@ -164,7 +164,7 @@
 </script>
 
 <section class="content-section">
-	<h1 class="my-4">Absensi - {selectedDate}</h1>
+	<h1 class="my-4">Absensi</h1>
 	<div class="table-container border rounded">
 		<div class="filter-section p-3 border-bottom">
 			<div class="row g-3">

@@ -105,14 +105,27 @@
 	}
 </script>
 
-<section class="sidebar-gap">
-	<a href="/pengajar/penilaian/" class="btn btn-light bi bi-arrow-left mb-5">
+<section class="content-section">
+	<a href="/pengajar/penilaian/" class="btn bg-white bi bi-arrow-left mb-2">
 		Kembali
 	</a>
 	<form action="">
-		<div class="container border rounded py-4 mb-3">
-			<h1 class="mb-5">Input Penilaian Harian</h1>
+		<div class="container bg-white border rounded py-4 mb-3">
+			<h1 class="mb-3 text-center">Input Penilaian Harian</h1>
 
+			<div class="mb-3">
+				<label for="selectPenilaian" class="form-label">
+					Pilih Jenis Penilaian
+				</label>
+				<select name="" id="selectPenilaian" class="form-select"
+					bind:value={penilaian}>
+					<option value="surat">Hafalan Surat</option>
+					<option value="doa">Hafalan Doa</option>
+					<option value="jilid">Bacaan Jilid</option>
+				</select>
+			</div>
+
+			<!--
 			<span class="fs-5 fw-medium">Pilih Jenis Penilaian</span>
 			<div class="mb-3 row mx-0">
 				<button 
@@ -134,6 +147,7 @@
 					Bacaan Jilid
 				</button>
 			</div>
+			-->
 
 
 			{#if penilaian === "surat"}
@@ -316,7 +330,7 @@
 			</div>
 		</div>
 
-		<div class="container border rounded py-4 mb-3">
+		<div class="container bg-white border rounded py-4 mb-3">
 			<h3 class="">Catatan Perkembangan </h3>
 			<div class="mb-3">
 				<label for="textAreaNote" class="form-label">
@@ -329,7 +343,10 @@
 		</div>
 
 		<div class="container d-flex justify-content-end">
-			<a href="/pengajar/penilaian/" class="btn border rounded w-50 mx-2">Batal</a>
+			<a href="/pengajar/penilaian/" 
+				class="btn btn-secondary border rounded w-50 mx-2">
+				Batal
+			</a>
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"
 				onclick={handleSubmit}>
@@ -340,11 +357,24 @@
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
 	}
+
+	h1 {
+		font-size: 25px;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.bg-white {
+		background-color: white;
+	}
+
+	.bg-green {
+		background-color: #338136;
+	}
+
 
 	.bg-green {
 		background-color: #338136;
