@@ -90,34 +90,26 @@
 	}
 </script>
 
-<section class="sidebar-gap">
-	<a href="/bendahara/pencatatan/" class="btn btn-light bi bi-arrow-left mb-5">
+<section class="content-section">
+	<a href="/bendahara/pencatatan/" class="btn bg-white bi bi-arrow-left mb-2">
 		Kembali
 	</a>
 	<form action="">
-		<h1 class="mt-3">Pencatatan Kas</h1>
-		<p class="mb-5">Dokumentasikan setiap sumber dana dengan detail untuk menjaga transparansi dan akuntabilitas keuangan lembaga.</p>
-		<span class="fs-5 fw-medium">Pilih Kategori</span>
-		<div class="mb-3 row mx-0">
-			<button 
-				type="button" 
-				class="fs-5 col {kategori === 'Pemasukan' ? 'jenis-penilaian-active' : 'jenis penilaian-deactive'} fw-medium text-center align-content-center"
-				onclick={() => kategori = 'Pemasukan'}>
-				Pemasukan
-			</button>
-			<button 
-				type="button" 
-				class="fs-5 col {kategori === 'Pengeluaran' ? 'jenis-penilaian-active' : 'jenis penilaian-deactive'} fw-medium  text-center align-content-center"
-				onclick={() => kategori = 'Pengeluaran'}>
-				Pengeluaran
-			</button>
-		</div>
-		<div class="container border rounded py-4 mb-3">
-			{#if kategori === "Pemasukan"}
-				<h2 class="mb-4">Formulir Pencatatan Pemasukan</h2>
-			{:else if kategori === "Pengeluaran"}
-				<h2 class="mb-4">Formulir Pencatatan Pengeluaran</h2>
-			{/if}
+		<div class="container bg-white border rounded py-4 mb-3">
+			<h1 class="mb-3 text-center">Pencatatan Kas</h1>
+
+			<div class="mb-3">
+				<label for="selectKategori" class="form-label">
+					Pilih Kategori
+				</label>
+				<select name="" id="selectKategori" class="form-select"
+					bind:value={kategori}>
+					<option value="" disabled>Pilih Kategori</option>
+					<option value="Pemasukan">Pemasukan</option>
+					<option value="Pengeluaran">Pengeluaran</option>
+				</select>
+			</div>
+
 			<div class="mb-3">
 				{#if kategori === "Pemasukan"}
 					<label 
@@ -127,6 +119,7 @@
 					</label>
 					<select id="selectPemasukan" class="form-select"
 						 bind:value={selectPemasukan}>
+						<option value="" disabled>Pilih Jenis Pemasukan</option>
 						<option value="spp">SPP siswa</option>
 						<option value="lainnya">Lainnya</option>
 					</select>
@@ -159,6 +152,7 @@
 					</label>
 					<select name="" id="selectPengeluaran" class="form-select"
 					   bind:value={selectPengeluaran}>
+						<option value="" disabled>Pilih Jenis Pengeluaran</option>
 						<option value="gaji">Gaji karyawan</option>
 						<option value="lainnya">Lainnya</option>
 					</select>
@@ -244,7 +238,10 @@
 				</div>
 			</div>
 		<div class="container d-flex justify-content-end">
-			<a href="/bendahara/pencatatan/" class="btn border rounded w-50 mx-2">Batal</a>
+			<a href="/bendahara/pencatatan/" 
+				class="btn btn-secondary border rounded w-50 mx-2">
+				Batal
+			</a>
 			<button 
 				class="btn border rounded w-50 mx-2 bg-green text-white"
 				onclick={handleSubmit}>
@@ -255,11 +252,20 @@
 </section>
 
 <style>
-	.sidebar-gap {
-		padding-left: 240px; 
-		position: relative; 
-		min-height: 100vh;
+	.content-section {
+		padding: 0;
 	}
+
+	h1 {
+		font-size: 25px;
+		font-weight: 700;
+		color: #1a3a2e;
+	}
+
+	.bg-white {
+		background-color: white;
+	}
+
 
 	.bg-green {
 		background-color: #338136;

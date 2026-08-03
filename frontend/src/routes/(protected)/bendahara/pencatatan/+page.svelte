@@ -39,11 +39,11 @@
 	);
 
 	function handleAdd() {
-		goto(`transaksi/add`);
+		goto(`/bendahara/pencatatan/add`);
 	}
 
 	function handleEdit(id) {
-		goto(`transaksi/edit/${id}`);
+		goto(`/bendahara/pencatatan/edit/${id}`);
 	}
 
 	async function handleDelete(id) {
