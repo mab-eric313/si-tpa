@@ -63,23 +63,24 @@
 
 	async function handleSubmit() {
 		try {
-			const resUser = await fetch(`${PUBLIC_API_BASE_URL}/auth/${id}`, {
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				credentials: "include",
-				body: JSON.stringify(payload)
-			});
-			if (!resUser.ok) throw new Error(`Error: ${resUser.statusText}`);
-			// edit = await resUser.json();
-
-			const resBiodata = await fetch(
-				`${PUBLIC_API_BASE_URL}/biodata-user/by-user/${id}`, {
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				credentials: "include",
-				body: JSON.stringify(inputBiodata)
-			});
-			if (!resBiodata.ok) throw new Error(`Error: ${resBiodata.statusText}`);
+			if (editTab === "pengguna") {
+				const resUser = await fetch(`${PUBLIC_API_BASE_URL}/auth/${id}`, {
+					method: "PATCH",
+					headers: { "Content-Type": "application/json" },
+					credentials: "include",
+					body: JSON.stringify(payload)
+				});
+				if (!resUser.ok) throw new Error(`Error: ${resUser.statusText}`);
+			} else if (editTab === "biodata") {
+				const resBiodata = await fetch(
+					`${PUBLIC_API_BASE_URL}/biodata-user/by-user/${id}`, {
+					method: "PATCH",
+					headers: { "Content-Type": "application/json" },
+					credentials: "include",
+					body: JSON.stringify(inputBiodata)
+				});
+				if (!resBiodata.ok) throw new Error(`Error: ${resBiodata.statusText}`);
+			}
 
 			goto(`${PUBLIC_FRONTEND_BASE_URL}/admin/kelola-pengguna/`);
 		} catch(error) {
